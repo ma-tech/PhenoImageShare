@@ -1,0 +1,57 @@
+{% extends "phis/generic.html" %}
+  <head>
+     <title>{% block title %}PhenoImageShare: Queries {% endblock title %}</title>
+   
+	<!-- Search-specific styles-->
+	{% block styles %}
+		{{block.super}}
+		{% include "queries/html/components/search_styles.html" %}
+	{% endblock styles %}
+	
+	<!-- Search-specific JS-->
+    {% block javascripts %}
+		{{block.super}}
+		{% include "queries/html/components/search_scripts.html" %}
+	{% endblock javascripts %}
+	
+  </head>
+ 
+ {% block content %}
+ 
+	 {% block header %}
+		{{block.super}}
+	 {% endblock header %}
+
+    <div class="container">
+		
+		{% block top %}
+			{% include "queries/html/components/search_fields.html" %}
+		{% endblock top %}
+		
+  	  {% block first %}
+  	  {% endblock first %}
+	  
+      <!-- Query Results================================================== -->
+	  {% block second %}
+		  {% include "queries/html/components/search_results.html" %}
+	  {% endblock second %}
+	  
+	  
+	  {% block third %}
+	  {% endblock third %}
+	  
+	  <!-- Load the logos from the generic view-->
+	  {% block logos %}
+			{{block.super}}
+	  {% endblock logos %}
+		
+		
+    </div><!-- Container ending-->
+	 
+	  
+	  {% endblock content %}
+	  
+	  <!-- Load the footer from the generic view-->
+	  {% block footer %}
+	  	{{block.super}}
+	  {% endblock footer %}

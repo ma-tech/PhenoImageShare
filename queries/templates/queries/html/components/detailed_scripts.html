@@ -1,0 +1,58 @@
+{% load staticfiles %}
+<!-- jQuery -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/jquery/v1.10.2/jquery.min.js' %}"></script>
+
+<!-- jQuery UI -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/jquery-ui/v1.11.0/jquery-ui.js' %}"></script>
+
+<!-- jQuery-lightbox -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/lightbox/jquery.lightbox.js' %}"></script>
+
+<!-- Bootstrap -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/bootstrap.min.js' %}"></script>
+
+<!-- Bootstrap Select-->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/bootstrap-select.js' %}"></script>
+
+<!-- Bootstrap Switch -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/bootstrap-switch.js' %}"></script>
+
+<!-- Bootstrap Placeholder -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.placeholder.js' %}"></script>
+
+<!-- Bootstrap Tags Input -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.tagsinput.js' %}"></script>
+
+<!-- Bootstrap Application for Switch & Selection -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/application.js' %}"></script>
+
+<!-- Detailed View Generic Controller -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/controllers/generic_detailed_controller.js' %}"></script>
+
+<script>
+
+$(document).ready(function(){
+        $(".lightbox").lightbox({
+        	fileLoadingImage: "{% static 'queries/img/lightbox/loading.gif' %}",
+		fileBottomNavCloseImage : "{% static 'queries/img/lightbox/closelabel.gif' %}"
+        });
+	
+		initialiseController();
+		//$("#annotation_accordion").trigger("position_tool");
+});
+
+function initialiseController(){
+	var params = new Object();
+	
+	params.associatedROIURL = "{{image_data.0.associatedROI | safe}}";
+	params.imageURL = "{{image_data.0.url | safe}}";
+	params.queryString = "{{image_data.0.queryString | safe}}";
+	//params.annotationBaseURL = TODO: Get URL namespace for annotation when ready;
+	
+	var controller = new DetailedController();
+	
+	controller.setParams(params);
+	controller.initialiseElements();
+}
+
+</script>

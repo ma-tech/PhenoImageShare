@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>{% block title %}PhenoImageShare Project {% endblock title %}</title>
+	
+	<!-- Site base styles-->
+	{% block styles %}
+	   {% include "phis/generic_styles.html" %}
+	{% endblock styles %}
+	
+	<!-- Site base javascripts-->
+	{% block javascripts %}
+		{% include "phis/generic_scripts.html" %}
+	{% endblock javascripts %}
+	
+    
+ <body>
+	 <!-- Skeleton for the main body/content-->
+	{% block content %}
+	
+		<!-- Site header-->
+		{% block header %}
+			{% include "phis/generic_header.html" %}
+		{% endblock header %}
+	
+		
+		{% block top %}
+		{% endblock top %}
+		
+		{% block first %}
+		{% endblock first %}
+		
+		{% block second %}
+		{% endblock second %}
+		
+		{% block third %}
+		{% endblock third %}
+		
+		
+		<!-- Site Logos-->
+		{% block logos %}
+			{% include "phis/logos.html" %}
+		{% endblock logos %}
+	
+	  {% endblock content %}
+	  
+	  
+	 <!-- Site footer-->
+	{% block footer %}
+  	  	{% include "phis/generic_footer.html" %}
+	{% endblock footer %}
+	
+  </body>
+</html>

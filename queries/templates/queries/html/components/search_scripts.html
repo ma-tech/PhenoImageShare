@@ -1,0 +1,20 @@
+{% load staticfiles %}
+
+<!-- Datatables JQuery JS -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/datatables/v1.10.0/jquery.dataTables.js' %}"></script>
+
+<!-- Datatables JS -->
+<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/plug-ins/be7019ee387/integration/bootstrap/3/dataTables.bootstrap.js"></script>
+
+<!-- Query Processor (AJAX) Script for populating the query results-->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/controllers/response_processor.js' %}"></script>
+
+<script>
+	var queryProcessor = new Processor();
+	base_detail_url = "{% url 'queries:detail_view' %}";
+	queryProcessor.setBaseURL(base_detail_url);
+
+	function loadJSON(){
+		queryProcessor.loadJSON();
+	}
+</script>
