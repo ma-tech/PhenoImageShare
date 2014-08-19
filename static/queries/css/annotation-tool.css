@@ -1,0 +1,48 @@
+body{ color: #333; font: 13px 'Lucida Grande', Verdana, sans-serif;     }
+
+span.annotation {
+    float: left;
+    width: 35px;
+    height: 40px;
+	padding-left:0px;
+	padding-right:0px;
+}
+.btn span.tool-drawer {
+    background: url({% static 'queries/img/black124.png' %}) no-repeat left center;
+}
+.btn span.tool-selector {
+    background: url({% static 'queries/img/selection7.png' %}) no-repeat left center;
+ }
+.btn span.tool-viewport-drag {
+    background: url({% static 'queries/img/four9.png' %}) no-repeat left center;
+  }
+.btn span.tool-feducial {
+    background: url({% static 'queries/img/rectangular25.png' %}) no-repeat left center;
+  }
+.btn span.tool-point {
+    background: url({% static 'queries/img/cursor12.png' %}) no-repeat left center;
+  }
+.btn span.tool-roi {
+	    background: url({% static 'queries/img/dark5.png' %}) no-repeat left center;
+  }
+.btn span.tool-free-draw {
+	    background: url({% static 'queries/img/graph3.png' %}) no-repeat left center;
+  }
+.btn span.tool-undo {
+	    background: url({% static 'queries/img/undo12.png' %}) no-repeat left center;
+  }
+.btn span.tool-redo {
+   background: url({% static 'queries/img/redo11.png' %}) no-repeat left center;
+ }	  
+.btn span.tool-save {
+		    background: url({% static 'queries/img/floppy1.png' %}) no-repeat left center;
+  }
+.btn span.tool-copy {
+	   background: url({% static 'queries/img/copy9.png' %}) no-repeat left center;
+}
+.btn span.tool-cut {
+	    background: url({% static 'queries/img/cutting.png' %}) no-repeat left center;
+  }
+.btn span.tool-paste {
+   background: url({% static 'queries/img/paste2.png' %}) no-repeat left center;
+ }	  	  			
