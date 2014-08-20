@@ -64,7 +64,7 @@ WSGI_APPLICATION = 'pis.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.mysql',
+        'ENGINE': 'django.db.backends.sqlite3',
         'NAME': 'auth_db',
 	    'USER': 'sadebayo',
 	    'PASSWORD': 'sadebayo',
