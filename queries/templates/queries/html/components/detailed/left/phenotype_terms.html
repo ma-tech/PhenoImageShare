@@ -1,0 +1,27 @@
+<div class="row">
+	<div class="panel-group" id="accordion">
+		<div class="panel panel-primary">
+   
+    <div class="panel-heading">
+	   	<h3 id="phenotypetermsID" class="panel-title">
+			<a data-toggle="collapse" data-parent="#accordion" href="#phenotypeterms"> Phenotype terms</a>
+		</h3>
+ 	</div>
+	
+	<div id="phenotypeterms" class="panel-collapse collapse in">
+
+	<ul class="list-group">
+	{% for term in image.phenotype_ann_bag %}
+			  <li href="#" class="list-group-item">
+				   {{forloop.counter}}:
+             	 <span class="badge">{{term}}</span>
+				
+			 </li>
+            	
+	{% endfor %}
+	</ul>	
+		</div>
+		
+		</div>
+	  </div>
+  </div>
