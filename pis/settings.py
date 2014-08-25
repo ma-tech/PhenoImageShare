@@ -93,3 +93,27 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
 )
+
+IQS = {
+    'HWU': {
+        'URL': 'http://lxbisel.macs.hw.ac.uk:8080/IQS/',
+        'APIs': {
+            'GETIMAGES': 'getimages',
+            'COMMANDS':{
+                'phenotype','anatomy','gene',
+            },
+        },
+    },
+    'EBI': {
+        'URL': 'http://beta.phenoimageshare.org/data/iqs/',
+        'APIs': {
+            'GETIMAGES': 'getimages',
+            'COMMANDS':{
+                'phenotype','anatomy','gene',
+            },
+        },
+    },
+    'HGU': {
+        'URL': 'django.db.backends.sqlite3',
+    },
+}

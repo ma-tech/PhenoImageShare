@@ -2,7 +2,9 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import simplejson
 import urllib2
+from pis.settings import IQS as iqs
 
+IQSURL = iqs['EBI']['URL']
 
 def index(request):
     return render(request, 'queries/html/index.html', '')
@@ -33,11 +35,13 @@ def get_image_data(request):
         imageString = "http://www.mousephenotype.org/data/media/images/0/M00144272_00010241_download_full.jpg"
     
     if "MP" in queryString:
-        base_url = "http://lxbisel.macs.hw.ac.uk:8080/IQS/getimages?phenotype="
+        base_url = IQSURL+"getimages?phenotype="
+        print base_url
+        
     elif "MA" in queryString:
-        base_url = "http://lxbisel.macs.hw.ac.uk:8080/IQS/getimages?anatomy="
+        base_url = IQSURL+"getimages?anatomy="
     elif "MGI" in queryString:
-        base_url = "http://lxbisel.macs.hw.ac.uk:8080/IQS/getimages?gene="
+        base_url = IQSURL+"getimages?gene="
 
     url = base_url + queryString
     
@@ -155,12 +159,11 @@ def getImages(request):
         queryString = "unset"
     
     if "MP" in queryString:
-        base_url = "http://lxbisel.macs.hw.ac.uk:8080/IQS/getimages?phenotype="
+        base_url = IQSURL+"getimages?phenotype="
     elif "MA" in queryString:
-        base_url = "http://lxbisel.macs.hw.ac.uk:8080/IQS/getimages?anatomy="
+        base_url = IQSURL+"getimages?anatomy="
     elif "MGI" in queryString:
-        base_url = "http://lxbisel.macs.hw.ac.uk:8080/IQS/getimages?gene="
-
+        base_url = IQSURL+"getimages?gene="
 
     url = base_url + queryString
     
