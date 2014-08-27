@@ -1,0 +1,817 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>PhenoImageShare - Drawing View</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+ 
+ 	<!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="{% static 'queries/css/bootstrap.css' %}" media="screen">
+	
+ 	<!-- Bootstrap CSS Modal (Patch)-->
+    <link rel="stylesheet" href="{% static 'queries/css/bootstrap-modal-bs3patch.css' %}" media="screen">
+	
+ 	<!-- Bootstrap CSS Modal -->
+    <link rel="stylesheet" href="{% static 'queries/css/bootstrap-modal.css' %}" media="screen">
+	
+	
+ 	<!-- Bootstrap CSS for Select2-->
+    <link rel="stylesheet" href="{% static 'queries/css/select2.css' %}" media="screen">
+	
+	<!-- DataTables CSS -->
+	<link rel="stylesheet" href="{% static 'queries/css/font-awesome.min.css' %}">
+	
+	<!-- Bootswatch CSS -->
+    <link rel="stylesheet" href="{% static 'queries/css/bootswatch.css' %}">
+	
+	<!-- FlatUI CSS -->
+    <link rel="stylesheet" href="{% static 'queries/css/flat-ui.detailed_view.css' %}">
+	  
+	<!-- Lightbox CSS -->
+	<link rel="stylesheet" type="text/css" href="{% static 'queries/css/lightbox.css' %}">
+
+	<!-- jQuery -->
+	<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/jquery/v1.10.2/jquery.min.js' %}"></script>
+	
+	<!-- jQuery UI -->
+	<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/jquery-ui/v1.11.0/jquery-ui.js' %}"></script>
+
+	<!-- jQuery Cookie manager -->
+	<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.cookie.js' %}"></script>
+
+	<!-- jQuery-lightbox -->
+	<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/lightbox/jquery.lightbox.js' %}"></script>
+
+	<!-- Bootstrap -->
+	<script type="text/javascript" charset="utf8" src="{% static 'queries/js/bootstrap.min.js' %}"></script>
+
+	<!-- Bootstrap Modal JS -->
+	<script type="text/javascript" charset="utf8" src="{% static 'queries/js/bootstrap-modal.js' %}"></script>
+
+	<!-- Bootstrap Modal Manager JS -->
+	<script type="text/javascript" charset="utf8" src="{% static 'queries/js/bootstrap-modalmanager.js' %}"></script>
+	
+	<!-- Bootstrap Select-->
+	<script type="text/javascript" charset="utf8" src="{% static 'queries/js/bootstrap-select.js' %}"></script>
+	
+	<!-- Bootstrap Select2-->
+	<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/select2/select2.js' %}"></script>
+	
+	<!-- Bootstrap Switch -->
+	<script type="text/javascript" charset="utf8" src="{% static 'queries/js/bootstrap-switch.js' %}"></script>
+	
+	<!-- Bootstrap Placeholder -->
+	<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.placeholder.js' %}"></script>
+	
+	<!-- Bootstrap Tags Input -->
+	<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.tagsinput.js' %}"></script>
+	
+	<!-- Bootstrap Application for Switch & Selection -->
+	<script type="text/javascript" charset="utf8" src="{% static 'queries/js/application.js' %}"></script>
+	
+	<!-- Calling up JQuery-Lightbox and attaching to image-->
+	<script>
+             $(document).ready(function(){
+                     $(".lightbox").lightbox({
+                     	fileLoadingImage: "{% static 'queries/img/lightbox/loading.gif' %}",
+						fileBottomNavCloseImage : "{% static 'queries/img/lightbox/closelabel.gif' %}"
+                     });
+					 
+			 		$( "#annotation_accordion" ).on( "position_tool", function() {
+			 			positionTool();
+			 		});
+		
+			   	  
+ 			   	 $("#rois").select2({
+ 			   	    allowClear:false
+ 			   	  });
+				  
+  			   	 $("#fdp").select2({
+  			   	    allowClear:false
+  			   	  });
+				  
+				  $('body').modalmanager();
+				  
+				  
+				  console.log("[Drawing View] Image Regions of Interest: "+ "{{roi_data.0.roi_docs.0.0.id | safe}}")
+				  //Load and initialize PhIS Viewer Canvas.
+				  
+				  var drawingContainer = document.getElementById("drawing-div");
+				  var drawingController = new DrawingTool();
+				  var imageURL = "{{roi_data.0.image_url}}";
+				  var annotationController = new AnnotationTool();
+				 
+				  annotationStoreURL = "{% url 'annotation:save_annotations' %}";
+				  annotationController.setAnnotationAJAXURL(annotationStoreURL);
+				  
+				  var eventHandler = new EventHandler();
+				  var errorHandlers = new ErrorHandlers();
+				  var controllers = new Array();
+				  controllers.push(drawingController);
+				  controllers.push(annotationController);
+				  
+				  var dataHelper = new DBUtil();
+				  var modelsData = dataHelper.loadModelsData();
+				  
+				  phISCanvas = new PhiSCanvas(drawingContainer, imageURL, controllers, modelsData, eventHandler, errorHandlers);
+				  
+			 		//$("#annotation_accordion").trigger("position_tool");
+             });
+
+	    	$(function() {
+	  	  	  $( "#annotation_accordion").draggable({
+				  drag: function (event, ui) {
+					  console.log("[GUI] Dragging drawing tool: "+$("#annotation_accordion"));
+				  }
+		  	  });
+	  	  	});
+		
+		function positionTool() {
+			annotation_accordion.style.left = (annotation_accordion.style.left+1200)+'px'; 
+			annotation_accordion.style.top = '-700px'; 
+		}
+		
+	    $(function() {
+	   	 	$( "#slider" ).slider({
+					change: function( event, ui ) {
+						console.log("Size slider changing value to: " + $( "#slider" ).slider( "option", "value" ))
+					}
+				});
+	   });
+	   
+  	 $(function() {  
+	     $('.drawing-div').height(700);
+  		  $('.drawing-div').width(1300);
+  	 });
+	 
+     </script>
+	
+	<!-- CSS for JQuery-Lightbox-->
+    <style type="text/css">
+ 
+ 	 		#drawing-div {
+      	  		border: solid blue 5px;
+      			overflow: scroll;
+ 	 		}
+			
+            body{ color: #333; font: 13px 'Lucida Grande', Verdana, sans-serif;     }
+			
+			span.annotation {
+			    float: left;
+			    width: 35px;
+			    height: 40px;
+				padding-left:0px;
+				padding-right:0px;
+			}
+			.btn span.tool-drawer {
+			    background: url({% static 'queries/img/black124.png' %}) no-repeat left center;
+			}
+			.btn span.tool-selector {
+			    background: url({% static 'queries/img/selection7.png' %}) no-repeat left center;
+			 }
+			.btn span.tool-viewport-drag {
+			    background: url({% static 'queries/img/four9.png' %}) no-repeat left center;
+			  }
+  			.btn span.tool-feducial {
+  			    background: url({% static 'queries/img/rectangular25.png' %}) no-repeat left center;
+  			  }
+    		.btn span.tool-point {
+   			    background: url({% static 'queries/img/cursor12.png' %}) no-repeat left center;
+    		  }
+      		.btn span.tool-roi {
+     			    background: url({% static 'queries/img/dark5.png' %}) no-repeat left center;
+      		  }
+      		.btn span.tool-free-draw {
+     			    background: url({% static 'queries/img/graph3.png' %}) no-repeat left center;
+      		  }
+        	.btn span.tool-undo {
+       			    background: url({% static 'queries/img/undo12.png' %}) no-repeat left center;
+        	  }
+        	.btn span.tool-redo {
+       		   background: url({% static 'queries/img/redo11.png' %}) no-repeat left center;
+       		 }	  
+         	.btn span.tool-save {
+        			    background: url({% static 'queries/img/floppy1.png' %}) no-repeat left center;
+         	  }
+         	.btn span.tool-copy {
+        		   background: url({% static 'queries/img/copy9.png' %}) no-repeat left center;
+        	}
+        	.btn span.tool-cut {
+       			    background: url({% static 'queries/img/cutting.png' %}) no-repeat left center;
+        	  }
+        	.btn span.tool-paste {
+       		   background: url({% static 'queries/img/paste2.png' %}) no-repeat left center;
+       		 }	  	  			
+    </style>
+	
+		
+  </head>
+  
+  <body>
+	  
+	<div class="container"> 
+	 <div class="navbar navbar-default navbar-fixed-top">
+      
+        <div class="navbar-header">
+          <a href="../" class="navbar-brand">PhenoImageShare</a>
+          <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+        </div>
+        <div class="navbar-collapse collapse" id="navbar-main">
+          <ul class="nav navbar-nav">
+          	<li>
+              <a href="..">Search</a>
+            </li>
+            
+			<li>
+              <a href="#">Submission</a>
+            </li>
+			
+			<li>
+              <a href="#">Glossary</a>
+            </li>
+			
+			<li>
+              <a href="#">About</a>
+            </li>
+			
+          </ul>
+
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#" target="_blank">Register</a></li>
+          </ul>
+		  
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="#" target="_blank">Login</a></li>
+          </ul>
+
+        </div>
+      
+    </div>
+</div>
+
+      <!-- Detailed Image Display Canvass
+      ================================================== -->
+		{% for data in roi_data %}
+
+        <div class="page-header" id="banner">
+          <div class="row">
+            <div class="col-lg-6">
+              <h3>Drawing View</h3>
+            </div>
+  			</div>
+    	 </div>
+		  
+      		        <div class="row">
+					
+					  <div class="col-lg-2">
+						  
+						<div class="row">
+							<div class="panel-group" id="accordion">
+								<div class="panel panel-primary">
+	                 	   
+						    <div class="panel-heading">
+	                    	   	<h3 id="anatomytermsID" class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="#roi">Regions Of Interest</a>
+								</h3>
+	                  	 	</div>
+							
+							<div id="roi" class="panel-collapse collapse out">
+								<div class="list-group">
+									<select id="rois" style="left:200px;width:200px;">
+									
+									{% for instance in data.roi_docs %}
+		  								 <option>
+						                 	 {{instance.0.id}}
+									 	 </option>
+				                		 <script>
+											console.log("Other details: "+ "{{instance.0.id | safe}}");
+										</script>
+									{% endfor %}
+									</select>
+								</div>
+									
+							<ul class="list-group">
+							  <li class="list-group-item">
+							    <span class="badge">{{instance.0.id}}</span>
+							    ID:
+							  </li>
+							  <li class="list-group-item">
+							    <span class="badge">{{image.rois.0.description}}</span>
+							    Description:
+							  </li>
+							  <li class="list-group-item">
+							    <span class="badge">({{image.rois.0.locationX}}, {{image.rois.0.locationY}})</span>
+							    Location:
+							  </li>
+							  
+							  <li class="list-group-item">
+							    <span class="badge">{{image.rois.0.freetext}}</span>
+							    Freetext: 
+							  </li>
+							  
+							  <li class="list-group-item">
+							    <span class="badge">{{image.rois.0.relationships}}</span>
+							    Relationships: 
+							  </li>
+							  
+							   <li class="list-group-item">
+	  	  							<button id="roi_modal_add_button" type="button" class="btn btn-default" data-toggle="modal" href="#roi_modal_add"> 
+	  	  								<span>Add</span>
+	  	  							</button>
+									
+								    <div id="roi_modal_add" class="modal fade" tabindex="-1" data-width="500" style="display: none;">
+									    <div class="modal-header">
+										    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+										    <h4 class="modal-title">Add Annotation</h4>
+									    </div>
+										
+									<form method="post" action="annotation"> 
+										{% csrf_token %}
+									    <div class="modal-body">
+										    <div class="row">
+											    <div class="col-md-6">
+												    <p>Name<input id="ann_name" class="form-control" type="text"></p>
+												    <p>Description<input id="ann_desc" class="form-control" type="text"></p>
+												    <p>Freetext<input id="ann_freetext" class="form-control" type="text"></p>
+											    </div>
+										    </div>
+									    </div>
+									
+								    
+									<div class="modal-footer">
+								    <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+								    <button type="button" class="btn btn-primary">Save changes</button>
+								    </div>
+									</form>
+								
+									</div>
+									
+	  	  							<button id="roi_modal_edit_button" type="button" class="btn btn-default" data-toggle="modal" href="#roi_modal_edit"> 
+	  	  								<span>Edit</span>
+	  	  							</button>
+	  	  							
+								    <div id="roi_modal_edit" class="modal fade" tabindex="-1" data-width="500" style="display: none;">
+									    <div class="modal-header">
+										    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+										    <h4 class="modal-title">Edit Annotation</h4>
+									    </div>
+								    <div class="modal-body">
+									    <div class="row">
+										    <div class="col-md-6">
+											    <p>Name<input class="form-control" type="text"></p>
+											    <p>Description<input class="form-control" type="text"></p>
+											    <p>Freetext<input class="form-control" type="text"></p>
+										    </div>
+									    </div>
+								    </div>
+									
+								    <div class="modal-footer">
+								    <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+								    <button type="button" class="btn btn-primary">Save changes</button>
+								    </div>
+								    </div>
+									
+									<button type="button" class="btn btn-default" data-toggle="modal" href="#roi_modal_delete"> 
+	  	  								<span>Delete</span>
+	  	  							</button>
+								
+								    <div id="roi_modal_delete" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false" style="display: none;">
+								    <div class="modal-body">
+								    <p>Are you sure you want to delete region of interest ?</p>
+								    </div>
+								    <div class="modal-footer">
+								    <button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
+								    <button type="button" data-dismiss="modal" class="btn btn-primary">Confirm</button>
+								    </div>
+								    </div>
+									
+	  	  							<button type="button" class="btn btn-default"> 
+	  	  								<span>Link</span>
+	  	  							</button>
+									
+							   </li>
+							  
+							</ul>
+								
+							</div>
+							
+							</div>
+						  </div>
+					  </div>
+  						
+						<div class="row">
+						<div class="panel-group" id="accordion">
+							<div class="panel panel-primary">
+                 	   
+					    <div class="panel-heading">
+                    	   	<h3 id="phenotypetermsID" class="panel-title">
+								<a data-toggle="collapse" data-parent="#accordion" href="#fdps">Fiducial Points</a>
+							</h3>
+                  	 	</div>
+						
+						<div id="fdps" class="panel-collapse collapse out">
+  					
+								<div class="list-group">
+									<select id="fdp" style="left:200px;width:200px;">
+									{% for fdp in image.fdps %}
+		  								 <option>
+						                 	 {{fdp.id}}
+									 	 </option>
+				                		 <script>
+											console.log("Other details: "+ {{fdp.locationX}});
+										</script>
+									{% endfor %}
+									</select>
+								</div>
+								
+							<ul class="list-group">
+							  <li class="list-group-item">
+							    <span class="badge">{{image.fdps.0.id}}</span>
+							    Name:
+							  </li>
+							  <li class="list-group-item">
+							    <span class="badge">{{image.fdps.0.description}}</span>
+							    Description:
+							  </li>
+							  <li class="list-group-item">
+							    <span class="badge">({{image.fdps.0.locationX}}, {{image.fdps.0.locationY}})</span>
+							    Location:
+							  </li>
+						  
+							  <li class="list-group-item">
+							    <span class="badge">{{image.fdps.0.freetext}}</span>
+							    Freetext: 
+							  </li>
+						  
+							  <li class="list-group-item">
+							    <span class="badge">{{image.fdps.0.relationships}}</span>
+							    Relationships: 
+							  </li>
+						  
+							   <li class="list-group-item">
+	  	  							<button type="button" class="btn btn-default"  data-toggle="modal" href="#fdp_modal_edit"> 
+	  	  								<span>Edit</span>
+	  	  							</button>
+  	  							
+							    <div id="fdp_modal_edit" class="modal fade" tabindex="-1" data-width="500" style="display: none;">
+							    <div class="modal-header">
+							    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+							    <h4 class="modal-title">Edit Annotation</h4>
+							    </div>
+							    <div class="modal-body">
+							    <div class="row">
+							    <div class="col-md-6">
+							    <p>Name<input class="form-control" type="text"></p>
+							    <p>Description<input class="form-control" type="text"></p>
+							    <p>Freetext<input class="form-control" type="text"></p>
+							    </div>
+							    </div>
+							    </div>
+								
+							    <div class="modal-footer">
+							    <button type="button" data-dismiss="modal" class="btn btn-default">Close</button>
+							    <button type="button" class="btn btn-primary">Save changes</button>
+							    </div>
+							    </div>
+								
+									<button type="button" class="btn btn-default" data-toggle="modal" href="#fdp_modal_delete"> 
+	  	  								<span>Delete</span>
+	  	  							</button>
+								
+								    <div id="fdp_modal_delete" class="modal fade" tabindex="-1" data-backdrop="static" data-keyboard="false" style="display: none;">
+								    <div class="modal-body">
+								    <p>Are you sure you want to delete feducial point (xx.xx.xx) ?</p>
+								    </div>
+								    <div class="modal-footer">
+								    <button type="button" data-dismiss="modal" class="btn btn-default">Cancel</button>
+								    <button type="button" data-dismiss="modal" class="btn btn-primary">Confirm</button>
+								    </div>
+								    </div>
+									
+									
+	  	  							<button type="button" class="btn btn-default"> 
+	  	  								<span>Link</span>
+	  	  							</button>
+								
+							   </li>
+						  
+							</ul>
+								
+  						</div>
+							
+  							</div>
+  						  </div>
+  					  </div>
+						  
+							<div class="row">
+							<div class="panel-group" id="accordion">
+								<div class="panel panel-primary">
+                 	   
+						    <div class="panel-heading">
+	                    	   	<h3 id="assainfoID" class="panel-title">
+									<a data-toggle="collapse" data-parent="#accordion" href="#relationshipsinfo"> Relationships</a>
+								</h3>
+	                  	 	</div>
+						
+							<div id="relationshipsinfo" class="panel-collapse collapse out">
+								
+								<ul class="list-group">
+								  <li class="list-group-item">
+								    <span class="badge">{{image.fdps.0.id}}</span>
+								    Name:
+								  </li>
+								  <li class="list-group-item">
+								    <span class="badge">{{image.fdps.0.description}}</span>
+								    Description:
+								  </li>
+								 
+								  <li class="list-group-item">
+								    <span class="badge">{{image.fdps.0.freetext}}</span>
+								    Freetext: 
+								  </li>
+								  
+								</ul>
+								
+  							</div>
+							
+  							</div>
+  						  </div>
+  					  </div>
+							  
+								<div class="row">
+								<div class="panel-group" id="accordion">
+									<div class="panel panel-primary">
+                 	   
+							    <div class="panel-heading">
+		                    	   	<h3 id="experimentinfoID" class="panel-title">
+										<a data-toggle="collapse" data-parent="#accordion" href="#gradientinfo">Gradients</a>
+									</h3>
+		                  	 	</div>
+						
+								<div id="gradientinfo" class="panel-collapse collapse out">
+									
+								<ul class="list-group">
+								  <li class="list-group-item">
+								    <span class="badge">{{image.fdps.0.id}}</span>
+								    Name:
+								  </li>
+								  <li class="list-group-item">
+								    <span class="badge">{{image.fdps.0.description}}</span>
+								    Description:
+								  </li>
+								  <li class="list-group-item">
+								    <span class="badge">({{image.fdps.0.locationX}}, {{image.fdps.0.locationY}})</span>
+								    Location:
+								  </li>
+								  
+								  <li class="list-group-item">
+								    <span class="badge">{{image.fdps.0.freetext}}</span>
+								    Freetext:
+								  </li>
+								  
+								  <li class="list-group-item">
+								    <span class="badge">{{image.fdps.0.relationships}}</span>
+								    Relationships:
+								  </li>
+								  
+								</ul>
+												
+			    				</div>
+							
+			    				</div>
+			   				  </div>
+		 					  </div>
+						</div>
+						
+			          <div class="col-lg-8">
+
+						  <div class="panel panel-primary">
+		  	     
+							<div class="panel-heading">
+		  	              	   	<h3 id="tableTitle" class="panel-title">PhIS ID: {{image.id}}</h3>
+		  	                 </div>
+									
+						  </div>
+						  
+						  <div id="drawing-div" style="height:700px;">
+						  	<div id="viewport-div">
+                 			 <img src="{{image.url}}" alt="Image"/>
+						  </div>
+					 	 </div>
+						  
+				  	  </div>
+					  
+					  <div class="col-lg-2">
+  	  						<div class="row">
+  	  							<div class="panel-group" id="annotation_accordion">
+  	  								<div class="panel panel-primary">
+	                 	   
+  	  						    <div class="panel-heading">
+  	  	                    	   	<h3 id="annotationTool" class="panel-title">
+  	  									<a data-toggle="collapse" data-parent="#annotation_accordion" href="#annotationtool"> Annotation Tool</a>
+  	  								</h3>
+  	  	                  	 	</div>
+							
+  	  							<div id="annotationtool" class="panel-collapse collapse out">
+  					
+  	  							<div class="list-group">
+								
+  								<ul class="list-group">
+									
+								<!-- Elements not desired on first demo - Thursday, August 7th, 2014.
+	  	  							<li class="list-group-item">
+	  	  							<button id="tool-edit" type="button" class="btn btn-default"> 
+	  	  								<span class="annotation tool-drawer"></span>
+	  	  							</button>
+	  	  							<button id="tool-select" type="button" class="btn btn-default"> 
+	  	  								<span class="annotation tool-selector"></span>
+	  	  							</button>
+	  	  							<button id="tool-drag" type="button" class="btn btn-default"> 
+	  	  								<span class="annotation tool-viewport-drag"></span>
+	  	  							</button>
+	  	  							</li>
+								-->
+									
+  								<li class="list-group-item">
+								<button id="tool-feducial" type="button" class="btn btn-default"> 
+  	  								<span class="annotation tool-roi"></span>
+  	  							</button>
+  	  							<button id="tool-arrow" type="button" class="btn btn-default"> 
+  	  								<span class="annotation tool-point"></span>
+  	  							</button>
+  	  							<button id="tool-roi" type="button" class="btn btn-default"> 
+  	  								<span class="annotation tool-feducial"></span>
+  	  							</button>
+								</li>
+								
+  								<li class="list-group-item">
+  	  							<button id="tool-undo" type="button" class="btn btn-default"> 
+  	  								<span class="annotation tool-undo"></span>
+  	  							</button>
+  	  							<button id="tool-redo" type="button" class="btn btn-default"> 
+  	  								<span class="annotation tool-redo"></span>
+  	  							</button>
+							
+  	  							<button id="tool-save" type="button" class="btn btn-default"> 
+  	  								<span class="annotation tool-save"></span>
+  	  							</button>
+								
+								<!-- Elements not desired on first demo - Thursday, August 7th, 2014.
+	  	  							<button id="tool-copy" type="button" class="btn btn-default"> 
+	  	  								<span class="annotation tool-copy"></span>
+	  	  							</button>
+	  	  							<button id="tool-cut" type="button" class="btn btn-default"> 
+	  	  								<span class="annotation tool-cut"></span>
+	  	  							</button>
+	  	  							<button id="tool-paste" type="button" class="btn btn-default"> 
+	  	  								<span class="annotation tool-paste"></span>
+	  	  							</button>
+								-->
+  								</li>
+								
+  								<li class="list-group-item">
+							            <div id="slider" class="ui-slider">
+							              <div class="ui-slider-segment"></div>
+							              <div class="ui-slider-segment"></div>
+							              <div class="ui-slider-segment"></div>
+							            </div>
+  								</li>
+								
+  								</ul>
+						  	
+  	  				          </div>	
+  	  	  							</div>
+								
+  	  							</div>
+						            <div class="share">
+						              <ul>
+						                <li>
+						                  <label class="share-label" for="share-toggle2">Show others annotations</label>
+						                  <input type="checkbox" data-toggle="switch"/>
+						                </li>
+						               
+									   <!-- Elements not desired on first demo - Thursday, August 7th, 2014.
+									    <li>
+						                  <label class="share-label" for="enable_annotation">Enable annotation</label>
+						                  <input type="checkbox" id="enable_annotation" data-toggle="switch"/>
+						                </li>
+									   -->
+						               
+						              </ul>
+								  
+								</div>
+  	  							</div>
+  	  							</div>
+								
+					  </div>
+		  	  		
+					</div>
+        
+					{% endfor %}
+
+				<hr/>
+					<div class="row">
+		  
+			  		  <div class="col-lg-3">
+			  		  </div>
+	  	
+	
+			          <table id="imgtable" class="table table-bordered table-striped table-hover table-condensed">
+			            <thead>
+			             </thead>
+          
+			  		  <tbody>
+         
+			  		 	 <tr>
+			  				 <img src="{% static 'queries/img/BBSRC.jpg' %}"/>
+			  		  	 </tr>
+			  		 	 <tr>
+							 <img src="{% static 'queries/img/HGU.png' %}" />
+			  				 
+			  		  	 </tr>
+			  		 	 <tr>
+			  				 <img src="{% static 'queries/img/EMBL_EBI_Logo_black.png' %}" />
+			  		  	 </tr>
+			  		 	 <tr>
+			  				 <img src="{% static 'queries/img/HWU.png' %}"/>
+			  		  	 </tr>
+			  			  </tbody>
+			            </table>
+		
+			  		</div>
+					
+    
+	</div>
+	
+	<!-- Kinetic Drawing Tool -->
+	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/kinetic/v.5.0.2/kinetic.min.js' %}"></script>
+	
+	<!-- PhIS Viewer Canvas -->
+	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/views/canvas.js' %}"></script>
+	
+	<!-- PhIS Drawing Tool -->
+	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/controllers/drawing_tool.js' %}"></script>
+	
+	<!-- PhIS Annotation Tool -->
+	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/controllers/annotation_tool.js' %}"></script>
+	
+	<!-- PhiS Event Handlers -->
+	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/events/events.js' %}"></script>
+	
+	<!-- PhiS Error Handlers-->
+	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/errors/errors.js' %}"></script>
+	
+	<!-- PhiS Models-->
+	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/models/models.js' %}"></script>
+	
+	<!-- PhIS Utilities-->
+	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/utils/db.js' %}"></script>
+	
+  <footer>
+      <div class="container">
+    	<div class="row">
+          <div class="col-xs-3">
+            <h5>Phenoimageshare</h5>
+		  <p>Distributed database of annotated images.
+              Collaborators: EMBL-EBI, Heriot-Watt University, MRC Human Genetics Unit, BBSRC.
+            </p>
+		  
+          </div> <!-- /col-xs-2 -->
+		
+          <div class="col-xs-2">
+            <h5>Search</h5>
+            
+          </div> <!-- /col-xs-2 -->
+		
+		
+          <div class="col-xs-2">
+            <h5>Submission</h5>
+		  
+          </div> <!-- /col-xs-2 -->
+		
+          <div class="col-xs-2">
+            <h5>Glossary</h5>
+            
+          </div> <!-- /col-xs-2 -->
+		
+          <div class="col-xs-2">
+            <h5>About</h5>
+		  <p>Phenoimageshare is a research collaboration between the EMBL-EBI, Heriot-Watt University, MRC Human Genetics Unit and BBSRC. Code-named PhIS, Phenoimageshare delivers tools for annotation, querying, and submission of images across distributed databases.
+            </p>
+          </div> <!-- /col-xs-2 -->
+		
+          <div class="col-xs-4">
+		  
+          </div> <!-- /col-xs-2 -->
+		
+        </div>
+      </div>
+    </footer>
+	
+  </body>
+</html>
