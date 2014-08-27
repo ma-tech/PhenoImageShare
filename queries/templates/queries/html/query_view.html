@@ -23,20 +23,33 @@
 	 {% endblock header %}
 
     <div class="container">
+			
+			<div class="row">
 				
-				{% block top %}
-					{% include "queries/html/components/search_fields.html" %}
-				{% endblock top %}
-		
-			  <div class="col-lg-3">
-				  
-				  {% block first %}
-	  			  	{% include "queries/html/components/query/left/facets_panel.html" %}
-  	 			  {% endblock first %}
+				<div class="page-header" id="banner">
 	  
+					  <!--
+					  <div class="row">
+				        <h2>PhIS Search</h2>
+				      </div>
+				      <div class="col-lg-6">
+				      </div>
+					  -->
+		  
 				</div>
-						
+				
+				<div class="col-lg-3">
+  				  {% block first %}
+  	  			  	{% include "queries/html/components/query/left/facets_panel.html" %}
+    	 		  {% endblock first %}
+					
+				</div>
+				
 				<div class="col-lg-9">
+
+					{% block top %}
+						{% include "queries/html/components/search_fields.html" %}
+					{% endblock top %}
 					
 			      <!-- Query Results================================================== -->
 				  {% block second %}
@@ -46,8 +59,10 @@
 	  
 				  {% block third %}
 				  {% endblock third %}
-	  			
+				  
 				</div>
+				
+			</div>
 			
 	  <!-- Load the logos from the generic view-->
 	  {% block logos %}
