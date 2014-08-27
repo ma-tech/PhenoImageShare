@@ -20,7 +20,7 @@ Processor.prototype.loadJSON = function(){
 	$.getJSON("getImages?q="+searchString,getParams,
  	   function(data, textStatus, jqXHR)
  	   {
-		   tableTitle.innerHTML=data.response.numFound +" Records Found";
+		   tableTitle.innerHTML=data.response.numFound +" records found from XY records searched";
 		   
 		   var numDocs = data.response.docs.length;
 		   for (var i = 0; i < numDocs; i++) {

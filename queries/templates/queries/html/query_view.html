@@ -23,23 +23,32 @@
 	 {% endblock header %}
 
     <div class="container">
+				
+				{% block top %}
+					{% include "queries/html/components/search_fields.html" %}
+				{% endblock top %}
 		
-		{% block top %}
-			{% include "queries/html/components/search_fields.html" %}
-		{% endblock top %}
-		
-  	  {% block first %}
-  	  {% endblock first %}
+			  <div class="col-lg-3">
+				  
+				  {% block first %}
+	  			  	{% include "queries/html/components/query/left/facets_panel.html" %}
+  	 			  {% endblock first %}
 	  
-      <!-- Query Results================================================== -->
-	  {% block second %}
-		  {% include "queries/html/components/search_results.html" %}
-	  {% endblock second %}
+				</div>
+						
+				<div class="col-lg-9">
+					
+			      <!-- Query Results================================================== -->
+				  {% block second %}
+					  {% include "queries/html/components/search_results.html" %}
+				  {% endblock second %}
 	  
 	  
-	  {% block third %}
-	  {% endblock third %}
-	  
+				  {% block third %}
+				  {% endblock third %}
+	  			
+				</div>
+			
 	  <!-- Load the logos from the generic view-->
 	  {% block logos %}
 			{{block.super}}

@@ -95,25 +95,22 @@ STATICFILES_DIRS = (
 )
 
 IQS = {
-    'HWU': {
-        'URL': 'http://lxbisel.macs.hw.ac.uk:8080/IQS/',
-        'APIs': {
-            'GETIMAGES': 'getimages',
-            'COMMANDS':{
-                'phenotype','anatomy','gene',
-            },
+    'URL':{
+        'HWU': 'http://lxbisel.macs.hw.ac.uk:8080/IQS/',
+        'EBI': 'http://beta.phenoimageshare.org/data/iqs/',
+    },    
+    'ACP':{
+        'getimages':{
+            'name': 'getimages',
+            'options':{
+                'phenotype':'phenotype','anatomy':'anatomy','gene':'gene','term':'term'
+            }
         },
-    },
-    'EBI': {
-        'URL': 'http://beta.phenoimageshare.org/data/iqs/',
-        'APIs': {
-            'GETIMAGES': 'getimages',
-            'COMMANDS':{
-                'phenotype','anatomy','gene',
-            },
-        },
-    },
-    'HGU': {
-        'URL': 'django.db.backends.sqlite3',
+        'getrois':{
+            'name': 'getrois',
+            'options':{
+                'phenotype':'phenotype','anatomy':'anatomy','gene':'gene','term':'term'
+            }
+        }
     },
 }

@@ -2,9 +2,17 @@ from django.shortcuts import render
 from django.http import HttpResponse
 import simplejson
 import urllib2
+import urllib
 from pis.settings import IQS as iqs
 
-IQSURL = iqs['EBI']['URL']
+dev_api = iqs['URL']['HWU']
+beta_api = iqs['URL']['EBI']
+
+api_url = dev_api
+
+access_points = iqs['ACP']
+image_acp = access_points['getimages']['name']
+image_endpoints = access_points['getimages']['options']
 
 def index(request):
     return render(request, 'queries/html/index.html', '')
@@ -23,6 +31,7 @@ def get_image_data(request):
     docs = {}
     imageString = ""
     base_url = ""
+    query = {}
     
     if 'q' in request.GET:
         queryString = request.GET['q']
@@ -35,17 +44,17 @@ def get_image_data(request):
         imageString = "http://www.mousephenotype.org/data/media/images/0/M00144272_00010241_download_full.jpg"
     
     if "MP" in queryString:
-        base_url = IQSURL+"getimages?phenotype="
-        print base_url
-        
+        query[image_endpoints['phenotype']] = queryString   
     elif "MA" in queryString:
-        base_url = IQSURL+"getimages?anatomy="
+        query[image_endpoints['anatomy']] = queryString 
     elif "MGI" in queryString:
-        base_url = IQSURL+"getimages?gene="
-
-    url = base_url + queryString
+        query[image_endpoints['gene']] = queryString 
+    else:
+        query[image_endpoints['term']] = queryString 
     
-    req = urllib2.Request(url)
+    url = api_url + image_acp
+    url_data=urllib.urlencode(query)
+    req = urllib2.Request(url, url_data)
     
     try:
         response = urllib2.urlopen(req)
@@ -150,7 +159,7 @@ def get_local_data():
     return json_data
      
 def getImages(request):
-    
+    query = {}
     queryString = ""
     
     if 'q' in request.GET:
@@ -159,17 +168,18 @@ def getImages(request):
         queryString = "unset"
     
     if "MP" in queryString:
-        base_url = IQSURL+"getimages?phenotype="
+        query[image_endpoints['phenotype']] = queryString   
     elif "MA" in queryString:
-        base_url = IQSURL+"getimages?anatomy="
+        query[image_endpoints['anatomy']] = queryString 
     elif "MGI" in queryString:
-        base_url = IQSURL+"getimages?gene="
-
-    url = base_url + queryString
+        query[image_endpoints['gene']] = queryString 
+    else:
+        query[image_endpoints['term']] = queryString 
     
-    print url
+    url = api_url + image_acp
+    url_data=urllib.urlencode(query)
+    req = urllib2.Request(url, url_data)
     
-    req = urllib2.Request(url)
     response = urllib2.urlopen(req)
     
     return HttpResponse(response, mimetype='application/json')
