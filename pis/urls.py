@@ -15,6 +15,6 @@ urlpatterns = patterns('',
     url(r'^admin/', include(admin.site.urls)),
     
     # URL patters for the views of the Annotation application.
-    # url(r'^annotation/', include('annotation.urls', namespace="annotation")),
+    url(r'^annotation/', include('annotation.urls', namespace="annotation")),
     #url(r'^submission/', include('queries.urls', namespace="submission")),
 )
