@@ -29,7 +29,10 @@ Processor.prototype.loadJSON = function(){
 		   for (var i = 0; i < numDocs; i++) {
 		      
 			   id = data.response.docs[i].id; //capture image id.
-			   id = data.response.docs[i].id; //capture image id.
+			   expression = data.response.docs[i].expression_in_label_bag ? data.response.docs[i].expression_in_label_bag : " None " ; //capture expression for description.
+			   anatomy = data.response.docs[i].anatomy_term ? data.response.docs[i].anatomy_term : " None ";
+			   phenotype = data.response.docs[i].phenotype_label_bag ? data.response.docs[i].phenotype_label_bag : " None " ;
+			   gene = data.response.docs[i].gene_symbol ? data.response.docs[i].gene_symbol : " None ";
 			   
 			   image_url = data.response.docs[i].image_url;
 			   image_query_string = searchString;
@@ -39,7 +42,7 @@ Processor.prototype.loadJSON = function(){
 			   
 			   image =  image_hyperlink + "<img src="+image_url+" style=\"width: 50%;\"/> </a>"
 			   
-			   descr = id
+			   descr = "<b> Expression: </b>" + expression + ", <b> Anatomy: </b>" + anatomy + ", <b> Phenotype: </b>"  + phenotype + ", <b> Gene: </b>" + gene; //+ ", <b> ID: </b>" +  id;
 			   
 			   tableData[i]=[image, descr];
 		   }
