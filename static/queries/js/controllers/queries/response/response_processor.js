@@ -14,12 +14,12 @@ Processor.prototype.loadJSON = function(){
 	
 	var getParams = '';
 	var tableData = [];
-	var searchString = $("#searchInput").val()
+	var searchString = $("#searchInput").val();
+
 	var detail_base_url = this.detail_base_url;
 	var get_facets_data = this.getFacetsData;
 	var facet_data = "";
 
-	
 	$.getJSON("getImages?q="+searchString,getParams,
  	   function(data, textStatus, jqXHR)
  	   {
@@ -37,10 +37,11 @@ Processor.prototype.loadJSON = function(){
 			   image_url = data.response.docs[i].image_url;
 			   image_query_string = searchString;
 			   
-			   detail_url = detail_base_url + "?q="+searchString+"&img="+image_url
-			   image_hyperlink = "<a href="+detail_url+" data-toggle=\"tooltip\" title="+ id +">"
-			   
-			   image =  image_hyperlink + "<img src="+image_url+" style=\"width: 50%;\"/> </a>"
+			   detail_url = detail_base_url + "?q="+searchString+"&img="+image_url;
+				
+			   image_hyperlink = "<a href="+encodeURI(detail_url)+" data-toggle=\"tooltip\" title="+ id +">";
+			 	
+			   image =  image_hyperlink + "<img src="+image_url+" style=\"width: 50%;\"/> </a>";
 			   
 			   descr = "<b> Expression: </b>" + expression + ", <b> Anatomy: </b>" + anatomy + ", <b> Phenotype: </b>"  + phenotype + ", <b> Gene: </b>" + gene; //+ ", <b> ID: </b>" +  id;
 			   
