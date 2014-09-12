@@ -88,7 +88,7 @@ USE_TZ = True
 
 # Location of static files (CSS, JavaScript, Images) for PhIS
 
-STATIC_URL = '/static/'
+STATIC_URL = '/phis/static/'
 
 STATICFILES_DIRS = (
     os.path.join(BASE_DIR, "static"),
