@@ -114,11 +114,13 @@ Processor.prototype.getFacetsData= function(data) {
 	phenotype_mutants.text = "Mutants";
 	phenotype_mutants.selectable = false;
 	phenotype_mutants.tags = [];
+	phenotype_mutants.tags.push(0);	
 	
 	var phenotype_wildtypes = {}
 	phenotype_wildtypes.text = "Wildtype";
 	phenotype_wildtypes.selectable = false;
 	phenotype_wildtypes.tags = [];
+	phenotype_wildtypes.tags.push(0);	
 	
 	phenotype_nodes.push(phenotype_mutants);
 	phenotype_nodes.push(phenotype_wildtypes);
@@ -135,11 +137,13 @@ Processor.prototype.getFacetsData= function(data) {
 	expression_mutants.text = "Mutants";
 	expression_mutants.selectable = false;
 	expression_mutants.tags = [];
+	expression_mutants.tags.push(0);
 	
 	var expression_wildtypes = {}
 	expression_wildtypes.text = "Wildtype";
 	expression_wildtypes.selectable = false;
 	expression_wildtypes.tags = [];
+	expression_wildtypes.tags.push(0);
 	
 	expression_nodes.push(expression_mutants);
 	expression_nodes.push(expression_wildtypes);
@@ -201,10 +205,14 @@ Processor.prototype.getFacetsData= function(data) {
 				
 				for (j = 0 ; j < pivots ; j++){
 					if (sample_type_image_type[i].pivot[j].value == "PHENOTYPE_ANATOMY"){
+						phenotype_mutants.tags.pop();
+						
 						phenotype_mutant_count = sample_type_image_type[i].pivot[j].count;
 						phenotype_mutants.tags.push(phenotype_mutant_count);
 					}
 					else if (sample_type_image_type[i].pivot[j].value == "EXPRESSION"){
+						expression_mutants.tags.pop();
+						
 						expression_mutant_count = sample_type_image_type[i].pivot[j].count
 						expression_mutants.tags.push(expression_mutant_count);
 					}
@@ -215,10 +223,14 @@ Processor.prototype.getFacetsData= function(data) {
 				
 				for (j = 0 ; j < pivots ; j++){
 					if (sample_type_image_type[i].pivot[j].value == "PHENOTYPE_ANATOMY"){
+						phenotype_wildtypes.tags.pop();
+						
 						phenotype_wildtype_count = sample_type_image_type[i].pivot[j].count;
 						phenotype_wildtypes.tags.push(sample_type_image_type[i].pivot[j].count);
 					}
 					else if (sample_type_image_type[i].pivot[j].value == "EXPRESSION"){
+						expression_wildtypes.tags.pop();
+						
 						expression_wildtype_count = sample_type_image_type[i].pivot[j].count;
 						expression_wildtypes.tags.push(sample_type_image_type[i].pivot[j].count);
 					}

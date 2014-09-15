@@ -44,7 +44,7 @@
 
 		injectStyle: true,
 
-		levels: 2,
+		levels: 1,
 
 		expandIcon: 'glyphicon glyphicon-plus',
 		collapseIcon: 'glyphicon glyphicon-minus',
@@ -99,16 +99,15 @@
 				
 				this.tree = $.extend(true, {}, options.data);
 				
-				this.objects = $.extend(new DataStructure(), options.data);
+			//	this.objects = $.extend(new DataStructure(), options.data);
 				
-				this.objects[0].selectable = true;
-				this.objects[0].nodes[0].state = true;
+			//	this.objects[0].selectable = true;
+				//this.objects[0].nodes[0].state = true;
 				
 				//console.log(this.objects);
 				
 				//this.tree = $.extend(true, {}, this.objects);
-				console.log(this.tree);
-				
+
 				delete options.data;
 			}
 
@@ -209,6 +208,7 @@
 
 			var self = this;
 			$.each(nodes, function addNodes(id, node) {
+				
 				
 				if (level >= self.options.levels) {
 					self._toggleNodes(node);
