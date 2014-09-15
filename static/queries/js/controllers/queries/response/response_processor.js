@@ -146,10 +146,19 @@ Processor.prototype.getFacetsData= function(data) {
 	
 	
 	var stage = {};
+	stage.text = "Stage";
+	stage.selectable = false;
+	stage.tags = [];
 	var stage_nodes = [];
+	stage.nodes = stage_nodes;
 	
-	var gene = {};
-	var gene_nodes = [];
+	var taxon = {};
+	var taxon_tags = [];
+	var taxon_nodes = [];
+	taxon.text = "Taxon";
+	taxon.selectable = false;
+	taxon.tags = [];
+	taxon.nodes = taxon_nodes;
 	
 	var platform = {};
 	var platform_nodes = [];
@@ -157,11 +166,23 @@ Processor.prototype.getFacetsData= function(data) {
 	var level = {};
 	var level_nodes = [];
 	
+	var imaging_method_label = {};
+	imaging_method_label.text = "Imaging Method";
+	imaging_method_label.selectable = false;
+	imaging_method_label.tags = [];
+	var imaging_method_label_nodes = [];
+	imaging_method_label.nodes = imaging_method_label_nodes;
+	
 	facet_data.push(phenotype);
 	facet_data.push(expression);
+	facet_data.push(imaging_method_label);
+	facet_data.push(stage);
+	facet_data.push(taxon);
 	
-	var sample_type_image_type = data['facet_counts']['facet_pivot']['sample_type,image_type']
+	var sample_type_image_type = data['facet_counts']['facet_pivot']['sample_type,image_type'];
 	var sample_type_image_type_count = sample_type_image_type.length;
+	
+	var facet_fields = data['facet_counts']['facet_fields'] ;
 	
 	var phenotype_mutant_count = 0;
 	var phenotype_wildtype_count = 0;
@@ -202,6 +223,43 @@ Processor.prototype.getFacetsData= function(data) {
 			
 		}
 	
+	}
+	
+	if (facet_fields){
+		if (facet_fields.imaging_method_label){
+			imaging_method_label_1 = {};
+			imaging_method_label_1.text = facet_fields.imaging_method_label[0];
+			imaging_method_label_1.tags = [];
+			imaging_method_label_1.selectable = false;
+			
+			imaging_method_label_1.tags.push(facet_fields.imaging_method_label[1]);
+			
+			imaging_method_label_nodes.push(imaging_method_label_1);
+			imaging_method_label.tags.push(facet_fields.imaging_method_label[1]);
+		}
+		if (facet_fields.stage){
+			stage_1 = {};
+			stage_1.text = facet_fields.stage[0];
+			stage_1.tags = [];
+			stage_1.selectable = false;
+			
+			stage_1.tags.push(facet_fields.stage[1]);
+			
+			stage_nodes.push(stage_1);
+			stage.tags.push(facet_fields.stage[1]);
+		}
+		if (facet_fields.taxon){
+			taxon_1 = {};
+			taxon_1.text = facet_fields.taxon[0];
+			taxon_1.tags = [];
+			taxon_1.selectable = false;
+			
+			taxon_1.tags.push(facet_fields.taxon[1]);
+			
+			taxon_nodes.push(taxon_1);
+			taxon.tags.push(facet_fields.taxon[1]);
+		}
+		
 	}
 	
 	phenotype_count = parseInt(phenotype_wildtype_count) + parseInt(phenotype_mutant_count);
