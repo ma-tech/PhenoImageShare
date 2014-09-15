@@ -149,6 +149,7 @@ Processor.prototype.getFacetsData= function(data) {
 	stage.text = "Stage";
 	stage.selectable = false;
 	stage.tags = [];
+	stage.tags.push(0);
 	var stage_nodes = [];
 	stage.nodes = stage_nodes;
 	
@@ -158,6 +159,7 @@ Processor.prototype.getFacetsData= function(data) {
 	taxon.text = "Taxon";
 	taxon.selectable = false;
 	taxon.tags = [];
+	taxon.tags.push(0);
 	taxon.nodes = taxon_nodes;
 	
 	var platform = {};
@@ -170,6 +172,8 @@ Processor.prototype.getFacetsData= function(data) {
 	imaging_method_label.text = "Imaging Method";
 	imaging_method_label.selectable = false;
 	imaging_method_label.tags = [];
+	imaging_method_label.tags.push(0);
+	
 	var imaging_method_label_nodes = [];
 	imaging_method_label.nodes = imaging_method_label_nodes;
 	
@@ -226,7 +230,9 @@ Processor.prototype.getFacetsData= function(data) {
 	}
 	
 	if (facet_fields){
-		if (facet_fields.imaging_method_label){
+		if (facet_fields.imaging_method_label && facet_fields.imaging_method_label != ""){
+			imaging_method_label.tags.pop();
+			
 			imaging_method_label_1 = {};
 			imaging_method_label_1.text = facet_fields.imaging_method_label[0];
 			imaging_method_label_1.tags = [];
@@ -237,7 +243,9 @@ Processor.prototype.getFacetsData= function(data) {
 			imaging_method_label_nodes.push(imaging_method_label_1);
 			imaging_method_label.tags.push(facet_fields.imaging_method_label[1]);
 		}
-		if (facet_fields.stage){
+		if (facet_fields.stage && facet_fields.stage != ""){
+			stage.tags.pop();
+			
 			stage_1 = {};
 			stage_1.text = facet_fields.stage[0];
 			stage_1.tags = [];
@@ -248,7 +256,9 @@ Processor.prototype.getFacetsData= function(data) {
 			stage_nodes.push(stage_1);
 			stage.tags.push(facet_fields.stage[1]);
 		}
-		if (facet_fields.taxon){
+		if (facet_fields.taxon && facet_fields.taxon != ""){
+			taxon.tags.pop();
+			
 			taxon_1 = {};
 			taxon_1.text = facet_fields.taxon[0];
 			taxon_1.tags = [];
