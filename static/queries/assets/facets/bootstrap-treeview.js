@@ -98,15 +98,6 @@
 				}
 				
 				this.tree = $.extend(true, {}, options.data);
-				
-			//	this.objects = $.extend(new DataStructure(), options.data);
-				
-			//	this.objects[0].selectable = true;
-				//this.objects[0].nodes[0].state = true;
-				
-				//console.log(this.objects);
-				
-				//this.tree = $.extend(true, {}, this.objects);
 
 				delete options.data;
 			}
@@ -241,23 +232,6 @@
 			}
 		},
 		
-		/*
-		_toggleCheckbox: function(node) {
-
-			if (node.nodes && node._nodes) {
-				return;
-			}
-
-			if (node.nodes) {
-				node._nodes = node.nodes;
-				delete node.nodes;
-			}
-			else {
-				node.nodes = node._nodes;
-				delete node._nodes;
-			}
-		},
-		*/
 		
 		// Returns true if the node is endnode: this is an hack.
 		_isEndNode: function (node) {
@@ -288,10 +262,7 @@
 
 			// Build tree
 			self.nodes = [];
-			
-			//self.tree = $.extend(true, {}, self.objects);
-			console.log(self.tree);
-			
+
 			self._buildTree(self.tree, 0);
 		},
 
