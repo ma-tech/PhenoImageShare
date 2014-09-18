@@ -29,7 +29,7 @@ base_detail_url = "{% url 'queries:detail_view' %}";
 queryProcessor.setBaseURL(base_detail_url);
 
 $(document).ready(function() {
-	//loadFacets();
+	queryProcessor.loadJSON();
 });
  
 function loadJSON(){

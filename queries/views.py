@@ -49,8 +49,15 @@ def get_image_data(request):
         query[image_endpoints['anatomy']] = queryString 
     elif "MGI" in queryString:
         query[image_endpoints['gene']] = queryString 
+    elif "" in queryString:
+        query = {}
+        print "Some query"
+        print query
     else:
         query[image_endpoints['term']] = queryString 
+        print "Some query"
+        
+        print query
     
     url = api_url + image_acp
     url_data=urllib.urlencode(query)
@@ -173,8 +180,15 @@ def getImages(request):
         query[image_endpoints['anatomy']] = queryString 
     elif "MGI" in queryString:
         query[image_endpoints['gene']] = queryString 
+    elif queryString == "":
+        query = {}
+        print "Some query"
+        print query
     else:
         query[image_endpoints['term']] = queryString 
+        print "Some query"
+        
+        print query
     
     url = api_url + image_acp
     url_data=urllib.urlencode(query)
