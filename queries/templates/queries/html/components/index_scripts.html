@@ -1,0 +1,39 @@
+{% load staticfiles %}
+
+<!-- NCBO JS for autocomplete -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/ncbo/form_complete.js' %}"></script>
+
+<!-- PhenoImageShare Site Tour -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/utils/phis_tour.js' %}"></script>
+
+<script>
+
+var base_query_url = "{% url 'queries:query_view' %}";
+
+function loadSearchPage(){
+	var searchString = $("#indexInput").val();
+	url = base_query_url + "?q="+searchString;
+	
+	window.location.href = url;
+}
+
+var index_tour = {
+  id: "phis_tour",
+  steps: [
+    {
+      title: "What is this about ?",
+      content: "Let's start by taking a tour of the tool",
+      target: "tourButton",
+      placement: "bottom"
+    }
+  ]
+};
+
+// Start the tour!
+//hopscotch.startTour(index_tour);
+
+function startTour(){
+	hopscotch.startTour(tour);
+}
+
+</script>

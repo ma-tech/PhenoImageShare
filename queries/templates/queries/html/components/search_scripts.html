@@ -9,6 +9,9 @@
 <!-- Query Processor (AJAX) Script for populating the query results-->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/js/controllers/queries/response/response_processor.js' %}"></script>
 
+<!-- NCBO JS for autocomplete -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/ncbo/form_complete.js' %}"></script>
+
 <!-- Faceted View tree strcuture JS -->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/assets/facets/bootstrap-treeview.js' %}"></script>
 
@@ -18,6 +21,12 @@
 <!-- Configuration -->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/js/config/queries/config.js' %}"></script>
 
+<!-- NCBO JS for autocomplete -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/ncbo/form_complete.js' %}"></script>
+
+<!-- PhenoImageShare Site Tour -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/utils/phis_tour.js' %}"></script>
+
 <!-- 
 
 -->
@@ -25,8 +34,11 @@
 <script>
 
 var queryProcessor = new Processor();
-base_detail_url = "{% url 'queries:detail_view' %}";
+var base_detail_url = "{% url 'queries:detail_view' %}";
+var base_query_url = "{% url 'queries:query_view' %}";
+
 queryProcessor.setBaseURL(base_detail_url);
+queryProcessor.setQueryURL(base_query_url);
 
 $(document).ready(function() {
 	queryProcessor.loadJSON();

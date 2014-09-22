@@ -1,0 +1,85 @@
+{% extends "phis/generic.html" %}
+  <head>
+     <title>{% block title %}PhenoImageShare: Index {% endblock title %}</title>
+   
+	<!-- Search-specific styles-->
+	{% block styles %}
+		{{block.super}}
+		{% include "queries/html/components/search_styles.html" %}
+	{% endblock styles %}
+	
+	<!-- Search-specific JS-->
+    {% block javascripts %}
+		{{block.super}}
+		{% include "queries/html/components/index_scripts.html" %}
+	{% endblock javascripts %}
+	
+  </head>
+ 
+ {% block content %}
+ 
+	 {% block header %}
+		{{block.super}}
+	 {% endblock header %}
+
+    <div class="container">
+			
+			<div class="row">
+				
+				<div class="page-header" id="banner">
+	     		  	
+					<div class="col-lg-3">
+					</div>
+					
+					<div class="col-lg-9">
+					
+				 	   <div class="row">
+						   <br/>
+ 							  <h2 id="phis">PhenoImageShare</h2>
+					   </div>
+			 	 	</div>
+
+				</div>
+				
+				  {% block first %}
+  	  			  {% endblock first %}
+				
+				<div class="col-lg-11">
+
+					{% block top %}
+						{% include "queries/html/components/index_fields.html" %}
+					{% endblock top %}
+				  {% block second %}
+				  {% endblock second %}
+	  
+	  
+				  {% block third %}
+				  {% endblock third %}
+				  
+				</div>
+				
+			</div>
+			
+			<div class="row">
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+				<br/>
+			</div>
+			
+	  <!-- Load the logos from the generic view-->
+	  {% block logos %}
+			{{block.super}}
+	  {% endblock logos %}
+		
+		
+    </div><!-- Container ending-->
+	 
+	  
+	  {% endblock content %}
+	  
+	  <!-- Load the footer from the generic view-->
+	  {% block footer %}
+	  	{{block.super}}
+	  {% endblock footer %}

@@ -9,13 +9,23 @@ Processor.prototype.setBaseURL= function(baseURL) {
 	this.detail_base_url = baseURL;
 };
 
+/**
+ * Register a canvas with this controller.
+*/
+Processor.prototype.setQueryURL= function(queryURL) {
+	this.query_base_url = queryURL;
+};
+
 Processor.prototype.loadJSON = function(){
 	
 	var getParams = '';
 	var tableData = [];
+	
 	var searchString = $("#searchInput").val();
 
 	var detail_base_url = this.detail_base_url;
+	var query_base_url = this.query_base_url;
+	
 	var get_facets_data = this.getFacetsData;
 	var get_facets_data2 = this.getFacetsData2;
 	var get_facets_data3 = this.getFacetsData3;
@@ -27,7 +37,7 @@ Processor.prototype.loadJSON = function(){
 	var facet_data3 = "";
 	var facet_data4 = "";
 
-	$.getJSON("getImages?q="+searchString,getParams,
+	$.getJSON(query_base_url+"getImages?q="+searchString,getParams,
  	   function(data, textStatus, jqXHR)
  	   {
 		   tableTitle.innerHTML=data.response.numFound +" records found from XY records searched";

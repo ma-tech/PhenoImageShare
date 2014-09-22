@@ -15,10 +15,16 @@ image_acp = access_points['getimages']['name']
 image_endpoints = access_points['getimages']['options']
 
 def index(request):
-    return render(request, 'queries/html/index.html', '')
+    return render(request, 'queries/html/phis_index.html', '')
 
 def query_view(request):
-    return render(request, 'queries/html/query_view.html', '')
+    queryString = ""
+    
+    if 'q' in request.GET:
+        queryString = request.GET['q']
+        
+    context = {"query": queryString} 
+    return render(request, 'queries/html/query_view.html', context)
 
 def detail_view(request):
     context = get_image_data(request)

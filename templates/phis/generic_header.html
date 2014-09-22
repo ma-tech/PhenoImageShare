@@ -1,7 +1,7 @@
   <div class="container"> 
 	  <div class="navbar navbar-default navbar-fixed-top">
 	   <div class="navbar-header">
-      <a href="{% url 'index' %}" class="navbar-brand">PhenoImageShare</a>
+      <a id="phISMenuItem" href="{% url 'index' %}" class="navbar-brand">PhenoImageShare</a>
       <button class="navbar-toggle" type="button" data-toggle="collapse" data-target="#navbar-main">
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
@@ -11,29 +11,29 @@
     <div class="navbar-collapse collapse" id="navbar-main">
       <ul class="nav navbar-nav">
       	<li>
-          <a href="{% url 'queries:query_view' %}">Search</a>
+          <a id="searchMenuItem" href="{% url 'queries:query_view' %}">Search</a>
         </li>
 
 		<li>
-          <a href="#">Submission</a>
+          <a id="submissionMenuItem" href="#">Submission</a>
         </li>
 
 		<li>
-          <a href="#">Glossary</a>
+          <a id="glossaryMenuItem" href="#">Glossary</a>
         </li>
 
 		<li>
-          <a href="#">About PhIS</a>
+          <a id="aboutPhISMenuItem" href="#">About PhIS</a>
         </li>
 
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
-        <li  data-toggle="tooltip" data-placement="bottom" title="Register for an account"><a href="#" target="_blank">Register</a></li>
+        <li data-toggle="tooltip" data-placement="bottom" title="Register for an account"><a id="registerButton" href="#" target="_blank">Register</a></li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
-        <li><a href="#" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Login with your account">Login</a></li>
+        <li><a id="loginButton" href="#" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Login with your account">Login</a></li>
       </ul>
 
     </div>
