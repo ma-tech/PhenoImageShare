@@ -36,9 +36,12 @@ String.prototype.repeat = function(num) {
     $("select[name='herolist']").selectpicker({style: 'btn-primary', menuStyle: 'dropdown-inverse'});
     $("select[name='info']").selectpicker({style: 'btn-info'});
 
-    // Tooltips
-    $("[data-toggle=tooltip]").tooltip("show");
+    // Disabled tooltips showing by default
+   // $("[data-toggle=tooltip]").tooltip("show");
 
+    // Tooltips
+    $("[data-toggle=tooltip]").tooltip();
+	
     // Tags Input
     $(".tagsinput").tagsInput();
 
