@@ -7,22 +7,22 @@
 	       {
 	         target: 'phis',
 	         title: 'PhenoImageShare!',
-	         content: 'Code-named PhIS, Phenoimageshare delivers tools for annotating, querying, storing, and submitting of images (and their associated medata) across distributed databases.',
+	         content: 'Code-named PhIS, PhenoImageShare delivers tools for the annotation, querying, and submission of images (and their regions of interest) stored in distributed databases.',
 	         placement: 'left'
 	       },
 	       {
 	         target: 'searchMenuItem',
 	         title: 'Searching & Querying',
-	         content: 'PhenoImageShare provides tools for searching & querying the PhIS repository of metadata for distributed databases of images for their phenotypical and anatomical annotations, thereby answering certain competency questions of interest.',
+	         content: 'PhenoImageShare provides tools for searching & querying the PhIS repository [of metadata] of images for their phenotypical and anatomical annotations, thereby allowing for answering competency questions of interest.',
 	         placement: 'bottom',
 	       },
 	       {
 	         target: 'submissionMenuItem',
 	         title: 'Submission Service',
-	         content: 'PhenoImageShare provides tool users to submit new images and their associated annotations to the PhIS repository for indexing and querying by a wider community.',
+	         content: 'PhenoImageShare provides submission tool for users to submit new images and associated annotations to the PhIS repository for indexing and querying by a wider community.',
 	         placement: 'bottom',
 	       },
-	       {
+	      /* {
 	         target: 'glossaryMenuItem',
 	         title: 'Glossary',
 	         content: 'PhenoImageShare mantains a dictionary of the various types of image medata and annotations indexed within the PhIS repository.',
@@ -33,11 +33,11 @@
 	         title: 'Every other thing',
 	         content: 'We provide information about every other thing you need to know about PhenoImageShare project and it\'s development.',
 	         placement: 'bottom',
-	       },
+	       },*/
 	       {
 	         target: 'loginButton',
 	         title: 'Do you wish to share your annotations ?',
-	         content: 'PhenoImageShare provides user management facility to allow users to log in and submit new images, metadata and annotations. Login and/or registration are not required to search and query the PhIS database.',
+	         content: 'User management facility is provided by PhenoImageShare to allow users to log in and submit new images, metadata and annotations. Login and/or registration are not required to search and query the PhIS database.',
 	         placement: 'bottom',
 		     xOffset: -150,
 			 arrowOffset: 170
@@ -45,7 +45,7 @@
 	       {
 	         target: 'registerButton',
 	         title: 'Are you a registered user ?',
-	         content: 'PhenoImageShare provides user registration facility to allow for unique identification of users performing operations such as annotations, submission of images, etc. Registration is not required to search and query the PhIS database.',
+	         content: 'Registration facility is provided by PhIS for unique identification of users submitting and annotating images. Registration is not required to search and query the PhIS database.',
 	         placement: 'bottom',
 		     xOffset: -200,
 			 arrowOffset: 230
@@ -53,7 +53,7 @@
 	       {
 	         target: 'freetextLabel',
 	         title: 'What\'s Next ?',
-	         content: 'Try out PhenoImageShare\'s search and query tool for a start. Enter a freetext and push the search button - and you\'re all set to go !',
+	         content: 'Try out PhenoImageShare\'s search and query tool for a start. Enter a freetext and push the search button or click on the next button here - and you\'re all set to go !',
 			 placement: 'bottom',
 	         multipage: true,
 	         onNext: function() {
@@ -63,23 +63,23 @@
 	       },
 	       {
 	         target: 'facetsTab',
-	         title: 'Results facets',
-	         content: 'PhenoImageShare provides faceted view of the indexed data for ease of search and navigation',
+	         title: 'Faceted View',
+	         content: 'PhenoImageShare presents faceted view of the indexed data (and search results) for ease of search and navigation.',
 			 placement: 'left',
 			 width: 200
 	       },
 	       {
 	         target: 'imgtable',
-	         title: 'Results / Hits',
-	         content: 'Search results hits containing the images matching the search text and/or selected facets',
+	         title: 'Results & Hits',
+	         content: 'Search results contain the images matching the search text and/or selected facets and are presented in the results panel.',
 			 placement: 'left',
 			 width: 300,
 		     yOffset: -100,
 	       },
 	       {
 	         target: 'imgtable',
-	         title: 'Searching the results',
-	         content: 'Further search can be performed on the results by use of the table search box. E.g. enter \'Gtf3c5\' to view records linked with gene Gtf3c5 ',
+	         title: 'Filtering the results',
+	         content: 'Further filtering can be performed on the results by using the table search box. E.g. enter \'Gtf3c5\' to view records containing gene Gtf3c5.',
 			 placement: 'right',
 			 width: 300,
 		     yOffset: -60,
@@ -88,7 +88,7 @@
 	       {
 	         target: 'tour-placeholder',
 	         title: 'Browsing results',
-	         content: 'Results are paginated and navigation can be beformed by the provided easy-to-use controls.',
+	         content: 'Results are paginated and navigation can be peformed by easy-to-use controls.',
 			 placement: 'right',
 		     yOffset: -120,
 			 xOffset: -70,
@@ -96,7 +96,7 @@
 	       {
 	         target: 'imgtable',
 	         title: 'Navigating to detailed view',
-	         content: 'Click on the image icon to navigate to the detailed view of the image',
+	         content: 'Click on the image icon to view details of the image',
 			 placement: 'left',
 			 width: 300,
 		     yOffset: 80,
@@ -104,7 +104,7 @@
 	       {
 	         target: 'searchInput',
 	         title: 'Enjoy your search',
-	         content: 'You can now enter freetext and push the search button for a fresh search !',
+	         content: 'You may now enter freetext and push the search button for a fresh search !',
 			 placement: 'bottom',
 		     yOffset: 0,
 			 xOffset: 0,
@@ -135,7 +135,7 @@
 			 
 			 console.log("Hopstoch state: "+ state);
 			 
-	     if (state === 'phis-tour:8') {
+	     if (state === 'phis-tour:6') {
 	       // Already started the tour at some point!
 	       hopscotch.startTour(tour);
 	     }
@@ -166,7 +166,7 @@
 		     });
 		 
 		}else {
-   	     if (state === 'phis-tour:8') {
+   	     if (state === 'phis-tour:6') {
    	       // Already started the tour at some point!
    	       hopscotch.startTour(tour);
    	     }
