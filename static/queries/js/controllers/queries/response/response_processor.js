@@ -40,7 +40,7 @@ Processor.prototype.loadJSON = function(){
 	$.getJSON(query_base_url+"getImages?q="+searchString,getParams,
  	   function(data, textStatus, jqXHR)
  	   {
-		   tableTitle.innerHTML=data.response.numFound +" records found in the database";
+		   tableTitle.innerHTML=data.response.numFound +" records found in database";
 		   
 		   var numDocs = data.response.docs.length;
 		   for (var i = 0; i < numDocs; i++) {
@@ -83,13 +83,13 @@ Processor.prototype.loadJSON = function(){
 			    { "width": "70%", "targets": 1 }
 			  
 		      ],
-			  "oLanguage": {
-			    "sSearch": "Filter: "
-			  },
-		      scrollY: 900,
-		      paging: false
+			  
+			  scrollY: 900,
+			  pageLength: 20,
    		 });	
 		   
+		 
+ 		console.log("Data for 1st prototype facets" + facet_data);
  	  	$('#facets').treeview({
  	   		data: facet_data,
  	   		showTags: true,
@@ -110,18 +110,20 @@ Processor.prototype.loadJSON = function(){
    
  	   	});
 		
+ 		console.log("Data for 2nd prototype facets" + facet_data2);
  	  	$('#facets2').treeview({
  	   		data: facet_data2,
  	   		showTags: true,   
  	   	});
 		
 		
+ 		console.log("Data for 3rd prototype facets" + facet_data3);
  	  	$('#facets3').treeview({
  	   		data: facet_data3,
  	   		showTags: true,   
  	   	});
 		
-		
+ 		console.log("Data for 4th prototype facets" + facet_data4);
  	  	$('#facets4').treeview({
  	   		data: facet_data4,
  	   		showTags: true,   
