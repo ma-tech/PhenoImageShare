@@ -74,7 +74,7 @@
 	         content: 'Search results contain the images matching the search text and/or selected facets and are presented in the results panel.',
 			 placement: 'left',
 			 width: 300,
-		     yOffset: -100,
+		     yOffset: -140,
 	       },
 	       {
 	         target: 'imgtable',
@@ -82,7 +82,7 @@
 	         content: 'Further filtering can be performed on the results by using the table search box. E.g. enter \'Gtf3c5\' to view records containing gene Gtf3c5.',
 			 placement: 'right',
 			 width: 300,
-		     yOffset: -60,
+		     yOffset: -100,
 			 xOffset: -80,
 	       },
 	       {
@@ -90,7 +90,7 @@
 	         title: 'Browsing results',
 	         content: 'Results are paginated and navigation can be peformed by easy-to-use controls.',
 			 placement: 'right',
-		     yOffset: -120,
+		     yOffset: -90,
 			 xOffset: -70,
 	       },
 	       {
