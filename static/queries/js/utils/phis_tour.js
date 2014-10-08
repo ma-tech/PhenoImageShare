@@ -4,24 +4,48 @@
 	   var tour = {
 	     id: 'phis-tour',
 	     steps: [
-	       {
+	      /*  {
 	         target: 'phis',
 	         title: 'PhenoImageShare!',
 	         content: 'Code-named PhIS, PhenoImageShare delivers tools for the annotation, querying, and submission of images (and their regions of interest) stored in distributed databases.',
 	         placement: 'left'
 	       },
-	       {
+			  */
+		   {
+  	         target: 'phis',
+  	         title: 'PhenoImageShare!',
+  	         content: 'PhenoImageSgare is a phenotype image annotation, sharing and discovery platform.',
+  	         placement: 'left'
+	   	   },
+	      /* {
 	         target: 'searchMenuItem',
 	         title: 'Searching & Querying',
 	         content: 'PhenoImageShare provides tools for searching & querying the PhIS repository [of metadata] of images for their phenotypical and anatomical annotations, thereby allowing for answering competency questions of interest.',
 	         placement: 'bottom',
 	       },
+			  */
 	       {
+	         target: 'searchMenuItem',
+	         title: 'Searching & Querying',
+	         content: 'PhenoImageShare provides tools for querying the images, and image metadata, stored within its repository.',
+	         placement: 'bottom',
+	       },
+		   
+	      /* {
 	         target: 'submissionMenuItem',
 	         title: 'Submission Service',
 	         content: 'PhenoImageShare provides submission tool for users to submit new images and associated annotations to the PhIS repository for indexing and querying by a wider community.',
 	         placement: 'bottom',
 	       },
+		   */
+			  
+	       {
+	         target: 'submissionMenuItem',
+	         title: 'Submission Service',
+	         content: 'PhenoImageShare provides a submission tool to allow users to submit new images and their associated annotaitons.',
+	         placement: 'bottom',
+	       },
+		   
 	      /* {
 	         target: 'glossaryMenuItem',
 	         title: 'Glossary',
@@ -34,7 +58,7 @@
 	         content: 'We provide information about every other thing you need to know about PhenoImageShare project and it\'s development.',
 	         placement: 'bottom',
 	       },*/
-	       {
+	     /*  {
 	         target: 'loginButton',
 	         title: 'Do you wish to share your annotations ?',
 	         content: 'User management facility is provided by PhenoImageShare to allow users to log in and submit new images, metadata and annotations. Login and/or registration are not required to search and query the PhIS database.',
@@ -50,7 +74,17 @@
 		     xOffset: -200,
 			 arrowOffset: 230
 	       },
+		   */
 	       {
+	         target: 'registerButton',
+	         title: 'Are you a registered user ?',
+	         content: 'To add/edit annotations you must be a registered user.  You can register/login here.',
+	         placement: 'bottom',
+		     xOffset: -200,
+			 arrowOffset: 230
+	       },
+	     
+		 /*  {
 	         target: 'freetextLabel',
 	         title: 'What\'s Next ?',
 	         content: 'Try out PhenoImageShare\'s search and query tool for a start. Enter a freetext and push the search button or click on the next button here - and you\'re all set to go !',
@@ -61,6 +95,19 @@
 	         }
 
 	       },
+		   */
+	       {
+	         target: 'freetextLabel',
+	         title: 'What\'s Next ?',
+	         content: 'You can search for images by using our auto-complete or simply entering free-text !',
+			 placement: 'bottom',
+	         multipage: true,
+	         onNext: function() {
+	           window.location = "/search/"
+	         },
+			 width: 300,
+	       },
+		   
 	       {
 	         target: 'facetsTab',
 	         title: 'Faceted View',
@@ -135,7 +182,7 @@
 			 
 			 console.log("Hopstoch state: "+ state);
 			 
-	     if (state === 'phis-tour:6') {
+	     if (state === 'phis-tour:5') {
 	       // Already started the tour at some point!
 	       hopscotch.startTour(tour);
 	     }
@@ -166,7 +213,7 @@
 		     });
 		 
 		}else {
-   	     if (state === 'phis-tour:6') {
+   	     if (state === 'phis-tour:5') {
    	       // Already started the tour at some point!
    	       hopscotch.startTour(tour);
    	     }

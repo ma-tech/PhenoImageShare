@@ -1,0 +1,79 @@
+<div id="main-content">
+<a href="https://twitter.com/share" class="twitter-share-button" data-url="www.phenoimageshare.org/phis" data-text="Check out PhenoImageShare for sharing annotations for image resources! http://www.phenoimageshare.org/phis" data-count="none"></a>
+
+
+<script>
+	!function(d,s,id){var 		js,fjs=d.getElementsByTagName(s)[0];if(!d.getElementById(id)){js=d.createElement(s);js.id=id;js.src="http://platform.twitter.com/widgets.js";fjs.parentNode.insertBefore(js,fjs);}}(document,"script","twitter-wjs");
+</script>
+
+<a class="repo-link btn btn-primary btn-small" href="https://github.com/ma-tech/PhenoImageShare/tree/beta">GitHub</a>
+	 
+<iframe src="http://ghbtns.com/github-btn.html?user=ma-tech&amp;repo=PhenoImageShare&amp;type=watch&amp;count=true" class="github-star-button" allowtransparency="true" frameborder="0" scrolling="0" width="110px" height="20px"></iframe>
+	
+	  <hr/>
+	  
+	  <h3 id="overview">Overview</h3>
+	  <p>PhenoImageSgare is a phenotype image annotation, sharing and discovery platform. It provides tools for querying the images, and image metadata, stored within its repository.</p>
+	  <p>PhenoImageShare also provides a submission tool to allow users to submit new images and their associated annotaitons. Registration and Login is required before a user can submit new annotations or images.</p>
+	  
+	  <hr/>
+	
+	  <h3 id="architecture">Architecture</h3>
+	  <p> PhenoImageShare architecture design...</p>
+  
+	  <hr />
+	  
+	  <h3 id="requirements">Requirements</h3>
+	  <p>PhenoImageShare requires the following:</p>
+	  <ul>
+	  <li>Python (2.6.5+ or 2.7)</li>
+	  <li>Django (1.4.2+, 1.5, 1.6, 1.7)</li>
+	  <li>Apache (2.2.15+)</li>
+	  <li>mod_wsgi (3.2+)</li>
+	  <li>Python virtualenv (1.10.1+)</li>
+	  <li>Simplejson (2.0.9+)</li>
+	  <li>Python urllib2 (0.1.6+)</li>
+	  <li>pip (1.3.1+)</li>
+	  </ul>
+	  <p>The following packages are optional:</p>
+	  <ul>
+	  <li><a href="http://pypi.python.org/pypi/Markdown/">Markdown</a> (2.1.0+) - Markdown support for the browsable API.</li>
+	  <li><a href="https://pypi.python.org/pypi/pypandoc/">Pypandoc</a> (0.8.2+) - Multi-format documentation support.</li>
+	  <li><a href="https://pypi.python.org/pypi/pymongo/">PyMongo</a> (2.7.0+) - Python support for MongDB.</li>
+	  </ul>
+	  <p><strong>Note</strong>: The <code>PyMongo</code> Python package is required only for spatial annotations.</p>
+	
+	  <hr />
+		
+	  <h3 id="installation">Installation</h3>
+	  <p> PhenoImageShare UI can be installed by the following steps.</p>
+	  
+	  <h5 id="installation-python">Python Packages</h5>
+	  <p>Install using <code>pip</code>, including any optional packages you want...</p>
+	  <pre class="prettyprint lang-py"><code>pip install django==1.6 # Django 1.6 or above.
+pip install simplejson==2.0.9       # JSON library.
+pip install python-urllib2==0.1.6  # URL library.
+	  </code></pre>
+	  <p>...or clone the project from github.</p>
+	  <pre class="prettyprint lang-py"><code>git clone https://github.com/ma-tech/PhenoImageShare.git
+	  </code></pre>
+	  <p>Add the following to your <code>INSTALLED_APPS</code> variable in your <code>settings.py</code> file:</p>
+		  <ul>
+		  <li><code>'queries'</code></li>
+		  <li><code>'annotation'</code></li>
+		  <li><code>'documentation'</code></li>
+		  <li><code>'submission'</code></li>
+		  </ul>
+		  
+	  <pre class="prettyprint lang-py"><code>INSTALLED_APPS = (
+      ...
+      'queries',
+      'annotation',
+      'documentation',
+      'submission',
+)	  </code></pre>
+
+
+ 	  <h5 id="installation-apache">Apache & Dependencies</h5>
+ 	  <p>The following steps can be followed in setting up Apache for integration with Django</p>
+</div>
