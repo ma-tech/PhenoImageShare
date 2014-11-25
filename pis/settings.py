@@ -44,7 +44,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'queries',
     'documentation',
-    #'annotation'
+    'annotation'
 )
 
 MIDDLEWARE_CLASSES = (
