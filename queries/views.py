@@ -92,7 +92,7 @@ def get_image_data(request):
    
     # Creating Deep Zoom Image creator with default parameters
     #creator = deepzoom.ImageCreator(tile_size=128, tile_overlap=2, tile_format="png",
-                                    image_quality=0.8, resize_filter="bicubic")
+                                    #image_quality=0.8, resize_filter="bicubic")
     
     #dzi_base = '/opt/pheno/python/PhenoImageShare/static/utils/images/dzifiles/'
     #dzi_location = dzi_base + image_name + '.dzi'
