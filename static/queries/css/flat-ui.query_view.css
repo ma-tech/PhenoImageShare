@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'Lato';
-  src: url('../fonts/lato/lato-black.eot');
-  src: url('../fonts/lato/lato-black.eot?#iefix') format('embedded-opentype'), url('../fonts/lato/lato-black.woff') format('woff'), url('../fonts/lato/lato-black.ttf') format('truetype'), url('../fonts/lato/lato-black.svg#latoblack') format('svg');
+  src: url({% static 'queries/fonts/lato/lato-black.eot' %});
+  src: url({% static 'queries/fonts/lato/lato-black.eot?#iefix' %}) format('embedded-opentype'), url('../fonts/lato/lato-black.woff') format('woff'), url('../fonts/lato/lato-black.ttf') format('truetype'), url('../fonts/lato/lato-black.svg#latoblack') format('svg');
   font-weight: 900;
   font-style: normal;
 }

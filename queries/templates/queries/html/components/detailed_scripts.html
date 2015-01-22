@@ -11,6 +11,9 @@
 <!-- Detailed View Generic Controller -->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/js/controllers/detail/generic_detailed_controller.js' %}"></script>
 
+<!-- Openseadragon Zoom Creator -->
+<script type="text/javascript" charset="utf8" src="{% static 'utils/assets/openseadragon.min.js' %}"></script>
+
 <script>
 
 $(document).ready(function(){
@@ -29,12 +32,21 @@ function initialiseController(){
 	params.associatedROIURL = "{{image_data.0.associatedROI | safe}}";
 	params.imageURL = "{{image_data.0.url | safe}}";
 	params.queryString = "{{image_data.0.queryString | safe}}";
-	//params.annotationBaseURL = TODO: Get URL namespace for annotation when ready;
+	params.dziName = "{{dzi_name | safe}}";
+	params.annotationBaseURL = "{% url 'annotation:drawing_view' %}";
+	
+	console.log("DZI Location: " + params.dziLocation);
 	
 	var controller = new DetailedController();
 	
 	controller.setParams(params);
 	controller.initialiseElements();
+	
+	var viewer = OpenSeadragon({
+	        id: "openseadragon1",
+	        tileSources: "{% static 'utils/images/dzifiles/' %}" + params.dziName + '.dzi',
+			showNavigator:  true,
+	});
 }
 
 </script>

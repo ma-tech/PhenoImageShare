@@ -4,6 +4,9 @@ import simplejson
 import urllib2
 import urllib
 from pis.settings import IQS as iqs
+import deepzoom
+import re
+import os
 
 dev_api = iqs['URL']['HWU']
 beta_api = iqs['URL']['EBI']
@@ -13,6 +16,9 @@ api_url = dev_api
 access_points = iqs['ACP']
 image_acp = access_points['getimages']['name']
 image_endpoints = access_points['getimages']['options']
+
+autosuggest_acp = access_points['getautosuggest']['name']
+autosuggest_endpoints = access_points['getautosuggest']['options']
 
 def index(request):
     return render(request, 'queries/html/phis_index.html', '')
@@ -75,10 +81,40 @@ def get_image_data(request):
         docs = json_data['response']['docs']
     
     image_data = process_docs(docs, imageString, queryString)
-    context = {"image_data": image_data}
+    source_location, image_name = downloadImage(imageString)
+    dzi_location = generateImageTiles(source_location, image_name)
+    
+    context = {"image_data": image_data, "dzi_name": image_name}
     
     return context
 
+def generateImageTiles(source_location, image_name):
+   
+    # Creating Deep Zoom Image creator with default parameters
+    creator = deepzoom.ImageCreator(tile_size=128, tile_overlap=2, tile_format="png",
+                                    image_quality=0.8, resize_filter="bicubic")
+    
+    dzi_base = '/opt/pheno/python/PhenoImageShare/static/utils/images/dzifiles/'
+    dzi_location = dzi_base + image_name + '.dzi'
+    
+    # Create Deep Zoom image pyramid from source
+    creator.create(source_location, dzi_location)
+    
+    return dzi_location
+
+def downloadImage(url):
+    
+    image_name = re.search("(?P<url>[^\s]+)/(?P<name>[^\s]+)", url).group("name")
+    source_base = '/opt/pheno/python/PhenoImageShare/static/utils/images/sources/'
+    source_location = source_base + image_name
+    
+    if os.path.isfile(source_location) == False:
+        image_file = open(source_location, 'wb')
+        image_file.write(urllib.urlopen(url).read())
+        image_file.close()
+    
+    return (source_location, image_name)
+    
 def process_docs(docs, imageString, queryString):
     image_data_dict = {}
     image_data = []
@@ -168,6 +204,8 @@ def get_local_data():
      
 def getImages(request):
     query = {}
+    
+    #Initialisation of query parameters, not required. TODO: device alternative declaration
     queryString = ""
     
     if 'q' in request.GET:
@@ -176,16 +214,42 @@ def getImages(request):
         queryString = "unset"
     
     if "MP" in queryString:
-        query[image_endpoints['phenotype']] = queryString   
+        query[image_endpoints['phenotype']] = queryString  
     elif "MA" in queryString:
-        query[image_endpoints['anatomy']] = queryString 
+        query[image_endpoints['anatomy']] = request.GET['anatomy']
     elif "MGI" in queryString:
-        query[image_endpoints['gene']] = queryString 
+        query[image_endpoints['gene']] = queryString
     elif queryString == "":
         query = {}
     else:
         query[image_endpoints['term']] = queryString 
     
+    #assignment of query parameters from Ajax call from facets.
+    if 'sampleType' in request.GET:
+        query[image_endpoints['sampleType']] = request.GET['sampleType'] 
+    if 'imageType' in request.GET:
+        query[image_endpoints['imageType']] = request.GET['imageType']
+    if 'sex' in request.GET:
+        query[image_endpoints['sex']] = request.GET['sex'] 
+    if 'taxon' in request.GET:
+        query[image_endpoints['taxon']] = request.GET['taxon'] 
+    if 'stage' in request.GET:
+        query[image_endpoints['stage']] = request.GET['stage'] 
+    if 'samplePreparation' in request.GET:
+        query[image_endpoints['samplePreparation']] = request.GET['samplePreparation'] 
+    if 'imagingMethod' in request.GET:
+        query[image_endpoints['imagingMethod']] = request.GET['imagingMethod'] 
+    if 'num' in request.GET:
+        query[image_endpoints['num']] = request.GET['num'] 
+    if 'start' in request.GET:
+        query[image_endpoints['start']] = request.GET['start']  
+    if 'phenotype' in request.GET:
+        query[image_endpoints['phenotype']] = request.GET['phenotype'] 
+    if 'anatomy' in request.GET:
+        query[image_endpoints['anatomy']] = request.GET['anatomy'] 
+    if 'gene' in request.GET:
+        query[image_endpoints['mutantGene']] = request.GET['gene']
+        
     url = api_url + image_acp
     url_data=urllib.urlencode(query)
     req = urllib2.Request(url, url_data)
@@ -193,3 +257,25 @@ def getImages(request):
     response = urllib2.urlopen(req)
     
     return HttpResponse(response, mimetype='application/json')
+    
+def getAutosuggest(request):
+    query = {}
+    
+    if 'term' in request.GET:
+        queryString = request.GET['term']
+    else:
+        queryString = "unset"
+
+    query[autosuggest_endpoints['term']] = queryString 
+     
+    url = api_url + autosuggest_acp
+    url_data=urllib.urlencode(query)
+    req = urllib2.Request(url, url_data)
+    
+    response = urllib2.urlopen(req)
+    responsedata = simplejson.load(response)
+    
+    autosuggestdata = simplejson.dumps(responsedata['response']['suggestions'])
+    
+    return HttpResponse(autosuggestdata, mimetype='application/json')
+    

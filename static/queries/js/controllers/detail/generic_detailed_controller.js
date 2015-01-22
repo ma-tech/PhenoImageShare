@@ -58,7 +58,7 @@ DetailedController.openwindow= function(query, imageURL, associatedROI, annotati
  var drawingURL = "?q="+query+"&img="+imageURL;
  var annotationToolURL = annotationBaseURL + drawingURL
  
- var drawingWindow = window.open(annotationToolURL,"_blank","height=1400,width=1800,status=yes, scrollbars=yes,top=500px, left=400px");
+ var drawingWindow = window.open(annotationToolURL,"_blank","height=1000,width=1400,status=yes, scrollbars=yes,top=500px, left=400px");
  
  //var drawingWindow = window.open("drawing" + "?q="+query+"&img="+imageURL+"&roi_ids="+associatedROI,"_blank","height=1400,width=1800,status=yes, scrollbars=yes,top=500px, left=400px");
  console.log("[Drawing View] Parameters - Image URL:"+imageURL+", Associated ROI:"+associatedROI+", Query:"+query);

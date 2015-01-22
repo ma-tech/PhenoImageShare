@@ -30,12 +30,16 @@
 
 				</div>
 				
-				<div class="col-lg-3">
-  				  {% block first %}
-  	  			  	{% include "queries/html/components/query/left/prototype_facets.html" %}
-    	 		  {% endblock first %}
-					
-				</div>
+				 {% block first %}
+					<div class="col-lg-3">
+						<div class="row">
+	  				 
+		  	  			  	{% include "queries/html/components/query/left/prototype_facets.html" %}
+	    	 		  
+				  		</div>
+											
+					</div>
+				{% endblock first %}
 				
 				<div class="col-lg-9">
 
@@ -46,6 +50,10 @@
 			      <!-- Query Results================================================== -->
 				  {% block second %}
 					  {% include "queries/html/components/search_results.html" %}
+					  <div class="row" id="searchCont">
+						 
+						  
+					  </div>
 				  {% endblock second %}
 	  
 	  

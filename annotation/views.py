@@ -8,7 +8,17 @@ except:
 import simplejson
 from queries import views as qviews
 import urllib2
+import urllib
+from pis.settings import IQS as iqs
 
+dev_api = iqs['URL']['HWU']
+beta_api = iqs['URL']['EBI']
+
+api_url = dev_api
+
+access_points = iqs['ACP']
+image_acp = access_points['getimages']['name']
+image_endpoints = access_points['getimages']['options']
 
 def save_annotations(request):
     if request.is_ajax():
@@ -47,48 +57,61 @@ def get_roi_data(request):
     roi_docs = []
     roi_data = []
     roi_ids = []
+    docs = {}
     imageString = ""
     queryString = ""
     image_base_url = ""
+    query = {}
     
-    if 'img' in request.GET:
-        imageURL = request.GET['img']
-        roi_data_dict['image_url'] = imageURL
         
     if 'q' in request.GET:
         queryString = request.GET['q']
+    else:
+        queryString = "MP:0010254"
         
-    try:
-        if "MP" in queryString:
-            image_base_url = "http://lxbisel.macs.hw.ac.uk:8080/IQS/getimages?phenotype="
-        elif "MA" in queryString:
-            image_base_url = "http://lxbisel.macs.hw.ac.uk:8080/IQS/getimages?anatomy="
-        elif "MGI" in queryString:
-            image_base_url = "http://lxbisel.macs.hw.ac.uk:8080/IQS/getimages?gene="
-
-        image_url = image_base_url + queryString
-        image_req = urllib2.Request(image_url)
-        image_response = urllib2.urlopen(image_req)
-        image_json_data = simplejson.load(image_response)
-        docs = image_json_data['response']['docs']
-       
-        for doc in docs:
-            if doc['image_url'] == imageURL:
-                if "associated_roi" in doc:
-                    roi_ids = doc['associated_roi']
-                
-                    for roi_id in roi_ids:
-                        base_url = "http://lxbisel.macs.hw.ac.uk:8080/IQS/getroi?id="
-                        url = base_url + roi_id
-                        req = urllib2.Request(url)
-                        response = urllib2.urlopen(req)
-                        json_data = simplejson.load(response)
-            
-                        roi_docs.append(json_data['response']['docs'])
-            
-    except (urllib2.HTTPError, urllib2.URLError, simplejson.JSONDecodeError):
-        pass
+    if 'img' in request.GET:
+        imageString = request.GET['img']
+        roi_data_dict['image_url'] = imageString
     
+    if "MP" in queryString:
+        query[image_endpoints['phenotype']] = queryString   
+    elif "MA" in queryString:
+        query[image_endpoints['anatomy']] = queryString 
+    elif "MGI" in queryString:
+        query[image_endpoints['gene']] = queryString 
+    elif queryString == "":
+        query = {}
+    else:
+        query[image_endpoints['term']] = queryString 
+      
+    url = api_url + image_acp
+    url_data=urllib.urlencode(query)
+    req = urllib2.Request(url, url_data)
+    
+    try:
+        response = urllib2.urlopen(req)
+    
+        json_data = simplejson.load(response)
+        docs = json_data['response']['docs']
+        
+    except (urllib2.HTTPError, urllib2.URLError, simplejson.JSONDecodeError):
+        json_data = get_local_data()
+        docs = json_data['response']['docs']
+        
+    for doc in docs:
+        if doc['image_url'] == imageString:
+            if "associated_roi" in doc:
+                roi_ids = doc['associated_roi']
+            
+                for roi_id in roi_ids:
+                    base_url = "http://lxbisel.macs.hw.ac.uk:8080/IQS/getroi?id="
+                    url = base_url + roi_id
+                    req = urllib2.Request(url)
+                    response = urllib2.urlopen(req)
+                    json_data = simplejson.load(response)
+        
+                    roi_docs.append(json_data['response']['docs'])
+
     roi_data_dict['roi_docs'] = roi_docs
     roi_data.append(roi_data_dict)
     

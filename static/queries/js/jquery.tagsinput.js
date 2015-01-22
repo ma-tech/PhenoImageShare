@@ -18,6 +18,8 @@
 
 	var delimiter = new Array();
 	var tags_callbacks = new Array();
+	//var tagobjects = new Array();
+	
 	$.fn.doAutosize = function(o){
 	    var minWidth = $(this).data('minwidth'),
 	        maxWidth = $(this).data('maxwidth'),
@@ -73,12 +75,15 @@
     input.css('width', minWidth);
   };
   
-	$.fn.addTag = function(value,options) {
+	$.fn.addTag = function(object,options) {
+			value = object.fulltext;
+				
 			options = jQuery.extend({focus:false,callback:true},options);
 			this.each(function() { 
 				var id = $(this).attr('id');
 
 				var tagslist = $(this).val().split(delimiter[id]);
+				
 				if (tagslist[0] == '') { 
 					tagslist = new Array();
 				}
@@ -89,6 +94,7 @@
 					var skipTag = $(this).tagExist(value);
 					if(skipTag == true) {
 					    //Marks fake input as not_valid to let styling it
+						
     				    $('#'+id+'_tag').addClass('not_valid');
     				}
 				} else {
@@ -96,6 +102,7 @@
 				}
 				
 				if (value !='' && skipTag != true) { 
+					
                     $('<span>').addClass('tag').append(
                         $('<span>').text(value).append('&nbsp;&nbsp;'),
                         $('<a class="tagsinput-remove-link">', {
@@ -103,12 +110,35 @@
                             title : 'Remove tag',
                             text  : ''
                         }).click(function () {
+							
+							if (object.sampleType != undefined) {
+								object.query.imageType = "";
+								object.query.sampleType = "";
+							}else if (object.parent == "Taxon"){
+								object.query.taxon[object.text] = "";
+								object.query.taxon.value = "";
+								//this.query.taxon.expanded = COLLAPSED;
+							} else if (object.parent == "ImagingMethod"){
+								object.query.imagingMethod[object.text] = "";
+								object.query.imagingMethod.value = "";
+								//this.query.imagingMethod.expanded = COLLAPSED;
+							}else if (object.parent = "Stage"){
+								object.query.stage[object.text] = "";
+								object.query.stage.value = "";
+								//this.query.stage.expanded = COLLAPSED;
+							}
+							
+							Processor.prepareParams(object);
+							
                             return $('#' + id).removeTag(escape(value));
                         })
                     ).insertBefore('#' + id + '_addTag');
 
 					tagslist.push(value);
-				
+					
+					//add tags objects to list
+					//tagobjects.push(object);
+					
 					$('#'+id+'_tag').val('');
 					if (options.focus) {
 						$('#'+id+'_tag').focus();
@@ -117,17 +147,21 @@
 					}
 					
 					$.fn.tagsInput.updateTagsField(this,tagslist);
+					//$.fn.tagsInput.updateTagsField(this,tagslist, tagobjects);
 					
 					if (options.callback && tags_callbacks[id] && tags_callbacks[id]['onAddTag']) {
 						var f = tags_callbacks[id]['onAddTag'];
-						f.call(this, value);
+						f.call(this, object);
 					}
 					if(tags_callbacks[id] && tags_callbacks[id]['onChange'])
 					{
 						var i = tagslist.length;
+						//var i2 = tagobjects.length;
 						var f = tags_callbacks[id]['onChange'];
 						f.call(this, $(this), tagslist[i-1]);
-					}					
+					}
+					
+										
 				}
 		
 			});		
@@ -135,13 +169,30 @@
 			return false;
 		};
 		
-	$.fn.removeTag = function(value) { 
+	$.fn.removeTag = function(object) { 
+			var obj_index = 0;
+			value = object.fulltext;
+			
+			//console.log("Object count before; "+ tagobjects.length);
+			
+			//object_count = tagobjects.length;
+			
+			/*
+			for (i = 0; i < object_count ; i++){
+				if(tagobjects[i].fulltext == object.fulltext)
+					obj_index = i;
+			}*/
+			
+			//removing object from array
+			//tagobjects.splice(obj_index,1);
+			//console.log("Object count after removal; "+ tagobjects.length);
+			
 			value = unescape(value);
 			this.each(function() { 
 				var id = $(this).attr('id');
 	
 				var old = $(this).val().split(delimiter[id]);
-					
+				
 				$('#'+id+'_tagsinput .tag').remove();
 				str = '';
 				for (i=0; i< old.length; i++) { 
@@ -151,10 +202,12 @@
 				}
 				
 				$.fn.tagsInput.importTags(this,str);
+				
+				//$.fn.tagsInput.importTags(this,str, tagobjects);
 
 				if (tags_callbacks[id] && tags_callbacks[id]['onRemoveTag']) {
 					var f = tags_callbacks[id]['onRemoveTag'];
-					f.call(this, value);
+					f.call(this, object);
 				}
 			});
 					
@@ -164,6 +217,7 @@
 	$.fn.tagExist = function(val) {
 		var id = $(this).attr('id');
 		var tagslist = $(this).val().split(delimiter[id]);
+	
 		return (jQuery.inArray(val, tagslist) >= 0); //true when tag exists, false when not
 	};
 	
@@ -336,6 +390,7 @@
 	$.fn.tagsInput.updateTagsField = function(obj,tagslist) { 
 		var id = $(obj).attr('id');
 		$(obj).val(tagslist.join(delimiter[id]));
+		//tagobjects = tagobjects;
 	};
 	
 	$.fn.tagsInput.importTags = function(obj,val) {			
@@ -344,6 +399,7 @@
 		var tags = val.split(delimiter[id]);
 		for (i=0; i<tags.length; i++) { 
 			$(obj).addTag(tags[i],{focus:false,callback:false});
+			//$(obj).addTag(tagobjs[i],{focus:false,callback:false});
 		}
 		if(tags_callbacks[id] && tags_callbacks[id]['onChange'])
 		{

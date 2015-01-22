@@ -33,10 +33,15 @@
 		this._styleId = this._elementId + '-style';
 
 		this.tree = [];
+		this.query = {};
 		this.nodes = [];
 		this.selectedNode = {};
 		this.objects = [];
 		
+		this.base_detail_url = "";
+		this.base_query_url = "";
+		this.autosuggest_url = "";
+				
 		this._init(options);
 	};
 
@@ -46,8 +51,8 @@
 
 		levels: 1,
 
-		expandIcon: 'glyphicon glyphicon-plus',
-		collapseIcon: 'glyphicon glyphicon-minus',
+		expandIcon: 'glyphicon glyphicon-plus-sign',
+		collapseIcon: 'glyphicon glyphicon-minus-sign',
 		emptyIcon: 'glyphicon',
 		nodeIcon: 'glyphicon glyphicon-stop',
 
@@ -95,10 +100,15 @@
 			if (options.data) {
 				if (typeof options.data === 'string') {
 					options.data = $.parseJSON(options.data);
+					
 				}
 				
-				this.tree = $.extend(true, {}, options.data);
-
+				this.tree = $.extend(true, {}, options.data.facet_data);
+				this.query = options.data.query;
+				this.base_detail_url = options.detail_page_url;;
+				this.base_query_url = options.query_page_url;
+				this.autosuggest_url = autosuggest_url;
+				
 				delete options.data;
 			}
 
@@ -120,54 +130,202 @@
 
 			this._unsubscribeEvents();
 
-			this.$element.on('click', $.proxy(this._clickHandler, this));
-
-			if (typeof (this.options.onNodeSelected) === 'function') {
+			this.$element.on('click', $.proxy(this._clickHandler, this));	
+			if (typeof (this.options.onNodeSelected) == 'function') {
 				this.$element.on('nodeSelected', this.options.onNodeSelected);
 			}
 		},
-
+	
 		_clickHandler: function(event) {
-
-			if (!this.options.enableLinks) { event.preventDefault(); }
+			
+			if (!this.options.enableLinks) { event.preventDefault();}
 			
 			var target = $(event.target),
 				classList = target.attr('class') ? target.attr('class').split(' ') : [],
 				node = this._findNode(target);
-
-			if ((classList.indexOf('click-expand') != -1) ||
-					(classList.indexOf('click-collapse') != -1)) {
-				// Expand or collapse node by toggling child node visibility
-				this._toggleNodes(node);
-				this._render();
+			
+			if (node.parent == "Anatomy" || node.parent == "Gene" || node.parent == "Phenotype"){
+					//perform some operations here, knowing the we've selected a search field.
+				this.query = node.query;
+				
+				//verify that button is clicked
+				if (target.attr('type') == "button"){
+					
+					/*
+					var fieldId = target.attr('id')+'Field';
+					var fieldValue = $('#'+fieldId).val();
+					
+					if(fieldValue && fieldValue != ""){
+						this.query.Anatomy.value = fieldValue;
+						node.query = this.query;
+						this.options.onNodeSelected(event, node);
+					}
+					*/
+					
+					//collect values from fields
+					var geneField = $('#GeneButtonField');
+					var anatomyField = $('#AnatomyButtonField');
+					var phenotypeField = $('#PhenotypeButtonField');
+					
+					if (geneField.val() && geneField.val() != "")
+						this.query.Gene.value = geneField.val();
+					else
+						this.query.Gene.value = "";
+					
+					if (anatomyField.val() && anatomyField.val() != "")
+						this.query.Anatomy.value = anatomyField.val();
+					else
+						this.query.Anatomy.value = "";
+					
+					if (phenotypeField.val() && phenotypeField.val() != "")
+						this.query.Phenotype.value = phenotypeField.val();
+					else
+						this.query.Phenotype.value = "";
+					
+					//pass the query on (query passing concept)
+					node.query = this.query;
+					this.options.onNodeSelected(event, node);
+					
+				}else{
+					return;
+				}
+					
 			}
-			else if (node) {
-				if (this._isSelectable(node)) {
-					this._setSelectedNode(node);
-				} else {
+			else {
+				if ((classList.indexOf('click-expand') != -1) ||
+						(classList.indexOf('click-collapse') != -1)) {
+	
+					// Expand or collapse node by toggling child node visibility
 					this._toggleNodes(node);
 					this._render();
 				}
+				else if (node) {
+					if (this._isSelectable(node)) {
+						this._setSelectedNode(node);
+					} else {
+						this._toggleNodes(node);
+						this._render();
+					}
 				
-				if (this._isEndNode(node)){
-					//this._toggleCheckbox(node);
+					if (typeof (this.options.onNodeSelected) == 'function' && !(node.nodes != undefined || node._nodes != undefined) ){
+						var EXPANDED = true;
+						var COLLAPSED = false;
+					
+						this.query.expanded[node.parent] = EXPANDED;
+				
+						if (!node.checked) {
+							if (node.sampleType != undefined) {
+								this.query.imageType = node.queryText;
+								this.query.sampleType = node.sampleType;
+							
+							}else if (node.parent == "Taxon"){
+								this.query.taxon[node.text] = node.queryText;
+								this.query.taxon.expanded = EXPANDED;
+								this.query.taxon.value = node.queryText;
+							} else if (node.parent == "ImagingMethod"){
+								this.query.imagingMethod[node.text] = node.queryText;
+								this.query.imagingMethod.expanded = EXPANDED;
+								this.query.imagingMethod.value = node.queryText;
+							}else if (node.parent = "Stage"){
+								this.query.stage[node.text] = node.queryText;
+								this.query.stage.expanded = EXPANDED;
+								this.query.stage.value = node.queryText;
+							}
+						}else{
+							if (node.sampleType != undefined) {
+								this.query.imageType = "";
+								this.query.sampleType = "";
+							}else if (node.parent == "Taxon"){
+								this.query.taxon[node.text] = "";
+								this.query.taxon.value = "";
+								//this.query.taxon.expanded = COLLAPSED;
+							} else if (node.parent == "ImagingMethod"){
+								this.query.imagingMethod[node.text] = "";
+								this.query.imagingMethod.value = "";
+								//this.query.imagingMethod.expanded = COLLAPSED;
+							}else if (node.parent = "Stage"){
+								this.query.stage[node.text] = "";
+								this.query.stage.value = "";
+								//this.query.stage.expanded = COLLAPSED;
+							}
+						}
+					
+						node.query = this.query;
+						this.options.onNodeSelected(event, node);
+					}
+				
+					if (this._isEndNode(node)){
+						//this._toggleCheckbox(node);
+					}
 				}
 			}
+			
 		},
-
+		
+		//Looks up the node for the input or button element.
+		_getElementInNode: function(target) {
+			
+		},
+		
 		// Looks up the DOM for the closest parent list item to retrieve the 
 		// data attribute nodeid, which is used to lookup the node in the flattened structure.
 		_findNode: function(target) {
-
+		
 			var nodeId = target.closest('li.list-group-item').attr('data-nodeid'),
 				node = this.nodes[nodeId];
 
 			if (!node) {
 				console.log('Error: node does not exist');
 			}
+			
 			return node;
 		},
 
+		_appendAutosuggest: function(element, endpoint){
+			var anatomyterms = new Bloodhound({
+			    datumTokenizer: function (datum) {
+			        return Bloodhound.tokenizers.whitespace(datum.value);
+			    },
+			    queryTokenizer: Bloodhound.tokenizers.whitespace,
+			    remote: {
+			        url: this.autosuggest_url + "?"+ endpoint + "=" + '%QUERY',
+			        filter: function (data) {
+			            return $.map(data, function (term) {
+			                return {
+			                    value: term
+			                };
+			            });
+			        }
+			    }
+			});
+	
+			anatomyterms.initialize();
+		
+			$('#'+element).typeahead({
+				highlight: true,
+				hint: true,
+				minLength: 1
+			}, {
+			    displayKey: 'value',
+			    source: anatomyterms.ttAdapter()
+			});
+		},
+		
+		/*
+		//append facet search field button click event
+		_appendButtonClickEvent: function(buttonID, fieldID, self){
+			console.log("Adding buttonID, "+ buttonID + " some click event");
+			var associatedFieldID = fieldID;
+			//var query = this.query;
+			
+			$('#'+buttonID).on('click', $.proxy(self._buttonClickEventHandler, self));
+		},
+
+		_buttonClickEventHandler: function(buttonID, fieldID, self){
+			
+		}
+		*/
+		
 		// Actually triggers the nodeSelected event
 		_triggerNodeSelectedEvent: function(node) {
 			this.$element.trigger('nodeSelected', [$.extend(true, {}, node)]);
@@ -200,9 +358,9 @@
 			var self = this;
 			$.each(nodes, function addNodes(id, node) {
 				
-				
 				if (level >= self.options.levels) {
 					self._toggleNodes(node);
+					
 				}
 
 				// Need to traverse both nodes and _nodes to ensure 
@@ -230,12 +388,19 @@
 				node.nodes = node._nodes;
 				delete node._nodes;
 			}
+			
+			if($('#AnatomyButtonField').val() && $('#AnatomyButtonField').val() != "")
+				this.query.Anatomy.value = $('#AnatomyButtonField').val();			
+			if($('#PhenotypeButtonField').val() && $('#PhenotypeButtonField').val() != "")
+				this.query.Phenotype.value = $('#PhenotypeButtonField').val();
+			if($('#GeneButtonField').val() && $('#GeneButtonField').val() != "")
+				this.query.Gene.value = $('#GeneButtonField').val();
 		},
 		
 		
 		// Returns true if the node is endnode: this is an hack.
 		_isEndNode: function (node) {
-			return node.endnode !== false;
+			return node.endnode;
 		},
 		
 		// Returns true if the node is selectable in the tree
@@ -251,6 +416,7 @@
 
 				// Setup first time only components
 				self.$element.addClass(pluginName);
+				
 				self.$wrapper = $(self._template.list);
 
 				self._injectStyle();
@@ -265,7 +431,7 @@
 
 			self._buildTree(self.tree, 0);
 		},
-
+		
 		// Starting from the root node, and recursing down the 
 		// structure we build the tree one node at a time
 		_buildTree: function(nodes, level) {
@@ -285,40 +451,7 @@
 					.attr('data-nodeid', node.nodeId)
 					.attr('style', self._buildStyleOverride(node));
 
-				// Add indent/spacer to mimic tree structure
-				for (var i = 0; i < (level - 1); i++) {
-					treeItem.append(self._template.indent);
-				}
-
-				// Add expand, collapse or empty spacer icons 
-				// to facilitate tree structure navigation
-				if (node._nodes) {
-					treeItem
-						.append($(self._template.expandCollapseIcon)
-							.addClass('click-expand')
-							.addClass(self.options.expandIcon)
-						);
-				}
-				else if (node.nodes) {
-					treeItem
-						.append($(self._template.expandCollapseIcon)
-							.addClass('click-collapse')
-							.addClass(self.options.collapseIcon)
-						);
-				}
-				else {
-					treeItem
-						.append($(self._template.expandCollapseIcon)
-							.addClass(self.options.emptyIcon)
-						);
-				}
-
-				// Add node icon
-				treeItem
-					.append($(self._template.icon)
-						.addClass(node.icon ? node.icon : self.options.nodeIcon)
-					);
-
+				
 				// Add text
 				if (self.options.enableLinks) {
 					// Add hyperlink
@@ -329,34 +462,121 @@
 						);
 				}
 				else {
-					// otherwise just text
-					treeItem
-						.append(node.text);
-				}
-
-				// Add tags as badges
-				if (self.options.showTags && node.tags) {
-					$.each(node.tags, function addTag(id, tag) {
-						treeItem
-							.append($(self._template.badge)
-								.append(tag)
-							);
-					});
-				}
-				
-				if (node.endnode){
-				
-					var check = document.createElement("INPUT");
-					check.setAttribute("type","checkbox");
-					check.checked = true;
-					check.setAttribute("id",node.id+'-checkbox');
+					// otherwise build text, checkbox and tag.
 					
-					treeItem.append(check);
+					if (!node.nodes && !node._nodes){
+							if(node.checked) {
+								treeItem
+									
+									.append($(self._template.labelChecked).html(node.text)
+										.append($(self._template.spanIcon)
+											.append($(self._template.spanIconUnchecked))
+												.append($(self._template.spanIconChecked)))
+										.append($(self._template.checkboxChecked)))
+										.append($(self._template.badge)
+											.append(node.tags))
+								;
+							
+							}else {
+								
+								if (node.textField){
+									//build tree elements and field-based nodes
+									treeItem	
+										
+										.append($(self._template.inputGroup)
+										.append($(self._template.textField).attr('id',node.parent+'ButtonField').attr('placeholder',node.parent+((node.parent === "Gene") ? ' symbol' : ' term')))									
+										.append($(self._template.inputGroupButton)
+										.append($(self._template.facetButton).attr('id', node.parent + 'Button')))
+									);
+								}else{
+									treeItem
+										.append($(self._template.labelUnChecked).attr('id', node.text+'-'+node.parent+'-'+'Label').html(node.text)
+											.append($(self._template.spanIcon)
+												.append($(self._template.spanIconUnChecked))
+													.append($(self._template.spanIconChecked)))
+											.append($(self._template.checkboxUnchecked)))
+											.append($(self._template.badge)
+												.append(node.tags))
+									;
+								}
+
+							
+							}
+					}else{
+						
+						// Add indent/spacer to mimic tree structure
+						for (var i = 0; i < (level - 1); i++) {
+							treeItem.append(self._template.indent);
+						}
+				
+						// Add expand, collapse or empty spacer icons 
+						// to facilitate tree structure navigation
+						if (node._nodes) {
+							treeItem
+								.append($(self._template.expandCollapseIcon)
+									.addClass('click-expand')
+									.addClass(self.options.expandIcon)
+								);
+								
+						}
+						else if (node.nodes) {
+							treeItem
+								.append($(self._template.expandCollapseIcon)
+									.addClass('click-collapse')
+									.addClass(self.options.collapseIcon)
+								);
+								
+						}
+						else {
+							treeItem
+								.append($(self._template.expandCollapseIcon)
+									.addClass(self.options.emptyIcon)
+								);
+						}
+				
+					
+						// Add node icon
+						
+						treeItem
+							.append($(self._template.icon)
+						//.addClass(node.icon ? node.icon : self.options.nodeIcon); disabling addition of nodeIcon (glyphicon-stop element)
+							);
+						
+							treeItem
+								.append(node.text);
+							
+							// Add tags as badges
+							if (self.options.showTags && node.tags) {
+								$.each(node.tags, function addTag(id, tag) {
+									treeItem
+										.append($(self._template.badge)
+											.append(tag)
+										);
+								});
+							}
+					}
+					
 				}
 
+				
 				// Add item to the tree
 				self.$wrapper.append(treeItem);
-
+				
+				if (node.textField){
+					var elementID = node.parent + "ButtonField";
+					//var elementSearchButton = node.parent + "SearchButton";
+					
+					self._appendAutosuggest(elementID, node.autosuggestEndpoint);
+					//self._appendButtonClickEvent(elementSearchButton, elementID, self);
+				}
+				
+				if(self.query != undefined  && self.query.Anatomy.value != "" )
+					$('#AnatomyButtonField').val(self.query.Anatomy.value);
+				if(self.query != undefined && self.query.Phenotype.value != "" )
+					$('#PhenotypeButtonField').val(self.query.Phenotype.value);
+				if(self.query != undefined  && self.query.Gene.value != "" )
+					$('#GeneButtonField').val(self.query.Gene.value);
+				
 				// Recursively add child ndoes
 				if (node.nodes) {
 					return self._buildTree(node.nodes, level);
@@ -389,7 +609,7 @@
 
 		// Add inline style into head 
 		_injectStyle: function() {
-
+			
 			if (this.options.injectStyle && !document.getElementById(this._styleId)) {
 				$('<style type="text/css" id="' + this._styleId + '"> ' + this._buildStyle() + ' </style>').appendTo('head');
 			}
@@ -430,12 +650,23 @@
 			icon: '<span class="icon"></span>',
 			link: '<a href="#" style="color:inherit;"></a>',
 			badge: '<span class="badge"></span>',
-			checkbox:'<input type="checkbox"></input>'
+			spanIcon: '<span class="icons" style="margin-left:10x;"></span>',
+			spanIconChecked: '<span class="second-icon fui-checkbox-checked"></span>',
+			spanIconUnChecked: '<span class="first-icon fui-checkbox-unchecked"></span>',
+			labelChecked: '<label class="checkbox checked" for="checkboxChecked">Checked</label>',
+			labelUnChecked: '<label class="checkbox" for="checkboxUnchecked" style="margin-left:10x;">Unchecked</label>',
+			checkboxUnchecked:'<input type="checkbox" value="" id="checkboxUnchecked" data-toggle="checkbox">',
+			checkboxChecked:'<input type="checkbox" checked="checked" value="" id="checkboxChecked" data-toggle="checkbox" checked="">',
+			textField: '<input type="text" class="form-control col-xs-1 autosuggest" id="anatomyField" placeholder="">',
+			inputGroupButton: '<span class="input-group-btn"></scan>',
+			inputGroup: '<div class="input-group"></div>',
+			facetButton: '<button type="button" id="facetsearchButton" class="btn btn-primary btn-sm">Go!</button>',
+			inputGroupAddOn: '<span class="input-group-addon">:</span>'
 		},
 
-		_css: '.list-group-item{cursor:pointer;}span.indent{margin-left:5px;margin-right:10px}span.expand-collapse{width:1rem;height:1rem}span.icon{margin-left:10x;margin-right:5px}'
+		_css: '.list-group-item{cursor:pointer;}span.indent{margin-left:5px;margin-right:10px}span.expand-collapse{width:1rem;height:1rem}span.icon{margin-left:10x;margin-right:5px}label.checkbox{margin-left:10x;cursor:pointer;display:inline;}'
 		// _css: '.list-group-item{cursor:pointer;}.list-group-item:hover{background-color:#f5f5f5;}span.indent{margin-left:10px;margin-right:10px}span.icon{margin-right:5px}'
-
+		
 	};
 
 	var logError = function(message) {

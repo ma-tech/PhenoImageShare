@@ -104,13 +104,20 @@ IQS = {
         'getimages':{
             'name': 'getimages',
             'options':{
-                'phenotype':'phenotype','anatomy':'anatomy','gene':'gene','term':'term'
+                'phenotype':'phenotype','anatomy':'anatomy','mutantGene':'mutantGene','term':'term','sampleType':'sampleType','imageType':'imageType','imagingMethod':'imagingMethod',
+                'sex':'sex','taxon':'taxon','stage':'stage','samplePreparation':'samplePreparation','num':'num','start':'start','expressedFeature':'expressedFeature'
             }
         },
         'getrois':{
             'name': 'getrois',
             'options':{
                 'phenotype':'phenotype','anatomy':'anatomy','gene':'gene','term':'term'
+            }
+        },
+        'getautosuggest':{
+            'name': 'getAutosuggest',
+            'options':{
+                'term':'term','phenotype':'phenotype','mutantGene':'mutantGene','expressedGeneOrAllele':'expressedGeneOrAllele','num':'num'
             }
         }
     },

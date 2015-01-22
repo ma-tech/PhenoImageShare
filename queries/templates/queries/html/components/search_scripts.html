@@ -27,25 +27,138 @@
 <!-- PhenoImageShare Site Tour -->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/js/utils/phis_tour.js' %}"></script>
 
+<!-- Flat-UI Checkbox -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/flatui-checkbox.js' %}"></script>
+
+<!-- Autosuggest Plugin for PhIS -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.typeahead-bundle.js' %}"></script>
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.bloodhound.js' %}"></script>
+
+<!-- User Interaction Library for PhIS -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/utils/interaction.js' %}"></script>
+
 <!-- 
 
 -->
 
 <script>
 
+
+$(window).load(function(){
+	//included for comparison testing 
+
+});
+
+//evaluate URLs
+var detail_url = "{% url 'queries:detail_view' %}";
+var query_url = "{% url 'queries:query_view' %}";
+var autosuggest_url = query_url + "getAutosuggest";
+
+var interactionEngine = new Interaction(query_url, detail_url, autosuggest_url);
+
+$(document).ready(function() {
+	
+	//creat and initialise interaction engine
+	interactionEngine.initialise();
+
+	jQuery.fn.cleanWhitespace = function() {
+		console.log("Whitespace removal being executed;");
+		
+	    textNodes = this.contents().filter(
+	        function() { return (this.nodeType == 3 && !/\n/.test(this.nodeValue)); })
+	        .remove();
+	    return this;
+	}
+	
+});
+
+function loadJSON(){
+	interactionEngine.loadJSON();
+}
+
+/*
 var queryProcessor = new Processor();
 var base_detail_url = "{% url 'queries:detail_view' %}";
 var base_query_url = "{% url 'queries:query_view' %}";
+
+var autosuggest_acp = "getAutosuggest?term=";
 
 queryProcessor.setBaseURL(base_detail_url);
 queryProcessor.setQueryURL(base_query_url);
 
 $(document).ready(function() {
+	var facet_url =  base_query_url + 'getImages';
+	var params = {};
 	queryProcessor.loadJSON();
+	
+	$("#filters").tagsInput({
+		 'interactive':false
+	});
+
+	var terms = new Bloodhound({
+	    datumTokenizer: function (datum) {
+	        return Bloodhound.tokenizers.whitespace(datum.value);
+	    },
+	    queryTokenizer: Bloodhound.tokenizers.whitespace,
+	    remote: {
+	        url: base_query_url + autosuggest_acp + '%QUERY',
+	        filter: function (data) {
+	            return $.map(data, function (term) {
+	                return {
+	                    value: term
+	                };
+	            });
+	        }
+	    }
+	});
+	
+	terms.initialize();
+	
+	$('input.autosuggest').typeahead({
+		highlight: true,
+		hint: true,
+		minLength: 1
+	}, {
+	    displayKey: 'value',
+	    source: terms.ttAdapter()
+	});
+	
 });
- 
+
+$(window).load(function(){
+	//included for comparison testing 
+
+});
+
+function actionOnAddTagfunction (tag) {
+	//implement function with addition action for tags.
+}
+
+function actionOnRemoveTagfunction (tag) {
+	//implement function for removal of tags.
+}
+
 function loadJSON(){
+		var params = {};
 		queryProcessor.loadJSON();
 }
 
+function autosuggestTest(){
+	
+ 	var queryParams = {};
+	queryParams.term = $("#searchInput").val();
+	
+	var autosuggestURL = "getAutosuggest";
+	
+	$.getJSON(base_query_url + autosuggestURL, queryParams,
+		function(data, textStatus, jqXHR){
+			//display_data = data;
+			//console.log("Data from server = "+ display_data);
+
+		}
+	);
+
+
+}
+*/
 </script>
