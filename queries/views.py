@@ -4,7 +4,7 @@ import simplejson
 import urllib2
 import urllib
 from pis.settings import IQS as iqs
-import deepzoom
+#import deepzoom
 import re
 import os
 
@@ -82,25 +82,25 @@ def get_image_data(request):
     
     image_data = process_docs(docs, imageString, queryString)
     source_location, image_name = downloadImage(imageString)
-    dzi_location = generateImageTiles(source_location, image_name)
+    #dzi_location = generateImageTiles(source_location, image_name)
     
     context = {"image_data": image_data, "dzi_name": image_name}
     
     return context
 
-def generateImageTiles(source_location, image_name):
+#def generateImageTiles(source_location, image_name):
    
     # Creating Deep Zoom Image creator with default parameters
-    creator = deepzoom.ImageCreator(tile_size=128, tile_overlap=2, tile_format="png",
+    #creator = deepzoom.ImageCreator(tile_size=128, tile_overlap=2, tile_format="png",
                                     image_quality=0.8, resize_filter="bicubic")
     
-    dzi_base = '/opt/pheno/python/PhenoImageShare/static/utils/images/dzifiles/'
-    dzi_location = dzi_base + image_name + '.dzi'
+    #dzi_base = '/opt/pheno/python/PhenoImageShare/static/utils/images/dzifiles/'
+    #dzi_location = dzi_base + image_name + '.dzi'
     
     # Create Deep Zoom image pyramid from source
-    creator.create(source_location, dzi_location)
+    #creator.create(source_location, dzi_location)
     
-    return dzi_location
+    #return dzi_location
 
 def downloadImage(url):
     
