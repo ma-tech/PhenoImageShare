@@ -16,6 +16,13 @@ Processor.prototype.setBaseURL= function(baseURL) {
 };
 
 /**
+ * Set source URL.
+*/
+Processor.prototype.setSourceURL= function(sourceURL) {
+	this.source_url = sourceURL;
+};
+
+/**
  * Register a canvas with this controller.
 */
 Processor.prototype.setQueryURL= function(queryURL) {
@@ -129,10 +136,12 @@ Processor.prototype.loadJSON = function(){
 	var query = this.query;
 	var queryString = (queryParams ? $.param(queryParams): "") ;
 	
-	var displayQuery = "http://localhost:8000"+query_base_url+"?term="+searchString+"&"+queryString;
+	var displayQuery = this.source_url+query_base_url+"?term="+searchString+"&"+queryString;
 	
 	//Sample competency question for demo (BSA section meeting)
-	var comp_que = "[Competency question (e.g. Find images illustrating ...)]";
+	var comp_que = "[Competency question corresponding to query / semantic reasoning]";
+	
+	console.log("Detail URL = "+ query_base_url);
 	
 	this.queryHistoryBuilder(comp_que, displayQuery);
 	

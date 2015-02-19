@@ -7,6 +7,8 @@ from pis.settings import IQS as iqs
 #import deepzoom
 import re
 import os
+from pis.settings import BASE_URL
+from pis.settings import BASE_PORT
 
 dev_api = iqs['URL']['HWU']
 beta_api = iqs['URL']['EBI']
@@ -26,13 +28,18 @@ def index(request):
 def query_view(request):
     queryString = ""
     response = {}
-
-    if 'term' in request.GET:
-        #response = dict(request.GET.iterlists())
-        response = simplejson.dumps(dict(request.GET.iterlists()))
-    #json_response = simplejson.load(response)
+    source_url = ""
+    DEFAULT_PORT = 80
     
-    context = {"query": response} 
+    if 'term' in request.GET:
+        response = simplejson.dumps(dict(request.GET.iterlists()))
+    
+    if BASE_PORT is not DEFAULT_PORT:
+        source_url = BASE_URL + ":" + str(BASE_PORT)
+    else:
+        source_url = BASE_URL
+        
+    context = {"query": response, "source_url": source_url} 
     return render(request, 'queries/html/query_view.html', context)
 
 def detail_view(request):

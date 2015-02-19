@@ -1,6 +1,7 @@
-function Interaction(queryURL, detailURL, autosuggestURL, query) {
+function Interaction(queryURL, detailURL, autosuggestURL, sourceURL, query) {
 
 	this.queryProcessor = new Processor();
+	this.source_url = sourceURL;
 	this.base_detail_url = detailURL;
 	this.base_query_url = queryURL;
 	this.autosuggest_url = autosuggestURL
@@ -10,6 +11,7 @@ function Interaction(queryURL, detailURL, autosuggestURL, query) {
 	this.queryProcessor.setBaseURL(this.base_detail_url);
 	this.queryProcessor.setQueryURL(this.base_query_url);
 	this.queryProcessor.setAutosuggestURL(this.autosuggest_url);
+	this.queryProcessor.setSourceURL(this.source_url);
 	
 };
 

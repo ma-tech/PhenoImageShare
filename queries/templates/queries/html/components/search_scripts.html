@@ -68,10 +68,11 @@ $(window).load(function(){
 var detail_url = "{% url 'queries:detail_view' %}";
 var query_url = "{% url 'queries:query_view' %}";
 var autosuggest_url = query_url + "getAutosuggest";
+var source_url = "{{source_url | safe}}";
 
 var query = JSON.parse('{{query | safe}}');
 
-var interactionEngine = new Interaction(query_url, detail_url, autosuggest_url, query);
+var interactionEngine = new Interaction(query_url, detail_url, autosuggest_url, source_url, query);
 
 $(document).ready(function() {
 	
