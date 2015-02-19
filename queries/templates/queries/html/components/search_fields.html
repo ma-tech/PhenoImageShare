@@ -2,10 +2,19 @@
 <div class="input-group" id="autosuggestdiv">
   <span class="input-group-addon">Enter freetext:</span>
   <!--<input type="text" id="searchInput" onkeydown=autosuggest() class="form-control col-lg-8 autosuggest" value="{{query}}" placeholder="e.g. corneal opacity">-->
-  <input type="text" id="searchInput" class="form-control col-lg-8 autosuggest" value="{{query}}" placeholder="e.g. corneal opacity">
+  <input type="text" id="searchInput" class="form-control col-lg-8 autosuggest" value="{{query.term}}" placeholder="e.g. corneal opacity">
   	 <span class="input-group-btn">
     	  <button type="button" id="searchButton" class="btn btn-primary" onClick=loadJSON()>Search</button>
  	 </span>
+	 
 </div>
+
+<div class="col-lg-9">
+</div>
+
+<div class="col-lg-3 col-lg-push-1">
+	<b><a rel="http://localhost:8000/documentation/searchHelpTooltip" style="text-decoration: underline;cursor:pointer">View sample query</a></b>
+</div>
+
 
 <br/>

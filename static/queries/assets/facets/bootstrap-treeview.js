@@ -26,7 +26,7 @@
 	var pluginName = 'treeview';
 
 	var Tree = function(element, options) {
-
+		
 		this.$element = $(element);
 		this._element = element;
 		this._elementId = this._element.id;
@@ -312,6 +312,16 @@
 		},
 		
 		/*
+		_appendKeyPressEvent: function(element){
+			$('#'+element).keypress( function(){
+				loadJSON();
+
+			});
+		
+			
+		},*/	
+		
+		/*
 		//append facet search field button click event
 		_appendButtonClickEvent: function(buttonID, fieldID, self){
 			console.log("Adding buttonID, "+ buttonID + " some click event");
@@ -567,6 +577,7 @@
 					//var elementSearchButton = node.parent + "SearchButton";
 					
 					self._appendAutosuggest(elementID, node.autosuggestEndpoint);
+					//self._appendKeyPressEvent(elementID);
 					//self._appendButtonClickEvent(elementSearchButton, elementID, self);
 				}
 				

@@ -6,9 +6,27 @@
 <!-- PhenoImageShare Site Tour -->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/js/utils/phis_tour.js' %}"></script>
 
+<!-- Highcharts for Dashboard -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/highcharts/highcharts.js' %}"></script>
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/highcharts/highcharts-3d.js' %}"></script>
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/highcharts/exporting.js' %}"></script>
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/highcharts/data.js' %}"></script>
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/highcharts/drilldown.js' %}"></script>
+
+<!-- ECharts for Dashboard -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/echarts/echarts-all.js' %}"></script>
+<!--sscript type="text/javascript" charset="utf8" src="{% static 'queries/assets/echarts/pie.js' %}"></script-->
+
+<!-- Statistics Utility -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/utils/stats.js' %}"></script>
+
+
+
+
 <script>
 
 var base_query_url = "{% url 'queries:query_view' %}";
+var echarts_base_url = "{% static 'queries/assets/echarts' %}";
 
 function loadSearchPage(){
 	var searchString = $("#indexInput").val();
@@ -35,5 +53,13 @@ var index_tour = {
 function startTour(){
 	hopscotch.startTour(tour);
 }
+
+
+
+//Dashboards
+var statsCollector = new Stats();
+statsCollector.setQueryURL(base_query_url);
+statsCollector.setEchartsURL(echarts_base_url);
+statsCollector.generateStatsAndCharts();
 
 </script>

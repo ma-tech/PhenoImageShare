@@ -78,7 +78,7 @@ function Rectangle(x0, y0, draggable){
 	this.type = "Rectangle";
 	this.x0 = x0;
 	this.y0 = y0;
-	this.thickness = 10;
+	this.thickness = 2;
 	this.color = "yellow";
 	this.length = null;
 	this.draggable = draggable;

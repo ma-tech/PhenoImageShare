@@ -37,6 +37,21 @@
 <!-- User Interaction Library for PhIS -->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/js/utils/interaction.js' %}"></script>
 
+<!-- Social media link sharing library -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/share/share.js' %}"></script>
+
+<!-- Clipboard copy application -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/clipboard/ZeroClipboard.js' %}"></script>
+
+<!-- Clipboard copy application -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/log/queryScrollingLog.js' %}"></script>
+
+<!-- qTip help jquery script -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/qTip/jquery.qtip.min.js' %}"></script>
+
+
+<!-- Gallery library -->
+
 <!-- 
 
 -->
@@ -54,111 +69,82 @@ var detail_url = "{% url 'queries:detail_view' %}";
 var query_url = "{% url 'queries:query_view' %}";
 var autosuggest_url = query_url + "getAutosuggest";
 
-var interactionEngine = new Interaction(query_url, detail_url, autosuggest_url);
+var query = JSON.parse('{{query | safe}}');
+
+var interactionEngine = new Interaction(query_url, detail_url, autosuggest_url, query);
 
 $(document).ready(function() {
 	
 	//creat and initialise interaction engine
-	interactionEngine.initialise();
 
-	jQuery.fn.cleanWhitespace = function() {
-		console.log("Whitespace removal being executed;");
-		
-	    textNodes = this.contents().filter(
-	        function() { return (this.nodeType == 3 && !/\n/.test(this.nodeValue)); })
-	        .remove();
-	    return this;
-	}
+	interactionEngine.initialise();
+	
+	$(function() {
+		//Grid.init();
+	});
+	
+
+	$('#searchInput').keypress( function(){
+		loadJSON();
+	});
+	
+	$('a[rel]').each(function() {
+        $(this).qtip({
+            content: {
+                text: function(event, api) {
+                    $.ajax({
+                        url: api.elements.target.attr('rel') // Use href attribute as URL
+                    })
+                    .then(function(content) {
+                        // Set the tooltip content upon successful retrieval
+                        api.set('content.text', content);
+                    }, function(xhr, status, error) {
+                        // Upon failure... set the tooltip content to error
+                        api.set('content.text', status + ': ' + error);
+                    });
+        
+                    return 'Loading...'; // Set some initial text
+                },
+				title: 'Search Examples',
+				button: true
+            },
+	        position: {
+	            my: 'top center',
+	            at: 'bottom center'
+	        },
+			
+	        show: {
+	            event: 'click'
+	        },
+			
+	        hide: {
+	            event: false,
+	            effect: function(api) {
+	                $(this).stop(0, 1).animate({ height: 'toggle' }, 400, 'swing');
+	            },
+	        },
+	        events: {
+	            
+	        },
+			style:{
+				classes:"qtip-bootstrap",
+				width: 500, 
+			}
+        });
+     })
+	 .click(function(e){ e.preventDefault(); });
+	
+	/*
+	$('#searchButton').click( function(){
+		loadJSON();
+	});
+	*/
 	
 });
-
+ 
 function loadJSON(){
 	interactionEngine.loadJSON();
 }
 
-/*
-var queryProcessor = new Processor();
-var base_detail_url = "{% url 'queries:detail_view' %}";
-var base_query_url = "{% url 'queries:query_view' %}";
 
-var autosuggest_acp = "getAutosuggest?term=";
-
-queryProcessor.setBaseURL(base_detail_url);
-queryProcessor.setQueryURL(base_query_url);
-
-$(document).ready(function() {
-	var facet_url =  base_query_url + 'getImages';
-	var params = {};
-	queryProcessor.loadJSON();
-	
-	$("#filters").tagsInput({
-		 'interactive':false
-	});
-
-	var terms = new Bloodhound({
-	    datumTokenizer: function (datum) {
-	        return Bloodhound.tokenizers.whitespace(datum.value);
-	    },
-	    queryTokenizer: Bloodhound.tokenizers.whitespace,
-	    remote: {
-	        url: base_query_url + autosuggest_acp + '%QUERY',
-	        filter: function (data) {
-	            return $.map(data, function (term) {
-	                return {
-	                    value: term
-	                };
-	            });
-	        }
-	    }
-	});
-	
-	terms.initialize();
-	
-	$('input.autosuggest').typeahead({
-		highlight: true,
-		hint: true,
-		minLength: 1
-	}, {
-	    displayKey: 'value',
-	    source: terms.ttAdapter()
-	});
-	
-});
-
-$(window).load(function(){
-	//included for comparison testing 
-
-});
-
-function actionOnAddTagfunction (tag) {
-	//implement function with addition action for tags.
-}
-
-function actionOnRemoveTagfunction (tag) {
-	//implement function for removal of tags.
-}
-
-function loadJSON(){
-		var params = {};
-		queryProcessor.loadJSON();
-}
-
-function autosuggestTest(){
-	
- 	var queryParams = {};
-	queryParams.term = $("#searchInput").val();
-	
-	var autosuggestURL = "getAutosuggest";
-	
-	$.getJSON(base_query_url + autosuggestURL, queryParams,
-		function(data, textStatus, jqXHR){
-			//display_data = data;
-			//console.log("Data from server = "+ display_data);
-
-		}
-	);
-
-
-}
-*/
 </script>

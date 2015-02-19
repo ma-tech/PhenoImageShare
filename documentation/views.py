@@ -6,3 +6,6 @@ def index(request):
     
 def about(request):
     return render(request, 'documentation/html/about.html', '')
+    
+def searchHelpTooltip(request):
+    return render(request, 'documentation/html/widgets/searchHelpTooltip.html', '')

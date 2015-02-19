@@ -11,7 +11,7 @@ import os
 dev_api = iqs['URL']['HWU']
 beta_api = iqs['URL']['EBI']
 
-api_url = dev_api
+api_url = beta_api
 
 access_points = iqs['ACP']
 image_acp = access_points['getimages']['name']
@@ -25,11 +25,14 @@ def index(request):
 
 def query_view(request):
     queryString = ""
+    response = {}
+
+    if 'term' in request.GET:
+        #response = dict(request.GET.iterlists())
+        response = simplejson.dumps(dict(request.GET.iterlists()))
+    #json_response = simplejson.load(response)
     
-    if 'q' in request.GET:
-        queryString = request.GET['q']
-        
-    context = {"query": queryString} 
+    context = {"query": response} 
     return render(request, 'queries/html/query_view.html', context)
 
 def detail_view(request):
@@ -88,19 +91,19 @@ def get_image_data(request):
     
     return context
 
-#def generateImageTiles(source_location, image_name):
+def generateImageTiles(source_location, image_name):
    
     # Creating Deep Zoom Image creator with default parameters
     #creator = deepzoom.ImageCreator(tile_size=128, tile_overlap=2, tile_format="png",
-                                    #image_quality=0.8, resize_filter="bicubic")
+    #                               image_quality=0.8, resize_filter="bicubic")
     
-    #dzi_base = '/opt/pheno/python/PhenoImageShare/static/utils/images/dzifiles/'
-    #dzi_location = dzi_base + image_name + '.dzi'
+    dzi_base = '/opt/pheno/python/PhenoImageShare/static/utils/images/dzifiles/'
+    dzi_location = dzi_base + image_name + '.dzi'
     
     # Create Deep Zoom image pyramid from source
-    #creator.create(source_location, dzi_location)
+    creator.create(source_location, dzi_location)
     
-    #return dzi_location
+    return dzi_location
 
 def downloadImage(url):
     
@@ -201,8 +204,8 @@ def get_local_data():
     json_data = simplejson.load(json_data_file)
       
     return json_data
-     
-def getImages(request):
+    
+def processQuery(request):
     query = {}
     
     #Initialisation of query parameters, not required. TODO: device alternative declaration
@@ -210,8 +213,8 @@ def getImages(request):
     
     if 'q' in request.GET:
         queryString = request.GET['q']
-    else:
-        queryString = "unset"
+    elif 'term' in request.GET:
+        queryString = request.GET['term']
     
     if "MP" in queryString:
         query[image_endpoints['phenotype']] = queryString  
@@ -256,7 +259,12 @@ def getImages(request):
     
     response = urllib2.urlopen(req)
     
-    return HttpResponse(response, mimetype='application/json')
+    return response
+    
+def getImages(request):
+    
+    json_response = processQuery(request)
+    return HttpResponse(json_response, mimetype='application/json')
     
 def getAutosuggest(request):
     query = {}

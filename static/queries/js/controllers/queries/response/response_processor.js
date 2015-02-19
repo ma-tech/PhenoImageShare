@@ -3,6 +3,9 @@ function Processor() {
 	this.searchString = "";
 	this.params;
 	this.query;
+	this.historySet = [];
+	this.imaging_method_label_storage = {};
+	this.imaging_methods_initialised
 };
 
 /**
@@ -35,6 +38,15 @@ Processor.prototype.searchString = function() {
 	return this.searchString;
 };
 
+Processor.prototype.queryHistoryBuilder = function(comp_que, query) {
+	var historyEntry = {"query": comp_que, "url": query};
+	this.historySet.push(historyEntry);
+};
+
+Processor.prototype.setQuery = function(query) {
+	this.defaultQuery = query;
+};
+
 Processor.prototype.buildIQSQuery = function(query) {
 	var iQSQuery = {};
 	//query = { sampleType:"WILD_TYPE", imageType:"EXPRESSION", imagingMethod:"macroscopy" };
@@ -51,6 +63,8 @@ Processor.prototype.buildIQSQuery = function(query) {
 		iQSQuery.anatomy = query.Anatomy.value
 	if(query.Gene.value)
 		iQSQuery.gene = query.Gene.value
+	if(query.taxon.value)
+		iQSQuery.taxon = query.taxon.value
 	if(query.Phenotype.value)
 		iQSQuery.phenotype = query.Phenotype.value
 		
@@ -61,12 +75,14 @@ Processor.prototype.loadJSON = function(){
 	
 	var queryParams = '';
 	var tableData = [];
+	var galleryData = [];
 	var params = Processor.getParams();
 	
 	if ($("#searchInput").val() != undefined)
 		this.searchString = $("#searchInput").val();
 	
-	var searchString = this.searchString;
+	var searchString = (this.defaultQuery != undefined && this.defaultQuery.term != undefined ? this.defaultQuery.term [0]	: this.searchString) ;
+	//$("#searchInput").val((this.defaultQuery != undefined && this.defaultQuery.term != undefined ? this.defaultQuery.term [0]	: this.searchString));
 	
 	var detail_base_url = this.detail_base_url;
 	var query_base_url = this.query_base_url;
@@ -75,21 +91,51 @@ Processor.prototype.loadJSON = function(){
 	var get_facets_data = this.getFacetsData;
 	var single_level_facets = this.singleLevels;
 	
+	var create_gallery = this.createGallery;
+	
 	var facet_data = "";
 
+	var historydata = this.historySet;
+
+	var facets_initialized = this.facets_initialized;
+	
 	if (this.query == undefined){
-		this.query = {"term":this.searchString, "sampleType":"", "imageType":"", "stage":{"expanded": false, "value":""}, 
-			"imagingMethod":{"expanded": false, "value":""}, "Phenotype":{"expanded": false, "value":""}, "Anatomy":{"expanded": false, "value":""}, "Gene":{"expanded": false, "value":""},"expressedFeature":"", 
-			"sex":"", "taxon":{"expanded": false, "value":""},"samplePreparation":"","num":0,"start":0,"data":false, "expanded":{"Wildtype":false, "Imaging Method":false,"Mutants":false,"Stage":false,"Taxon":false}};
+		this.query = {"term":(this.defaultQuery != undefined && this.defaultQuery.term != undefined ? this.defaultQuery.term [0]	: this.searchString), 
+						"sampleType":(this.defaultQuery != undefined && this.defaultQuery.sampleType != undefined? this.defaultQuery.sampleType [0]	: ""), 
+						"imageType":(this.defaultQuery != undefined && this.defaultQuery.imageType != undefined? this.defaultQuery.imageType [0]	: ""), 
+						"stage":{"expanded": false, "value":(this.defaultQuery != undefined && this.defaultQuery.stage != undefined ? this.defaultQuery.stage[0]: "")}, 
+						"imagingMethod":{"expanded": false, "value":(this.defaultQuery != undefined && this.defaultQuery.imagingMethod != undefined? this.defaultQuery.imagingMethod[0]: "")},
+			 			"Phenotype":{"expanded": false, "value":(this.defaultQuery != undefined && this.defaultQuery.phenotype != undefined? this.defaultQuery.phenotype[0]: "")},
+						"Anatomy":{"expanded": false, "value":(this.defaultQuery != undefined && this.defaultQuery.anatomy != undefined? this.defaultQuery.anatomy[0]: "")},
+						"Gene":{"expanded": false, "value":(this.defaultQuery != undefined && this.defaultQuery.gene != undefined? this.defaultQuery.gene[0]: "")},
+						"expressedFeature":(this.defaultQuery != undefined && this.defaultQuery.expressedFeature != undefined? this.defaultQuery.expressedFeature[0]: ""), 
+						"sex":(this.defaultQuery != undefined && this.defaultQuery.sex != undefined? this.defaultQuery.sex[0]: ""), 
+						"taxon":{"expanded": false, "value":(this.defaultQuery != undefined && this.defaultQuery.taxon != undefined? this.defaultQuery.taxon[0]: "")},
+						"samplePreparation":(this.defaultQuery != undefined && this.defaultQuery.samplePreparation != undefined? this.defaultQuery.samplePreparation[0]: ""),
+						"num":(this.defaultQuery != undefined && this.defaultQuery.num != undefined? this.defaultQuery.num[0]: ""),
+						"start":(this.defaultQuery != undefined && this.defaultQuery.start != undefined? this.defaultQuery.start[0]: ""),
+						"data":false,
+						"expanded":{"Wildtype":false, "Imaging Method":false,"Mutants":false,"Stage":false,"Taxon":false}};
+						
+						queryParams = this.buildIQSQuery(this.query);
 	}
 	else {
 		if (params){
-			this.query = params.query;
+			this.query = $.extend(true, this.query, params.query);
 			queryParams = this.buildIQSQuery(this.query);
 		}
 	}
 	
 	var query = this.query;
+	var queryString = (queryParams ? $.param(queryParams): "") ;
+	
+	var displayQuery = "http://localhost:8000"+query_base_url+"?term="+searchString+"&"+queryString;
+	
+	//Sample competency question for demo (BSA section meeting)
+	var comp_que = "[Competency question (e.g. Find images illustrating ...)]";
+	
+	this.queryHistoryBuilder(comp_que, displayQuery);
+	
 	
 	$.getJSON(query_base_url+"getImages?q="+searchString,queryParams,
  	   function(data, textStatus, jqXHR)
@@ -111,19 +157,25 @@ Processor.prototype.loadJSON = function(){
 			   detail_url = detail_base_url + "?q="+searchString+"&img="+image_url;
 				
 			   image_hyperlink = "<a href="+encodeURI(detail_url)+" data-toggle=\"tooltip\" title="+ id +">";
-			 	
-			   image =  image_hyperlink + "<img src="+image_url+" style=\"width: 50%;\"/> </a>";
+			   
+			   image = "<img src="+image_url+" style=\"width: 50%;\"/> </a>";
+			   
+			   image_with_hyperlink =  image_hyperlink + "<img src="+image_url+" style=\"width: 50%;\"/> </a>";
 			   
 			   descr = "<b> Expression: </b>" + expression + ", <b> Anatomy: </b>" + anatomy + ", <b> Phenotype: </b>"  + phenotype + ", <b> Gene: </b>" + gene; //+ ", <b> ID: </b>" +  id;
 			   
-			   tableData[i]=[image, descr];
+			   tableData[i]=[image_with_hyperlink, descr];
+			   galleryData[i] = [image, image_url, descr]
 		   }
 	
 		   data['query'] = query;
 		   
 		   //fetch facets data from response.
 		   facet_data = get_facets_data(data, single_level_facets);
-			
+		
+			//add data to gallery
+		   create_gallery(galleryData)
+		   
 			//Add data to table.
    		$("#imgtable").dataTable().fnDestroy();
    		$('#imgtable').DataTable({
@@ -154,6 +206,10 @@ Processor.prototype.loadJSON = function(){
 	 	   	}
    	   	});
 	
+		//build some data
+		$('#query_history').historic({
+			data: historydata
+		});
 
        });	   
 	
@@ -166,6 +222,27 @@ Processor.prepareParams= function(node) {
 	
 	Processor.setParams(params);
 	loadJSON();
+};
+
+
+Processor.prototype.createGallery = function(galleryData) {
+	
+	var galleryCount = galleryData.length;
+	
+	var wrapper = $(template.list);
+	
+	
+	$('#gridresults').empty().append(wrapper);
+	
+	for (var i = 0; i < galleryCount; i++ ){
+		wrapper.append(
+			$(template.imageitem)
+			.append($(template.imagelink).attr('data-largesrc',galleryData[i][1]).attr('data-title', "Some title").attr('data-description',galleryData[i][2])
+			.append($(galleryData[i][0])))
+		)
+	}
+	
+	Grid.init();
 };
 
 /**
@@ -416,8 +493,9 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 	imaging_method_label.tags.push(0);
 	
 	var QUERY_TEXT = "imagingMethod";
-		
+	
 	if (facet_fields){
+		
 		if (facet_fields.imaging_method_label && facet_fields.imaging_method_label != ""){
 			
 			//Obtain the number of imaging methods and counts: data structure is "methodName, count"
@@ -427,6 +505,13 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 				
 				if(typeof facet_fields.imaging_method_label[i] == 'string'){
 					methods[ facet_fields.imaging_method_label[i] ] = facet_fields.imaging_method_label[i + METHODS_VALUE_OFFSET] ;
+					/*
+					if (!this.imaging_methods_initialised){
+						var node =  $.extend(true, {}, template_node) ;
+						node.text = facet_fields.imaging_method_label[i];
+						this.imaging_method_label_storage [ facet_fields.imaging_method_label[i] ] = node;
+					}*/
+						
 				}else{
 					totalCount = totalCount + facet_fields.imaging_method_label[i];
 				}
@@ -437,6 +522,11 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 			imaging_method_label.tags.pop();
 			imaging_method_label.tags.push(totalCount);
 			
+			/*
+			for (key in this.imaging_method_label_storage){
+				imaging_method_label_nodes.push(this.imaging_method_label_storage[key]);
+			}*/
+			
 			for (key in methods){
 				
 				var node = {};
@@ -444,10 +534,16 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 				node.text = key;
 				node.queryText = key;
 				node.fulltext = key;
+				if (methods[key] == 0)
+					node.disabled = true;
 				node.tags.push(methods[key]);
 				node.selectable = false;
 				node.parent = imaging_method_label.text;
 				node.query = query;
+		
+				/*if (key == imaging_method_label_nodes[node_count].text)
+					imaging_method_label_nodes[node_count] = node;
+				*/
 				
 				imaging_method_label_nodes.push(node);
 				
@@ -462,10 +558,12 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 					if($("#filters").tagExist(node.fulltext))
 						$("#filters").removeTag(node);
 					
-					if (query.imagingMethod.expanded)
+					if (query.imagingMethod.expanded) {
 						imaging_method_label._nodes = imaging_method_label_nodes;
-					else
-						imaging_method_label.nodes = imaging_method_label_nodes;
+					}else{
+						imaging_method_label.nodes = imaging_method_label_nodes;						
+					}
+
 				}
 				
 				//increment node count;
@@ -477,6 +575,8 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 			imaging_method_label.nodes = imaging_method_label_nodes;
 			
 		}
+		
+		this.imaging_methods_initialised  = true;
 		
 		if (facet_fields.taxon && facet_fields.taxon != ""){
 			
@@ -690,5 +790,14 @@ Processor.facetSearch = function(facet_data, facet_fields, query) {
 	facet_data.push(gene);
 	facet_data.push(phenotype);
 	
-}
+};
+
+//template for gallery view
+var template = {
+	list: '<ul id="og-grid" class="og-grid"></ul>',
+	imageitem: '<li></li>',
+	imagelink: '<a href=""></a>',
+	image: '<img alt="image"/>'
+};
+
 

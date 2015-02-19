@@ -180,7 +180,7 @@
 	         mgr = hopscotch.getCalloutManager(),
 	         state = hopscotch.getState();
 			 
-			 console.log("Hopstoch state: "+ state);
+			// console.log("Hopstoch state: "+ state);
 			 
 	     if (state === 'phis-tour:5') {
 	       // Already started the tour at some point!
