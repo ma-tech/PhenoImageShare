@@ -13,7 +13,7 @@ from pis.settings import BASE_PORT
 dev_api = iqs['URL']['HWU']
 beta_api = iqs['URL']['EBI']
 
-api_url = beta_api
+api_url = dev_api
 
 access_points = iqs['ACP']
 image_acp = access_points['getimages']['name']

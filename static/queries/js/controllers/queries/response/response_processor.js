@@ -125,8 +125,7 @@ Processor.prototype.loadJSON = function(){
 						"expanded":{"Wildtype":false, "Imaging Method":false,"Mutants":false,"Stage":false,"Taxon":false}};
 						
 						queryParams = this.buildIQSQuery(this.query);
-	}
-	else {
+	}else {
 		if (params){
 			this.query = $.extend(true, this.query, params.query);
 			queryParams = this.buildIQSQuery(this.query);

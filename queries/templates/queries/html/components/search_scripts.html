@@ -134,13 +134,31 @@ $(document).ready(function() {
         });
      })
 	 .click(function(e){ e.preventDefault(); });
-	
-	/*
-	$('#searchButton').click( function(){
-		loadJSON();
-	});
-	*/
-	
+
+
+     $('#helpIcon').qtip({
+         content: {
+            text: $('#helpIcon').next('.tooltiptext'),
+			title: 'Browse PhIS data with facets and filters',
+			button: true
+         },
+        position: {
+            my: 'top left',
+            at: 'bottom right'
+        },
+		
+        hide: {
+            delay:1000
+        },
+        events: {
+            
+        },
+		style:{
+			classes:"qtip-bootstrap",
+		}
+     });
+	 
+	 
 });
  
 function loadJSON(){
