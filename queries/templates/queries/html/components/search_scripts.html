@@ -49,6 +49,8 @@
 <!-- qTip help jquery script -->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/assets/qTip/jquery.qtip.min.js' %}"></script>
 
+<!-- jQuery BlockUI blocker -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/blocker/jquery.blockUI.js' %}"></script>
 
 <!-- Gallery library -->
 
@@ -69,10 +71,11 @@ var detail_url = "{% url 'queries:detail_view' %}";
 var query_url = "{% url 'queries:query_view' %}";
 var autosuggest_url = query_url + "getAutosuggest";
 var source_url = "{{source_url | safe}}";
+var loading_waiter_url = "{% static 'queries/img/data_loader_waiter2.gif' %}";
 
 var query = JSON.parse('{{query | safe}}');
 
-var interactionEngine = new Interaction(query_url, detail_url, autosuggest_url, source_url, query);
+var interactionEngine = new Interaction(query_url, detail_url, autosuggest_url, source_url, loading_waiter_url, query);
 
 $(document).ready(function() {
 	
@@ -85,7 +88,11 @@ $(document).ready(function() {
 	});
 	
 
-	$('#searchInput').keypress( function(){
+	$('#searchInput').keypress( function(e){
+		//block the UI while loading data from server, only if the Enter key is pressed
+		if(e.which == 13)
+			$.blockUI({ message: '<h1>Loading...<img src="'+loading_waiter_url+'"/></h1>'});
+		
 		loadJSON();
 	});
 	
@@ -158,12 +165,38 @@ $(document).ready(function() {
 		}
      });
 	 
+     $('#historyIcon').qtip({
+         content: {
+            text: $('#historyIcon').next('.tooltiptext'),
+			title: 'Query display, history & sharing',
+			button: true
+         },
+        position: {
+            my: 'top right',
+            at: 'bottom right'
+        },
+		
+        hide: {
+            delay:1000
+        },
+        events: {
+            
+        },
+		style:{
+			classes:"qtip-bootstrap",
+		}
+     });
+	 
 	 
 });
- 
+
+function searchClickEventHandler(){
+	$.blockUI({ message: '<h1>Loading...<img src="'+loading_waiter_url+'"/></h1>'});
+	loadJSON();
+}
+
 function loadJSON(){
 	interactionEngine.loadJSON();
 }
-
 
 </script>

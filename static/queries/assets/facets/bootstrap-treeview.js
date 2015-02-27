@@ -151,17 +151,6 @@
 				//verify that button is clicked
 				if (target.attr('type') == "button"){
 					
-					/*
-					var fieldId = target.attr('id')+'Field';
-					var fieldValue = $('#'+fieldId).val();
-					
-					if(fieldValue && fieldValue != ""){
-						this.query.Anatomy.value = fieldValue;
-						node.query = this.query;
-						this.options.onNodeSelected(event, node);
-					}
-					*/
-					
 					//collect values from fields
 					var geneField = $('#GeneButtonField');
 					var anatomyField = $('#AnatomyButtonField');

@@ -76,6 +76,7 @@
   };
   
 	$.fn.addTag = function(object,options) {
+		
 			value = object.fulltext;
 				
 			options = jQuery.extend({focus:false,callback:true},options);
@@ -201,6 +202,8 @@
 					}
 				}
 				
+				
+				
 				$.fn.tagsInput.importTags(this,str);
 				
 				//$.fn.tagsInput.importTags(this,str, tagobjects);
@@ -273,6 +276,7 @@
 			}
 	
             var containerClass = $('#'+id).attr('class').replace('tagsinput', '');
+			
 			var markup = '<div id="'+id+'_tagsinput" class="tagsinput '+containerClass+'"><div class="tagsinput-add-container" id="'+id+'_addTag"><div class="tagsinput-add"></div>';
 			
 			if (settings.interactive) {
@@ -286,6 +290,7 @@
 			$(data.holder).css('width',settings.width);
 			$(data.holder).css('min-height',settings.height);
 			$(data.holder).css('height','100%');
+			$(data.holder).css('font-size','5px');
 	
 			if ($(data.real_input).val()!='') { 
 				$.fn.tagsInput.importTags($(data.real_input),$(data.real_input).val());
@@ -393,7 +398,7 @@
 		//tagobjects = tagobjects;
 	};
 	
-	$.fn.tagsInput.importTags = function(obj,val) {			
+	$.fn.tagsInput.importTags = function(obj,val) {		
 		$(obj).val('');
 		var id = $(obj).attr('id');
 		var tags = val.split(delimiter[id]);

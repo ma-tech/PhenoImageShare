@@ -1,4 +1,4 @@
-function Interaction(queryURL, detailURL, autosuggestURL, sourceURL, query) {
+function Interaction(queryURL, detailURL, autosuggestURL, sourceURL, loading_waiter_url , query) {
 
 	this.queryProcessor = new Processor();
 	this.source_url = sourceURL;
@@ -7,11 +7,13 @@ function Interaction(queryURL, detailURL, autosuggestURL, sourceURL, query) {
 	this.autosuggest_url = autosuggestURL
 	this.initialQuery = query;
 	this.autosuggest_acp = "term";
+	this.loading_waiter_url = loading_waiter_url ;
 
 	this.queryProcessor.setBaseURL(this.base_detail_url);
 	this.queryProcessor.setQueryURL(this.base_query_url);
 	this.queryProcessor.setAutosuggestURL(this.autosuggest_url);
 	this.queryProcessor.setSourceURL(this.source_url);
+	this.queryProcessor.setLoaderURL(this.loading_waiter_url);
 	
 };
 
@@ -62,48 +64,10 @@ Interaction.prototype.initialise = function() {
 	var displayDiv = "#searchresults";
 	var tabResults;
 	var gridResults;
-	
-	/*
-	//make results visible in table by default.
-	tabResults = document.getElementById("tableresults");
-	gridResults = document.getElementById("gridresults");
-	tabResults.style.visibility="visible";
-	$(displayDiv).append(tabResults);
-	
-	
-	$(gridButton).on('click',function(){
-		if($(tableButton).hasClass("active")){
-			$(tableButton).removeClass('active');
-			tabResults.style.visibility="hidden";
-			//$(displayDiv).remove(tabResults);
-			gridResults = document.getElementById("gridresults");
-			gridResults.style.visibility="visible";
-			$(displayDiv).empty().append(gridResults);
-			$(gridButton).addClass('active');
-		}
-		
-		return false;
-	});
-	
-	$(tableButton).on('click',function(){
-		if($(gridButton).hasClass("active")){
-			$(gridButton).removeClass('active');
-			gridResults.style.visibility="hidden";
-			//$(displayDiv).remove(gridResults);
-			tabResults = document.getElementById("tableresults");
-			tabResults.style.visibility="visible";
-			$(displayDiv).empty().append(tabResults);
-			$(tableButton).addClass('active');
-		}
-		
-		return false;
-	});
-	*/
-	
+
 	$('#gridButton,#listButton').click(function() {
 	    var ix = $(this).index();
-		console.log("I'm clicked; "+ ix);
-	 
+	
 	    $('#gridresults').toggle( ix === 0 );
 	    $('#tableresults').toggle( ix === 1 );
 		
