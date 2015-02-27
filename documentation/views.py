@@ -1,7 +1,11 @@
 from django.shortcuts import render
 from django.http import HttpResponse
-from pis.settings import BASE_URL
-from pis.settings import BASE_PORT
+
+try: from pis.settings import BASE_URL
+except ImportError: BASE_URL="http://dev.phenoimageshare.org"
+
+try: from pis.settings import BASE_PORT
+except ImportError: BASE_PORT=80
 
 def index(request):
     return render(request, 'documentation/html/doc_index.html', '')
