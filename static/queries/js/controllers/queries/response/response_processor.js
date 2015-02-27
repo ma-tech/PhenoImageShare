@@ -100,10 +100,10 @@ Processor.prototype.loadJSON = function(){
 	var detail_base_url = this.detail_base_url;
 	var query_base_url = this.query_base_url;
 	var autosuggest_url = this.autosuggest_url;
-	var loader_url = this.loading_waiter_url;
+	var static_urls = {"loader_url":this.loading_waiter_url};
 	
 	var get_facets_data = this.getFacetsData;
-	var single_level_facets = this.singleLevels;
+	var single_level_facets_callback = this.singleLevels;
 	
 	var create_gallery = this.createGallery;
 	
@@ -187,10 +187,10 @@ Processor.prototype.loadJSON = function(){
 		   data['query'] = query;
 		   
 		   //fetch facets data from response.
-		   facet_data = get_facets_data(data, single_level_facets);
+		   facet_data = get_facets_data(data, single_level_facets_callback, static_urls);
 		   
 			//add data to gallery
-		   create_gallery(galleryData)
+		   create_gallery(galleryData);
 		   
 			//Add data to table.
    		$("#imgtable").dataTable().fnDestroy();
@@ -202,7 +202,7 @@ Processor.prototype.loadJSON = function(){
    				{ "title": 'Description' }
    		  	  ],
 			  "columnDefs": [
-			    { "width": "70%", "targets": 1 }
+			    { "width": "70%", "targets": 1}
 			  
 		      ],
 			  
@@ -218,7 +218,7 @@ Processor.prototype.loadJSON = function(){
 			query_page_url: query_base_url,
 			autosuggest_url: autosuggest_url,
 	 	    onNodeSelected: function(event, node) {
-				Processor.prepareParams(node, loader_url);
+				Processor.prepareParams(node, static_urls.loader_url);
 	 	   	}
    	   	});
 	
@@ -239,7 +239,7 @@ Processor.prepareParams= function(node, loader_url) {
 	Processor.setParams(params);
 	
 	//block the UI while loading data from server: TODO: Please remove hardcoding of this URL with a better approach. It's a very bad hack. Implement for technique to send loader_url to tagsinput.
-	$.blockUI({ message: '<h1>Loading...<img src=/phis/static/queries/img/data_loader_waiter2.gif/></h1>'});
+	$.blockUI({ message: '<h1>Loading...<img src="'+loader_url+'"/></h1>'});
 
 	loadJSON();
 };
@@ -265,7 +265,7 @@ Processor.prototype.createGallery = function(galleryData) {
 /**
  * Get facets for the prototype 1.
 */
-Processor.prototype.getFacetsData= function(data, single_level_facets) {
+Processor.prototype.getFacetsData= function(data, single_level_facets_callback, static_urls) {
 	
 	//build the facets tree
 	var facet_data = [];
@@ -310,8 +310,6 @@ Processor.prototype.getFacetsData= function(data, single_level_facets) {
 	//Integrating phenotype and expression data
 	if (query.sampleType == mutants_phenotype.sampleType && query.imageType == mutants_phenotype.queryText) {
 		mutants_phenotype.checked = true;
-		if(!$("#filters").tagExist(mutants_phenotype.fulltext))
-			$("#filters").addTag(mutants_phenotype);	
 		mutants._nodes = mutants_nodes;
 	}
 	else{
@@ -327,8 +325,6 @@ Processor.prototype.getFacetsData= function(data, single_level_facets) {
 	
 	if (query.sampleType == mutants_expression.sampleType && query.imageType == mutants_expression.queryText) {
 		mutants_expression.checked = true;
-		if(!$("#filters").tagExist(mutants_expression.fulltext))
-			$("#filters").addTag(mutants_expression);
 		mutants._nodes = mutants_nodes;
 	}else{
 		mutants_expression.checked = false;
@@ -368,10 +364,6 @@ Processor.prototype.getFacetsData= function(data, single_level_facets) {
 	if (query.sampleType == wildtypes_phenotype.sampleType && query.imageType == wildtypes_phenotype.queryText) {
 		
 		wildtypes_phenotype.checked = true;
-		console.log("got here");
-		
-		if(!$("#filters").tagExist(wildtypes_phenotype.fulltext))
-			$("#filters").addTag(wildtypes_phenotype);
 		wildtypes._nodes = wildtypes_nodes;
 		
 	}else{
@@ -400,8 +392,6 @@ Processor.prototype.getFacetsData= function(data, single_level_facets) {
 	
 	if (query.sampleType == wildtypes_expression.sampleType && query.imageType == wildtypes_expression.queryText){
 		wildtypes_expression.checked = true;
-		if(!$("#filters").tagExist(wildtypes_expression.fulltext))
-			$("#filters").addTag(wildtypes_expression);
 		wildtypes._nodes = wildtypes_nodes;
 	
 	}else{
@@ -468,7 +458,7 @@ Processor.prototype.getFacetsData= function(data, single_level_facets) {
 	
 	}
 	
-	single_level_facets(facet_data, facet_fields, query);
+	single_level_facets_callback(facet_data, facet_fields, query);
 	
 	fdata.query = query;
 	fdata.facet_data = facet_data;
@@ -486,6 +476,7 @@ Processor.prototype.getFacetsData= function(data, single_level_facets) {
 			for (var j = 0 ; j < nodeCount ; j++){
 				if(nodes[j].checked){
 					if(!$("#filters").tagExist(nodes[j].fulltext)){
+						nodes[j].waiter_url = static_urls.loader_url;
 						$("#filters").addTag(nodes[j]);
 					}
 				}
@@ -499,6 +490,7 @@ Processor.prototype.getFacetsData= function(data, single_level_facets) {
 			for (var k = 0 ; k < nodeCount ; k++){
 				if(nodes[k].checked){
 					if(!$("#filters").tagExist(nodes[k].fulltext)){
+						nodes[k].waiter_url = static_urls.loader_url;
 						$("#filters").addTag(nodes[k]);
 					}
 				}
@@ -509,7 +501,6 @@ Processor.prototype.getFacetsData= function(data, single_level_facets) {
 	}
 	
 	return fdata;
-	
 };
 
 /**
@@ -590,8 +581,6 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 				
 				if (query.imagingMethod.expanded && query.imagingMethod[node.text]) {
 					node.checked = true;
-					if(!$("#filters").tagExist(node.fulltext))
-						$("#filters").addTag(node);
 					imaging_method_label._nodes = imaging_method_label_nodes;
 				}else{
 					node.checked = false;
@@ -654,14 +643,11 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 				
 				if (query.stage.expanded && query.stage[node.text]) {
 					node.checked = true;
-					if(!$("#filters").tagExist(node.fulltext))
-						$("#filters").addTag(node);
 					stage._nodes = stage_nodes;
 				}else{
 					node.checked = false;
 					
 					if($("#filters").tagExist(node.fulltext)){
-						console.log("Removing stage filter from box");
 						$("#filters").removeTag(node);
 					}
 					
@@ -716,8 +702,6 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 				
 				if (query.taxon.expanded && query.taxon[node.text]) {
 					node.checked = true;
-					if(!$("#filters").tagExist(node.fulltext))	
-						$("#filters").addTag(node);
 					taxon._nodes = taxon_nodes;
 				}else{
 					node.checked = false;

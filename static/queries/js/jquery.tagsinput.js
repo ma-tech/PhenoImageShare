@@ -111,6 +111,7 @@
                             title : 'Remove tag',
                             text  : ''
                         }).click(function () {
+							console.log("Waiter URL = "+object.waiter_url);
 							
 							if (object.sampleType != undefined) {
 								object.query.imageType = "";
@@ -129,7 +130,7 @@
 								//this.query.stage.expanded = COLLAPSED;
 							}
 							
-							Processor.prepareParams(object);
+							Processor.prepareParams(object, object.waiter_url);
 							
                             return $('#' + id).removeTag(escape(value));
                         })
