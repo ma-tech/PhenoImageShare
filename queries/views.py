@@ -7,8 +7,12 @@ from pis.settings import IQS as iqs
 #import deepzoom
 import re
 import os
-from pis.settings import BASE_URL
-from pis.settings import BASE_PORT
+
+try: from pis.settings import BASE_URL
+except ImportError: BASE_URL="http://dev.phenoimageshare.org"
+
+try: from pis.settings import BASE_PORT
+except ImportError: BASE_PORT=80
 
 dev_api = iqs['URL']['HWU']
 beta_api = iqs['URL']['EBI']
