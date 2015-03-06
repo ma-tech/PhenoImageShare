@@ -25,24 +25,30 @@
     <div class="container">
 			
 			<div class="row">
-				
+				<!--
 				<div class="page-header" id="banner">
-					<div class="col-lg-11">
+					<div class="col-lg-10">
 					</div>
 					
-					<div class="col-lg-1 col-lg-push-1">
+					<div class="col-lg-2">
 						{% include "queries/html/components/search_config.html" %}
 					</div>
 				</div>
-				
-				<div class="col-lg-3 col-lg-pull-1">
+				-->
+				<br/>
+				<br/>
+				<br/>
+				<div class="col-lg-3">
 				 {% block first %}
 				  	{% include "queries/html/components/query/left/prototype_facets.html" %}
 	    		{% endblock first %}
 				</div>
 				
-				<div class="col-lg-9 col-lg-pull-1">
-
+				 <!--
+					 <div class="col-lg-9 col-lg-pull-1">
+				-->
+				
+				<div class="col-lg-9">
 				{% block top %}
 					{% include "queries/html/components/search_fields.html" %}
 				{% endblock top %}
