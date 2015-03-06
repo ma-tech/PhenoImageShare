@@ -20,19 +20,34 @@
 <!-- Statistics Utility -->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/js/utils/stats.js' %}"></script>
 
-
+<!-- jQuery BlockUI blocker -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/blocker/jquery.blockUI.js' %}"></script>
 
 
 <script>
 
 var base_query_url = "{% url 'queries:query_view' %}";
 var echarts_base_url = "{% static 'queries/assets/echarts' %}";
+var loading_waiter_url = "{% static 'queries/img/data_loader_waiter2.gif' %}";
 
 function loadSearchPage(){
 	var searchString = $("#indexInput").val();
 	url = base_query_url + "?q="+searchString;
 	window.location.href = url;
 }
+
+$(document).ready(function() {
+	$('#indexInput').keypress( function(e){
+		console.log("Enter key pressed");
+	
+		if(e.which == 13){
+			loadSearchPage();	
+			$.blockUI({ message: '<h1>Loading...<img src="'+loading_waiter_url+'"/></h1>'});		
+		}
+
+	});
+});
+
 
 var index_tour = {
   id: "phis_tour",

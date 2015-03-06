@@ -97,10 +97,11 @@ def get_image_data(request):
         docs = json_data['response']['docs']
     
     image_data = process_docs(docs, imageString, queryString)
-    source_location, image_name = downloadImage(imageString)
+    #source_location, image_name = downloadImage(imageString)
     #dzi_location = generateImageTiles(source_location, image_name)
     
-    context = {"image_data": image_data, "dzi_name": image_name}
+    context = {"image_data": image_data}
+    #context = {"image_data": image_data, "dzi_name": image_name}
     
     return context
 
