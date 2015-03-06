@@ -1,8 +1,5 @@
 {% load staticfiles %}
 
-<!-- Datatables JQuery JS -->
-<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/datatables/v1.10.0/jquery.dataTables.js' %}"></script>
-
 <!-- Datatables JS -->
 <script type="text/javascript" charset="utf8" src="//cdn.datatables.net/plug-ins/be7019ee387/integration/bootstrap/3/dataTables.bootstrap.js"></script>
 
@@ -74,11 +71,13 @@ var source_url = "{{source_url | safe}}";
 var loading_waiter_url = "{% static 'queries/img/data_loader_waiter2.gif' %}";
 
 var query = JSON.parse('{{query | safe}}');
-
 var interactionEngine = new Interaction(query_url, detail_url, autosuggest_url, source_url, loading_waiter_url, query);
 
 $(document).ready(function() {
-	
+
+	//setting initial input box value
+	if (query != undefined && query.term !=undefined)
+		$("#searchInput").val(query.term[0]);
 	//creat and initialise interaction engine
 
 	interactionEngine.initialise();
@@ -87,7 +86,6 @@ $(document).ready(function() {
 		//Grid.init();
 	});
 	
-
 	$('#searchInput').keypress( function(e){
 		//block the UI while loading data from server, only if the Enter key is pressed
 		if(e.which == 13)
@@ -141,7 +139,6 @@ $(document).ready(function() {
         });
      })
 	 .click(function(e){ e.preventDefault(); });
-
 
      $('#helpIcon').qtip({
          content: {

@@ -37,7 +37,9 @@ def query_view(request):
     
     if 'term' in request.GET:
         response = simplejson.dumps(dict(request.GET.iterlists()))
-    
+    elif 'q' in request.GET:
+        response = simplejson.dumps({"term":[request.GET['q']]})
+
     if BASE_PORT is not DEFAULT_PORT:
         source_url = BASE_URL + ":" + str(BASE_PORT)
     else:
@@ -146,7 +148,7 @@ def process_docs(docs, imageString, queryString):
                 image_data_dict['age'] = doc['age_since_birth']
                 
             if "embrionic_age" in doc:
-                image_data_dict['age'] = doc['embrionic_age']  
+                image_data_dict['embrionic_age'] = doc['embrionic_age']  
                   
             if "host_name" in doc:
                 image_data_dict['host_name'] = doc['host_name']
@@ -158,12 +160,30 @@ def process_docs(docs, imageString, queryString):
             if "sample_generated_by" in doc:
                 image_data_dict['sample_generated_by'] = doc['sample_generated_by']
             
+            if "image_generated_by" in doc:
+                image_data_dict['image_generated_by'] = doc['image_generated_by']
+            
             if "sample_preparation_label" in doc:
                 image_data_dict['sample_preparation'] = doc['sample_preparation_label']
                 
             if "image_url" in doc:
                 image_data_dict['url'] = doc['image_url']
             
+            if "sample_type" in doc:
+                image_data_dict['sample_type'] = doc['sample_type']
+            
+            if "image_type" in doc:
+                image_data_dict['image_type'] = doc['image_type']
+            
+            if "zygosity" in doc:
+                image_data_dict['zygosity'] = doc['zygosity']
+            
+            if "height" in doc:
+                image_data_dict['height'] = doc['height']
+                
+            if "width" in doc:
+                image_data_dict['width'] = doc['width']
+                  
             if "associated_roi" in doc:
                 rois = []
                 
@@ -175,7 +195,7 @@ def process_docs(docs, imageString, queryString):
             if "observations" in doc:
                 observations = []
                 for observation in doc['observations']:
-                    observations.append(observation)
+                    observations.append(observation.split(':',1))
                 
                 image_data_dict['observations'] = observations
             

@@ -43,27 +43,29 @@
 		
         <div class="row">
 		
-			  <div class="col-lg-3 col-lg-pull-1">
+			<div class="col-lg-6 col-lg-pull-2">
+				{% block second %}
+					{% include "queries/html/components/detailed/central/image_canvas.html" %}
+				{% endblock second %}
+			</div>
+		
+			  <div class="col-lg-6 col-lg-push-1">
 				  {% block first %}
-						{% include "queries/html/components/detailed/left/anatomical_terms.html" %}
-						{% include "queries/html/components/detailed/left/phenotype_terms.html" %}
-						{% include "queries/html/components/detailed/left/assay_information.html" %}
-						{% include "queries/html/components/detailed/left/experiment_information.html" %}
-						{% include "queries/html/components/detailed/left/observations.html" %}
+						{% include "queries/html/components/detailed/right/metadata_genotype.html" %}
+						{% include "queries/html/components/detailed/right/annotations.html" %}
 					{% endblock first %}
 				</div>
 						
-				<div class="col-lg-6 col-lg-pull-1">
-					{% block second %}
-						{% include "queries/html/components/detailed/central/image_canvas.html" %}
-					{% endblock second %}
-				</div>
-					  				  
-				<div class="col-lg-3 col-lg-push-2 col-lg-offset-0">
-					{% block third %}
-						{% include "queries/html/components/detailed/right/annotations_rois.html" %}
-					{% endblock third %}
-				</div>
+
+					  <!--				  
+							<div class="col-lg-3 col-lg-push-2 col-lg-offset-0">
+								{% block third %}
+					
+									{% include "queries/html/components/detailed/right/annotations_rois.html" %}
+					
+								{% endblock third %}
+							</div>
+					   -->
 						  
 		</div>
         

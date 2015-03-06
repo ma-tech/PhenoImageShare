@@ -31,7 +31,6 @@ var echarts_base_url = "{% static 'queries/assets/echarts' %}";
 function loadSearchPage(){
 	var searchString = $("#indexInput").val();
 	url = base_query_url + "?q="+searchString;
-	
 	window.location.href = url;
 }
 

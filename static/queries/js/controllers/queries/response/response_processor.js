@@ -85,16 +85,19 @@ Processor.prototype.buildIQSQuery = function(query) {
 };
 
 Processor.prototype.loadJSON = function(){
-	
 	var queryParams = '';
 	var tableData = [];
 	var galleryData = [];
 	var params = Processor.getParams();
+	var searchString = "";
 	
-	if ($("#searchInput").val() != undefined)
+	if ($("#searchInput").val() != undefined && $("#searchInput").val() !=""){
 		this.searchString = $("#searchInput").val();
-	
-	var searchString = (this.defaultQuery != undefined && this.defaultQuery.term != undefined ? this.defaultQuery.term [0]	: this.searchString);
+		searchString = this.searchString;
+		console.log("Im here");
+	}
+
+	//var searchString = (this.defaultQuery != undefined && this.defaultQuery.term != undefined ? this.defaultQuery.term [0]	: this.searchString);
 	//$("#searchInput").val((this.defaultQuery != undefined && this.defaultQuery.term != undefined ? this.defaultQuery.term [0]	: this.searchString));
 	
 	var detail_base_url = this.detail_base_url;
@@ -176,7 +179,7 @@ Processor.prototype.loadJSON = function(){
 			   
 			   image = "<img src="+image_url+" style=\"width: 50%;\"/> </a>";
 			   
-			   image_with_hyperlink =  image_hyperlink + "<img src="+image_url+" style=\"width: 50%;\"/> </a>";
+			   image_with_hyperlink =  image_hyperlink + "<img src="+image_url+" style=\"width: 100%;\"/> </a>";
 			   
 			   descr = "<b> Expression: </b>" + expression + ", <b> Anatomy: </b>" + anatomy + ", <b> Phenotype: </b>"  + phenotype + ", <b> Gene: </b>" + gene; //+ ", <b> ID: </b>" +  id;
 			   
@@ -202,7 +205,7 @@ Processor.prototype.loadJSON = function(){
    				{ "title": 'Description' }
    		  	  ],
 			  "columnDefs": [
-			    { "width": "70%", "targets": 1}
+			    { "width": "20%", "targets": 0}
 			  
 		      ],
 			  

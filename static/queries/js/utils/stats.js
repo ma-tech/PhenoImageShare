@@ -99,9 +99,10 @@ Stats.prototype.renderSTIMCharts = function(){
 	//Pie chart (imaging methods) options
 	pie_options = {
 	    title : {
-	        text: 'Imaging Method / Sample type',
-	        subtext: 'Relationship',
-	        x:'center'
+	        text: '',
+	        subtext: '',
+	        x:'center',
+			y:'bottom'
 	    },
 	    tooltip : {
 	        trigger: 'item',
@@ -111,8 +112,8 @@ Stats.prototype.renderSTIMCharts = function(){
 	        orient : 'horizontal',
 	        x : 'center',
 			y : 'bottom',
-			padding: -1,
-            itemGap: 5,
+			padding: 10,
+            itemGap: 3,
 	        data: names
 	    },
 	    calculable : true,
@@ -139,8 +140,8 @@ Stats.prototype.renderSTIMCharts = function(){
 	        orient : 'horizontal',
 	        x : 'center',
 			y : 'bottom',
-			padding: -1,
-            itemGap: 5,
+			padding: 5,
+            itemGap: 3,
 	        data: names
 	    },
 	    toolbox: {
@@ -221,11 +222,8 @@ Stats.prototype.renderSTIMCharts = function(){
 	imagingMethodSamplePlot2 = echarts.init(document.getElementById('imagingMethods-sample-chart2'));
 	imagingMethodSamplePlot2.setOption(bar_options);
 
-
 	imagingMethodSamplePlot.connect(imagingMethodSamplePlot2);
 	imagingMethodSamplePlot2.connect(imagingMethodSamplePlot);
-
-	
 };
 
 
@@ -250,14 +248,11 @@ Stats.prototype.sampleTypePlot = function(){
             plotBorderWidth: 0,//null,
             plotShadow: false,
 			type: 'pie',
-            options3d: {
-                enabled: true,
-                alpha: 45,
-                beta: 0
-            }
         },
         title: {
-            text: 'PhIS Sample types'
+            text: 'By Sample types',
+			verticalAlign: "bottom",
+			y:-10
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -268,7 +263,7 @@ Stats.prototype.sampleTypePlot = function(){
                 cursor: 'pointer',
 				depth: 35,
                 dataLabels: {
-                    enabled: true,
+                    enabled: false,
                     format: '<b>{point.name}</b>: {point.percentage:.1f} %',
                     style: {
                         color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
@@ -277,6 +272,9 @@ Stats.prototype.sampleTypePlot = function(){
 				showInLegend: true
             }
         },
+		legend:{
+			y:-60
+		},
         series: [{
             type: 'pie',
             name: 'Sample type share',
@@ -306,14 +304,11 @@ Stats.prototype.imageTypePlot = function(){
             plotBorderWidth: 0,//null,
             plotShadow: false,
 			type: 'pie',
-            options3d: {
-                enabled: true,
-                alpha: 45,
-                beta: 0
-            }
         },
         title: {
-            text: 'PhIS Image types'
+            text: 'By Image type',
+			verticalAlign: "bottom",
+			y:-10
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -324,7 +319,7 @@ Stats.prototype.imageTypePlot = function(){
                 cursor: 'pointer',
 				depth: 35,
                 dataLabels: {
-                    enabled: true,
+                    enabled: false,
                     format: '<b>{point.name}</b>: {point.percentage:.1f} %',
                     style: {
                         color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
@@ -333,6 +328,9 @@ Stats.prototype.imageTypePlot = function(){
 				showInLegend: true
             }
         },
+		legend:{
+			y:-60
+		},
         series: [{
             type: 'pie',
             name: 'Image type share',
@@ -361,14 +359,11 @@ Stats.prototype.stagePlot = function(){
             plotBorderWidth: 0,//null,
             plotShadow: false,
 			type: 'pie',
-            options3d: {
-                enabled: true,
-                alpha: 45,
-                beta: 0
-            }
         },
         title: {
-            text: 'Stages'
+            text: 'By Development Stage',
+			verticalAlign: "bottom",
+			y:-10
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -379,7 +374,7 @@ Stats.prototype.stagePlot = function(){
                 cursor: 'pointer',
 				depth: 35,
                 dataLabels: {
-                    enabled: true,
+                    enabled: false,
                     format: '<b>{point.name}</b>: {point.percentage:.1f} %',
                     style: {
                         color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
@@ -388,6 +383,9 @@ Stats.prototype.stagePlot = function(){
 				showInLegend: true
             }
         },
+		legend:{
+			y:-60
+		},
         series: [{
             type: 'pie',
             name: 'Stage share',
@@ -416,14 +414,11 @@ Stats.prototype.imagingMethodPlot = function() {
             plotBorderWidth: 0,//null,
             plotShadow: false,
 			type: 'pie',
-            options3d: {
-                enabled: true,
-                alpha: 45,
-                beta: 0
-            }
         },
         title: {
-            text: 'Imaging Methods'
+            text: 'By Imaging methods',
+			verticalAlign: "bottom",
+			y:-10
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -434,7 +429,7 @@ Stats.prototype.imagingMethodPlot = function() {
                 cursor: 'pointer',
 				depth: 35,
                 dataLabels: {
-                    enabled: true,
+                    enabled: false,
                     format: '<b>{point.name}</b>: {point.percentage:.1f} %',
                     style: {
                         color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
@@ -443,6 +438,9 @@ Stats.prototype.imagingMethodPlot = function() {
 				showInLegend: true
             }
         },
+		legend:{
+			y:-60
+		},
         series: [{
             type: 'pie',
             name: 'Image method share',
