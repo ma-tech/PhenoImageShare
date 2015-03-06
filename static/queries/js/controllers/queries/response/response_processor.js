@@ -91,10 +91,9 @@ Processor.prototype.loadJSON = function(){
 	var params = Processor.getParams();
 	var searchString = "";
 	
-	if ($("#searchInput").val() != undefined && $("#searchInput").val() !=""){
+	if ($("#searchInput").val() != undefined && $("#searchInput").val() != ""){
 		this.searchString = $("#searchInput").val();
 		searchString = this.searchString;
-		console.log("Im here");
 	}
 
 	//var searchString = (this.defaultQuery != undefined && this.defaultQuery.term != undefined ? this.defaultQuery.term [0]	: this.searchString);
