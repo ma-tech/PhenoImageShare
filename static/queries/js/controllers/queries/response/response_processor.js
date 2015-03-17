@@ -169,10 +169,11 @@ Processor.prototype.loadJSON = function(){
 			   phenotype = data.response.docs[i].phenotype_label_bag ? data.response.docs[i].phenotype_label_bag : " None " ;
 			   gene = data.response.docs[i].gene_symbol ? data.response.docs[i].gene_symbol : " None ";
 			   
+			   imageId = data.response.docs[i].id;
 			   image_url = data.response.docs[i].image_url;
 			   image_query_string = searchString;
 			   
-			   detail_url = detail_base_url + "?q="+searchString+"&img="+image_url;
+			   detail_url = detail_base_url + "?q="+searchString+"&imageId="+imageId;
 				
 			   image_hyperlink = "<a href="+encodeURI(detail_url)+" data-toggle=\"tooltip\" title="+ id +">";
 			   

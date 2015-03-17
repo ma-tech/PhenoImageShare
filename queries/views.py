@@ -23,6 +23,15 @@ access_points = iqs['ACP']
 image_acp = access_points['getimages']['name']
 image_endpoints = access_points['getimages']['options']
 
+rois_acp = access_points['getrois']['name']
+rois_endpoints = access_points['getrois']['options']
+
+roi_acp = access_points['getroi']['name']
+roi_endpoints = access_points['getroi']['options']
+
+channel_acp = access_points['getchannel']['name']
+channel_endpoints = access_points['getchannel']['options']
+
 autosuggest_acp = access_points['getautosuggest']['name']
 autosuggest_endpoints = access_points['getautosuggest']['options']
 
@@ -46,6 +55,7 @@ def query_view(request):
         source_url = BASE_URL
         
     context = {"query": response, "source_url": source_url} 
+    
     return render(request, 'queries/html/query_view.html', context)
 
 def detail_view(request):
@@ -57,7 +67,7 @@ def get_image_data(request):
     queryString = ""
     image_data = []
     docs = {}
-    imageString = ""
+    imageId = ""
     base_url = ""
     query = {}
     
@@ -66,10 +76,10 @@ def get_image_data(request):
     else:
         queryString = "MP:0010254"
         
-    if 'img' in request.GET:
-        imageString = request.GET['img']
+    if 'imageId' in request.GET:
+        imageId = request.GET['imageId']
     else:
-        imageString = "http://www.mousephenotype.org/data/media/images/0/M00144272_00010241_download_full.jpg"
+        imageId = "http://www.mousephenotype.org/data/media/images/0/M00144272_00010241_download_full.jpg"
     
     if "MP" in queryString:
         query[image_endpoints['phenotype']] = queryString   
@@ -96,11 +106,12 @@ def get_image_data(request):
         json_data = get_local_data()
         docs = json_data['response']['docs']
     
-    image_data = process_docs(docs, imageString, queryString)
+    (image_data, roi_data) = extract_image_data(docs, imageId, queryString)
     #source_location, image_name = downloadImage(imageString)
     #dzi_location = generateImageTiles(source_location, image_name)
     
-    context = {"image_data": image_data}
+    context = {"image_data": image_data, "roi_data":roi_data}
+    
     #context = {"image_data": image_data, "dzi_name": image_name}
     
     return context
@@ -132,12 +143,13 @@ def downloadImage(url):
     
     return (source_location, image_name)
     
-def process_docs(docs, imageString, queryString):
+def extract_image_data(docs, imageId, queryString):
     image_data_dict = {}
     image_data = []
+    roi_data = []
     
     for doc in docs:
-        if doc['image_url'] == imageString:
+        if doc['id'] == imageId:
             
             if "sex" in doc:
                 image_data_dict['sex'] = doc['sex']
@@ -225,11 +237,27 @@ def process_docs(docs, imageString, queryString):
             image_data_dict['id'] = doc['id']
             
             image_data_dict['queryString'] = queryString
-            image_data_dict['imageURL'] = imageString
+            image_data_dict['imageURL'] = doc['image_url']
+            
+            roi_data = getROIs(imageId)['response']['docs']
+            
+            if roi_data is not None:
+                for roi in roi_data:
+                    try: 
+                        channels_data = []
+                        
+                        for channelId in roi['associated_channel']:
+                            channels_data.append(getChannel(channelId)['response']['docs'][0])
+                            
+                        roi['channels'] = channels_data
+                        #print roi.channel
+                    except:
+                        print "No attribute exists"
+                        print roi
             
             image_data.append(image_data_dict)
             
-    return image_data        
+    return (image_data, simplejson.dumps(roi_data))        
             
 def get_local_data():
     json_data_file = open('/opt/pheno/python/pis/static/queries/txt/search_response_hwu_ann.json')
@@ -318,4 +346,70 @@ def getAutosuggest(request):
     autosuggestdata = simplejson.dumps(responsedata['response']['suggestions'])
     
     return HttpResponse(autosuggestdata, mimetype='application/json')
+
+def getROIs(imageId):
+    query={}
     
+    query[rois_endpoints['imageId']] = imageId
+    url = api_url + rois_acp
+    url_data=urllib.urlencode(query)
+    req = urllib2.Request(url, url_data)
+    
+    response = urllib2.urlopen(req)
+    responsedata = simplejson.load(response)
+    #roi_data = simplejson.dumps(responsedata['response']['docs'])
+    
+    return responsedata
+
+def get_roi_data(request):
+    roiId = ""
+    
+    if 'id' in request.GET:
+        roiId = request.GET['id']
+            
+    roi_data = getROI(roiId)['response']['docs']
+    
+    if roi_data is not None:
+        for roi in roi_data:
+            try: 
+                channels_data = []
+                
+                for channelId in roi['associated_channel']:
+                    channels_data.append(getChannel(channelId)['response']['docs'][0])
+                    
+                roi['channels'] = channels_data
+            except:
+                print "No attribute exists"
+                print roi
+    
+    #context = {"roi_data": roi_data}
+    roi_data = simplejson.dumps(roi_data)
+    
+    return HttpResponse(roi_data, mimetype='application/json')
+    
+def getROI(roiId):
+    query={}
+    
+    query[roi_endpoints['id']] = roiId
+    url = api_url + roi_acp
+    url_data=urllib.urlencode(query)
+    req = urllib2.Request(url, url_data)
+    
+    response = urllib2.urlopen(req)
+    responsedata = simplejson.load(response)
+    
+    return responsedata
+    
+                
+def getChannel(channelId):
+    query={}
+    
+    query[channel_endpoints['id']] = channelId
+    url = api_url + channel_acp
+    url_data=urllib.urlencode(query)
+    req = urllib2.Request(url, url_data)
+    
+    response = urllib2.urlopen(req)
+    responsedata = simplejson.load(response)
+    
+    return responsedata

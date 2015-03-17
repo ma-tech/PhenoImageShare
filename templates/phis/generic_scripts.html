@@ -17,64 +17,13 @@
 <!-- Bootstrap Select-->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/js/bootstrap-select.js' %}"></script>
 
-<!-- Bootstrap Switch -->
-<script type="text/javascript" charset="utf8" src="{% static 'queries/js/bootstrap-switch.js' %}"></script>
-
-<!-- Bootstrap Placeholder -->
-<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.placeholder.js' %}"></script>
-
-<!-- Bootstrap Tags Input -->
-<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.tagsinput.js' %}"></script>
-
-<!-- Bootstrap Application for Switch & Selection -->
-<script type="text/javascript" charset="utf8" src="{% static 'queries/js/application.js' %}"></script>
-
-<!-- Hopscotch-->
-<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/hopscotch/hopscotch.min.js' %}"></script>
-
-<!-- Autosuggest Plugin for PhIS -->
-<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.typeahead-bundle.js' %}"></script>
-<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.bloodhound.js' %}"></script>
-
 <!-- Datatables JQuery JS -->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/assets/datatables/v1.10.0/jquery.dataTables.js' %}"></script>
 
 <script>
 
-var detail_url = "{% url 'queries:detail_view' %}";
-var query_url = "{% url 'queries:query_view' %}";
-this.autosuggest_acp = "getAutosuggest?term=";
-
 $(window).load(function(){
-	//included for comparison testing 
-	var terms = new Bloodhound({
-	    datumTokenizer: function (datum) {
-	        return Bloodhound.tokenizers.whitespace(datum.value);
-	    },
-	    queryTokenizer: Bloodhound.tokenizers.whitespace,
-	    remote: {
-	        url: this.base_query_url + this.autosuggest_acp + '%QUERY',
-	        filter: function (data) {
-	            return $.map(data, function (term) {
-	                return {
-	                    value: term
-	                };
-	            });
-	        }
-	    }
-	});
-	
-	terms.initialize();
-	
-	$('#indexInput').typeahead({
-		highlight: true,
-		hint: true,
-		minLength: 1
-	}, {
-	    displayKey: 'value',
-	    source: terms.ttAdapter()
-	});
-});
 
+});
 
 </script>

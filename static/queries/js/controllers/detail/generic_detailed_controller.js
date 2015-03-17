@@ -3,15 +3,16 @@ function DetailedController(){
 	this.imageURL = "";
 	this.queryString = "";
 	this.annotationBaseURL = "";
+	this.ROIs = "";
 };
 
 DetailedController.prototype.initialiseElements= function() { 
-  $("#annotation_accordion").draggable({
+ /* $("#annotation_accordion").draggable({
 	  drag: function (event, ui) {
 		  console.log("[GUI] Dragging drawing tool: "+$("#annotation_accordion"));
 	  }
   });
-  
+  */
   var associatedROIURL = this.associatedROIURL;
   var imageURL = this.imageURL;
   var queryString = this.queryString;
@@ -52,6 +53,9 @@ DetailedController.prototype.setParams= function(params) {
 	this.imageURL = params.imageURL;
 	this.queryString = params.queryString;
 	this.annotationBaseURL = params.annotationBaseURL;
+	this.ROIs = params.ROIs;
+	this.imageDimensions = params.imageDimensions;
+	this.swfURL = params.swfURL;
 }
 
 DetailedController.openwindow= function(query, imageURL, associatedROI, annotationBaseURL) {
@@ -62,4 +66,283 @@ DetailedController.openwindow= function(query, imageURL, associatedROI, annotati
  
  //var drawingWindow = window.open("drawing" + "?q="+query+"&img="+imageURL+"&roi_ids="+associatedROI,"_blank","height=1400,width=1800,status=yes, scrollbars=yes,top=500px, left=400px");
  console.log("[Drawing View] Parameters - Image URL:"+imageURL+", Associated ROI:"+associatedROI+", Query:"+query);
+};
+
+DetailedController.prototype.displayROIs= function() { 
+	//prepare ROI and annotations data
+	var roi_display_data = [];
+	var roi_annotation_data = [];
+	var roi_channels_data = [];
+	
+	console.log("Channels data: "+ this.ROIs[0].channels);
+	
+	var swfURL = this.swfURL;
+	var rois = this.ROIs;
+	
+	for(var i = 0; i < this.ROIs.length; i++){
+		var roi_width = this.imageDimensions[1] * (this.ROIs[i].x_coordinates[1] / 100) - this.imageDimensions[1] * (this.ROIs[i].x_coordinates[0] /  100);
+		
+		var roi_height= this.imageDimensions[0] * (this.ROIs[i].y_coordinates[1] / 100) - this.imageDimensions[0] * (this.ROIs[i].y_coordinates[0] / 100);
+		var roi_dimension = roi_width + " x " + roi_height;
+		var annotations = "";
+		var channels = "";
+		var annotation_data = {};
+		var channels_data = {};
+		
+		if (this.ROIs[i].depicted_anatomy_term != undefined){
+			annotation_data.anatomy = this.ROIs[i].depicted_anatomy_term;
+			annotations = annotations +  "Anatomy: "+this.ROIs[i].depicted_anatomy_term +"<br/>";
+		}
+		
+		if (this.ROIs[i].phenotype_term != undefined) {
+			annotation_data.phenotype = this.ROIs[i].phenotype_term;
+			annotations = annotations +  "<b>Phenotypes:</b> "+this.ROIs[i].phenotype_term +"<br/>";
+		}
+		
+		if (this.ROIs[i].abnormality_in_anatomical_structure != undefined) {
+			annotation_data.abnormality = this.ROIs[i].abnormality_in_anatomical_structure;
+			annotations = annotations +  "<b>Abnormality:</b> "+this.ROIs[i].abnormality_in_anatomical_structure +"<br/>";
+		}
+		
+		if (this.ROIs[i].channels != undefined) {
+			for (var  k = 0 ; k < this.ROIs[i].channels.length ; k++){
+				channels_data[this.ROIs[i].channels[k].id] = this.ROIs[i].channels[k];
+				channels = channels + this.ROIs[i].channels[k].gene_symbol
+			}
+		}
+		
+		roi_annotation_data[i] = annotation_data;
+		roi_channels_data[i] = channels_data;
+		
+		roi_display_data[i] = ["",i, roi_dimension, annotations, channels, "", "", "",""];
+	}	
+
+	/*
+	$('#roitable').DataTable({
+       	"data": roi_display_data,
+		"bFilter": false,
+        "bLengthChange": false,
+        scrollY: 150,
+		filter:false,
+        dom: 'T<"clear">lfrtip',
+        tableTools: {
+           "sSwfPath": swfURL,
+			"sRowSelect": "single"
+        }
+	 });
+	*/
+	
+	var table = $('#roitable').DataTable({
+		"data": roi_display_data,
+		"bFilter": false,
+        "bLengthChange": false,
+		paginate: false,
+	    "ordering": false,
+        dom: 'TC<"clear">lfrtip',
+	    "fnCreatedRow": function( nRow, aData, iDataIndex ) {
+	         // meant to set the id to one that links to server, but not working.
+	        //$(nRow).attr('id',"myi"+iDataIndex);
+	    },
+		responsive:{ 
+			details: {
+			         type: 'column',
+			         target: 'tr',
+					 renderer: function ( api, rowIdx ) {
+					
+						 var data = api.cells( rowIdx, ':hidden' ).eq(0).map( function ( cell ) {
+						                         var header = $( api.column( cell.column ).header() );
+ 											
+						                         return '<tr>'+
+						                                 '<td>'+
+						                                     header.text()+':'+
+						                                 '</td> '+
+						                                 '<td>'+
+						                                     api.cell( cell ).data()+
+						                                 '</td>'+
+						                             '</tr>';
+						                     } ).toArray().join('');
+ 											 
+											 //build table for annotations
+											 var annotations = roi_annotation_data[rowIdx];
+											 var annotations_template = '<caption><i>Annotations</i></caption><thead><tr><th>ID</th><th>Term</th><th>Type</th>'+
+											 							 '<th>Curator</th><th>Created</th><th>Edit/Delete</th></tr></thead><tbody>';
+											 var annotations_count = 0;
+											 
+											 for (key in annotations){
+											 	annotations_template = annotations_template + '<td>'+ annotations_count +'</td> '+ '<td>' + annotations[key] +'</td>' +
+												 						'<td>' + key +'</td>' + '<td>User</td>'+ '<td>Created</td>'+ '<td>Edit/Delete</td></tr><tr>'
+												 annotations_count = annotations_count + 1;
+											 }
+											 
+											 annotations_template = annotations_template + '</tbody>'
+											 
+											 //build table for channels
+											 var channels = roi_channels_data[rowIdx];
+											 var channels_template = '<caption><i>Channels</i></caption><thead><tr><th>ID</th><th>Gene</th><th>Start</th>'+
+											 						 '<th>End</th><th>Curator</th><<th>Created</th><</tr></thead><tbody>';
+											 var channels_count = 0;
+											 
+											 for (key in channels){
+											 	channels_template = channels_template + '<td>'+ channels_count +'</td> '+ '<td>' + channels[key].gene_symbol + '</td>' 
+												 					+'<td>' + channels[key].start_pos +'</td>' + '<td>'+channels[key].end_pos+'</td></tr><tr>' 
+												 
+												 channels_count = channels_count + 1;
+											 }
+											 channels_template = channels_template + '</tbody>'
+											 
+											 var channels_template = $('<table id="channelstable" class="display responsive nowrap" cellspacing="0" width="90%"/><br/>').append(channels_template);
+											 var annotations_table = $('<table id="annotationstable" class="display responsive nowrap" cellspacing="0" width="90%"/><br/>').append(annotations_template);
+											 var roi_table_ext = $('<table/>').append( data );
+											 
+											 
+											 return (data && annotations_template && channels_template ? $('<div/>').append(roi_table_ext).append(annotations_table).append(channels_template) : false);
+					 }
+            }			
+		},
+		  
+		columnDefs: [ {
+		            className: 'control',
+		            orderable: false,
+					targets:   0
+		        } ],
+				
+		order: [ 1, 'asc' ]	
+	});
+	
+	
+	var tt = new $.fn.dataTable.TableTools(table, {
+           "sSwfPath": swfURL,
+			"sRowSelect": "single"
+	});
+	
+	$(tt.fnContainer()).insertBefore('div.roitablediv');
+	
+	
+	var _template = {
+		table: '<table></table>',
+		row: '<tr></tr>',
+		linebreak:'<br/>',
+		wrapper: '<div></div>'
+	};
+	
+	//adding tooltip to each row
+    table.$('tr').qtip({
+        content: {
+                text: function(event, api) {
+                    $.ajax({
+                        url: "/search/detail/getRoiData?id="+rois[api.get('id')].id // Use href attribute as URL
+                    })
+                    .then(function(content) {
+						
+							var annotations_table = '<caption><i>Annotations</i></caption><thead><tr><th>ID</th><th>Term</th><th>Type</th>'+
+							 '<th>Curator</th><th>Created</th><th>Edit/Delete</th></tr></thead><tbody>';
+							
+							var channels_table = '<caption><i>Channels</i></caption><thead><tr><th>ID</th><th>Gene</th><th>Start</th>'+
+							 '<th>End</th><th>Curator</th><th>Edit/Delete</th></tr></thead><tbody>';
+							 
+							for (var i = 0; i < content.length ; i++){
+   							 	var annotation_data = [];
+   							 	var term = "";
+							 	var type = "";
+								var channels_data = [];
+								var gene = "";
+								var start = "";
+								var end = "";
+								
+								if (content[i].depicted_anatomy_term !=undefined){
+									term = content[i].depicted_anatomy_term;
+									type = "anatomy";
+								}else if (content[i].phenotype_term !=undefined){
+									term = content[i].phenotype_term;
+									type = "phenotype";
+								}else if (content[i].abnormality_in_anatomical_structure !=undefined){
+									term = content[i].abnormality_in_anatomical_structure;
+									type = "abnormal anatomy";
+								}
+								
+								if (content[i].channels !=undefined){
+									for (var j = 0; j < content[i].channels.length ; j++){
+										gene = content[i].channels[j].gene_symbol;
+										start = content[i].channels[j].start_pos;
+										end = content[i].channels[j].end_pos;
+										channels_data[j] = [j, gene, start, end, "curator", "created date"]
+									}
+								}
+								
+								annotation_data [i] = [i, term, type, "curator", "created", "Edit/Delete"]
+							}
+							
+							$('#annotationtablediv')
+								.append($(_template.wrapper)
+									.attr('id','wrapper-div'+rois[api.get('id')].id)
+									.append($(_template.table)
+									.addClass('display responsive nowrap')
+									.attr('id','annotations_'+rois[api.get('id')].id)
+									.append(annotations_table))
+									.append($(_template.linebreak))
+									.append($(_template.table)
+									.addClass('display compact responsive nowrap')
+									.attr('id','channel_'+rois[api.get('id')].id)
+									.append(channels_table)));
+							
+								
+							//$('#channelstablediv').append($(_template.table).addClass('display compact responsive nowrap').attr('id',rois[api.get('id')].id).append(annotations_table));
+							
+							//console.log($('#annotationtablediv'));
+							var annotationstable = $('#annotations_'+rois[api.get('id')].id).DataTable({
+																		"data": annotation_data,
+																		"bFilter": false,
+																        "bLengthChange": false,
+																		paginate: false,
+																	    "ordering": false,
+																		"bInfo" : false,	
+																		});
+																		
+							var channelstable = $('#channel_'+rois[api.get('id')].id).DataTable({
+																		"data": channels_data,
+																		"bFilter": false,
+																        "bLengthChange": false,
+																		paginate: false,
+																	    "ordering": false,
+																		"bInfo" : false,	
+																		});
+																		
+							//display_div = $('#channelstablediv').append( annotations_table ).append( channels_table );
+							
+                        // Set the tooltip content upon successful retrieval
+                        api.set('content.text', $('#wrapper-div'+rois[api.get('id')].id));
+                    }, function(xhr, status, error) {
+                        // Upon failure... set the tooltip content to error
+                        api.set('content.text', status + ': ' + error);
+                    });
+        
+                    return 'Loading...'; // Set some initial text
+                },
+				title: 'Annotations and Channels',
+				button: true
+            },
+        position: {
+            target: 'mouse', // Use the mouse position as the position origin
+            adjust: {
+                // Don't adjust continuously the mouse, just use initial position
+                mouse: false
+            } 
+        },
+        show: {
+            solo: true
+        },
+      	
+       hide: {
+             event: false,
+             inactive: 5000
+       },
+       events: {
+           
+       },
+	style:{
+		classes:"qtip-bootstrap",
+		width: 550,
+	}
+    });
+	
 };

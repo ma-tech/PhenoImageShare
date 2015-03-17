@@ -16,8 +16,8 @@
 	
 	<!-- Detailed-specific JS-->
     {% block javascripts %}
-		{% include "queries/html/components/detailed_scripts.html" %}
 		{{block.super}}
+		{% include "queries/html/components/detailed_scripts.html" %}
 	{% endblock javascripts %}
 	
  </head>
@@ -55,18 +55,7 @@
 						{% include "queries/html/components/detailed/right/annotations.html" %}
 					{% endblock first %}
 				</div>
-						
-
-					  <!--				  
-							<div class="col-lg-3 col-lg-push-2 col-lg-offset-0">
-								{% block third %}
-					
-									{% include "queries/html/components/detailed/right/annotations_rois.html" %}
-					
-								{% endblock third %}
-							</div>
-					   -->
-						  
+							  
 		</div>
         
 		{% endfor %}

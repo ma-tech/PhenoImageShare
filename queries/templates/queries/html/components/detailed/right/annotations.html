@@ -1,12 +1,5 @@
 <div class="row">
 
-	   	<h3 id="" class="panel-title">
-			<a data-toggle="collapse" data-parent="#accordion" href="#anatomyterms">Annotations</a>
-		</h3>
-		
-		<div class="panel panel-primary">
-		</div>
-			
 		   	<h3 id="" class="panel-title">
 				<a data-toggle="collapse" data-parent="#accordion" href="#anatomyterms">Regions of Interest</a>
 			</h3>
@@ -14,16 +7,21 @@
 			<div class="panel panel-primary" style="margin-bottom: 0px;padding: 0px;">
 			</div>
 			
-	        <table id="imgtable" class="table table-bordered table-striped table-hover table-condensed">
+			<div id="roitablediv">
+			
+			<!--<table id="roitable" class="table table-bordered table-striped table-hover table-condensed"> -->
+	        <table id="roitable" class="display compact responsive nowrap" cellspacing="0" width="100%">
 	          <thead>
 	            <tr>
-	              <th>ID</th>
-				  <th>Description</th>		
-	              <th>Dimensions</th>
+				  <th></th>
+	              <th class="dt-center">ID</th>
+	              <th>Dimens.</th>
 				  <th>Annotations</th>
-	              <th>Created By</th>
-				  <th>Last Modified</th>
-				  								
+				  <th>Channels</th>
+	              <th class="none">Curator</th>
+				  <th class="none">Created</th>
+				  <th class="none">Updated</th>	
+				  <th>Modify</th>		
 	            </tr>
 	          </thead>
           
@@ -48,5 +46,11 @@
 				  -->
 		  
 	        </table>
-		
+		</div>
+</div>
+
+<div id="annotationtablediv" style="display:none;">
+</div>
+
+<div id="channelstablediv" style="display:none;">
 </div>
