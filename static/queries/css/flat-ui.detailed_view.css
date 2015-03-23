@@ -1863,7 +1863,7 @@ fieldset[disabled] .input-group-btn .btn-default.active {
 
 .tagsinput {
   background: white;
-  border: 2px solid #1abc9c;
+  border: 1px solid #1abc9c;
   border-radius: 6px;
   height: 100px;
   margin-bottom: 18px;
@@ -1875,7 +1875,7 @@ fieldset[disabled] .input-group-btn .btn-default.active {
   border-radius: 4px;
   background-color: #1abc9c;
   color: #ffffff;
-  font-size: 14px;
+  font-size: 10px;
   cursor: pointer;
   display: inline-block;
   margin-right: 5px;
@@ -1937,26 +1937,8 @@ fieldset[disabled] .input-group-btn .btn-default.active {
   vertical-align: middle;
   display: inline-block;
 }
-.tagsinput-add {
-  background-color: #d6dbdf;
-  border-radius: 3px;
-  color: #ffffff;
-  cursor: pointer;
-  display: inline-block;
-  font-size: 14px;
-  line-height: 1;
-  margin-bottom: 5px;
-  padding: 7px 9px;
-  vertical-align: top;
-  -webkit-transition: 0.25s linear;
-  transition: 0.25s linear;
-}
 .tagsinput-add:hover {
   background-color: #1abc9c;
-}
-.tagsinput-add:before {
-  content: "\e009";
-  font-family: "Flat-UI-Icons";
 }
 .tags_clear {
   clear: both;

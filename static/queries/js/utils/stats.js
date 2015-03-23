@@ -60,7 +60,7 @@ Stats.prototype.renderCharts = function() {
 	this.imageTypePlot();
 	
 	//render imaging methods chart
-	this.stagePlot();
+	//this.stagePlot();
 	
 	//relationship between imaging methods and sample types
 	//this.imagingMethodSamplePlot();
@@ -90,7 +90,9 @@ Stats.prototype.renderSTIMCharts = function(){
 		pieData.push(data);
 		
 		//prepare bar plot data
-		var barDataPoint= [this.stats.imagingMethodWiltypeData[key]  ? this.stats.imagingMethodWiltypeData[key].value : 0, this.stats.imagingMethodMutantData[key] ? this.stats.imagingMethodMutantData[key].value  : 0];
+		var barDataPoint = 	[this.stats.imagingMethodWiltypeData[key]  ? 
+							this.stats.imagingMethodWiltypeData[key].value : 0, this.stats.imagingMethodMutantData[key] ? 
+							this.stats.imagingMethodMutantData[key].value  : 0];
 		
 		barData[key] = barDataPoint;
 	}
@@ -216,6 +218,7 @@ Stats.prototype.renderSTIMCharts = function(){
 	    }
 	},200)
 	
+	/* Disabling interaction charts: re-enable at the later them after unifying the theme
 	imagingMethodSamplePlot = echarts.init(document.getElementById('imagingMethods-sample-chart'));
 	imagingMethodSamplePlot.setOption(pie_options);
 	
@@ -224,6 +227,7 @@ Stats.prototype.renderSTIMCharts = function(){
 
 	imagingMethodSamplePlot.connect(imagingMethodSamplePlot2);
 	imagingMethodSamplePlot2.connect(imagingMethodSamplePlot);
+	*/
 };
 
 
@@ -252,16 +256,16 @@ Stats.prototype.sampleTypePlot = function(){
         title: {
             text: 'By Sample types',
 			verticalAlign: "bottom",
-			y:-10
+			y:-90
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
         },
         plotOptions: {
             pie: {
+				size:180,
                 allowPointSelect: true,
                 cursor: 'pointer',
-				depth: 35,
                 dataLabels: {
                     enabled: false,
                     format: '<b>{point.name}</b>: {point.percentage:.1f} %',
@@ -273,7 +277,17 @@ Stats.prototype.sampleTypePlot = function(){
             }
         },
 		legend:{
-			y:-60
+			y:-120,
+			itemStyle: {
+			         font: '8pt Trebuchet MS, Verdana, sans-serif',
+			         color: '#A0A0A0'
+			      },
+			      itemHoverStyle: {
+			         color: '#A0A0A0'
+			      },
+			      itemHiddenStyle: {
+			         color: '#CCC'
+			      }
 		},
         series: [{
             type: 'pie',
@@ -308,13 +322,14 @@ Stats.prototype.imageTypePlot = function(){
         title: {
             text: 'By Image type',
 			verticalAlign: "bottom",
-			y:-10
+			y:-90
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
         },
         plotOptions: {
             pie: {
+				size:180,
                 allowPointSelect: true,
                 cursor: 'pointer',
 				depth: 35,
@@ -329,7 +344,17 @@ Stats.prototype.imageTypePlot = function(){
             }
         },
 		legend:{
-			y:-60
+			y:-120,
+			itemStyle: {
+			         font: '8pt Trebuchet MS, Verdana, sans-serif',
+			         color: '#A0A0A0'
+			      },
+			      itemHoverStyle: {
+			         color: '#A0A0A0'
+			      },
+			      itemHiddenStyle: {
+			         color: '#CCC'
+			      }
 		},
         series: [{
             type: 'pie',
@@ -370,6 +395,7 @@ Stats.prototype.stagePlot = function(){
         },
         plotOptions: {
             pie: {
+				size:180,
                 allowPointSelect: true,
                 cursor: 'pointer',
 				depth: 35,
@@ -418,16 +444,16 @@ Stats.prototype.imagingMethodPlot = function() {
         title: {
             text: 'By Imaging methods',
 			verticalAlign: "bottom",
-			y:-10
+			y:-90
         },
         tooltip: {
             pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
         },
         plotOptions: {
             pie: {
+				size:180,
                 allowPointSelect: true,
                 cursor: 'pointer',
-				depth: 35,
                 dataLabels: {
                     enabled: false,
                     format: '<b>{point.name}</b>: {point.percentage:.1f} %',
@@ -439,7 +465,18 @@ Stats.prototype.imagingMethodPlot = function() {
             }
         },
 		legend:{
-			y:-60
+			y:-110,
+			itemStyle: {
+			         font: '8pt Trebuchet MS, Verdana, sans-serif',
+			         color: '#A0A0A0'
+			      },
+			      itemHoverStyle: {
+			         color: '#A0A0A0'
+			      },
+			      itemHiddenStyle: {
+			         color: '#CCC'
+			      }
+				  
 		},
         series: [{
             type: 'pie',

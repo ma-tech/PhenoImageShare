@@ -43,19 +43,19 @@
 		
         <div class="row">
 		
-			<div class="col-lg-6 col-lg-pull-2">
+			<div class="col-lg-6">
 				{% block second %}
 					{% include "queries/html/components/detailed/central/image_canvas.html" %}
 				{% endblock second %}
 			</div>
 		
-			  <div class="col-lg-6 col-lg-push-1">
+			<div class="col-lg-6">
 				  {% block first %}
 						{% include "queries/html/components/detailed/right/metadata_genotype.html" %}
 						{% include "queries/html/components/detailed/right/annotations.html" %}
 					{% endblock first %}
-				</div>
-							  
+			</div>
+						  
 		</div>
         
 		{% endfor %}

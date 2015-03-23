@@ -73,9 +73,7 @@ DetailedController.prototype.displayROIs= function() {
 	var roi_display_data = [];
 	var roi_annotation_data = [];
 	var roi_channels_data = [];
-	
-	console.log("Channels data: "+ this.ROIs[0].channels);
-	
+		
 	var swfURL = this.swfURL;
 	var rois = this.ROIs;
 	
@@ -114,7 +112,7 @@ DetailedController.prototype.displayROIs= function() {
 		roi_annotation_data[i] = annotation_data;
 		roi_channels_data[i] = channels_data;
 		
-		roi_display_data[i] = ["",i, roi_dimension, annotations, channels, "", "", "",""];
+		roi_display_data[i] = ["", annotations, channels, "", "", "",""];
 	}	
 
 	/*
@@ -235,10 +233,10 @@ DetailedController.prototype.displayROIs= function() {
                     .then(function(content) {
 						
 							var annotations_table = '<caption><i>Annotations</i></caption><thead><tr><th>ID</th><th>Term</th><th>Type</th>'+
-							 '<th>Curator</th><th>Created</th><th>Edit/Delete</th></tr></thead><tbody>';
+							 '<th>Curator</th><th>Created</th><th>Edit/Delete</th></tr></thead><tbody></tbody>';
 							
 							var channels_table = '<caption><i>Channels</i></caption><thead><tr><th>ID</th><th>Gene</th><th>Start</th>'+
-							 '<th>End</th><th>Curator</th><th>Edit/Delete</th></tr></thead><tbody>';
+							 '<th>End</th><th>Curator</th><th>Edit/Delete</th></tr></thead><tbody></tbody>';
 							 
 							for (var i = 0; i < content.length ; i++){
    							 	var annotation_data = [];
@@ -318,30 +316,37 @@ DetailedController.prototype.displayROIs= function() {
         
                     return 'Loading...'; // Set some initial text
                 },
-				title: 'Annotations and Channels',
+				title: '<b>Annotations and Channels</b>',
 				button: true
             },
         position: {
             target: 'mouse', // Use the mouse position as the position origin
             adjust: {
                 // Don't adjust continuously the mouse, just use initial position
-                mouse: false
-            } 
+                x: 12,
+				y:12,
+				mouse:false
+            },
+			viewport: $(window)  
         },
         show: {
             solo: true
         },
       	
+		/*
        hide: {
              event: false,
-             inactive: 5000
-       },
+             inactive: 3000
+       },*/
+	   
+	   hide: 'unfocus',
+		
        events: {
            
        },
 	style:{
 		classes:"qtip-bootstrap",
-		width: 550,
+		width: 700,
 	}
     });
 	

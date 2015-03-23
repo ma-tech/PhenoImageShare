@@ -157,7 +157,15 @@ Processor.prototype.loadJSON = function(){
  	   function(data, textStatus, jqXHR)
  	   {
 		   tableTitle.innerHTML=data.response.numFound +" records found in database";
- 		  
+ 		   
+		   var end_record = 0;
+		   var total_record_found = data.response.numFound;
+		   
+		   if (total_record_found < 20)
+		  	 end_record = total_record_found;
+		   else
+			  end_record = 20;
+		   
 		   $.unblockUI();
 		   
 		   var numDocs = data.response.docs.length;
@@ -181,9 +189,12 @@ Processor.prototype.loadJSON = function(){
 			   
 			   image_with_hyperlink =  image_hyperlink + "<img src="+image_url+" style=\"width: 100%;\"/> </a>";
 			   
-			   descr = "<b> Expression: </b>" + expression + ", <b> Anatomy: </b>" + anatomy + ", <b> Phenotype: </b>"  + phenotype + ", <b> Gene: </b>" + gene; //+ ", <b> ID: </b>" +  id;
+			   descr = (data.response.docs[i].expression_in_label_bag ? "<b> Expression: </b>" + data.response.docs[i].expression_in_label_bag : "") + 
+			   		   (data.response.docs[i].anatomy_term ? "<br/> <b> Anatomy: </b>" + data.response.docs[i].anatomy_term : "") +
+			   		   (data.response.docs[i].phenotype_label_bag ? "<br/> <b> Phenotype: </b>" + data.response.docs[i].phenotype_label_bag: "") +
+			   		   (data.response.docs[i].gene_symbol ? "<br/> <b> Associated gene: </b>" + data.response.docs[i].gene_symbol : "") ;
 			   
-			   tableData[i]=[image_with_hyperlink, descr];
+			   tableData[i]=[image_with_hyperlink, descr, detail_url];
 			   galleryData[i] = [image, image_url, descr]
 		   }
 	
@@ -194,24 +205,42 @@ Processor.prototype.loadJSON = function(){
 		   
 			//add data to gallery
 		   create_gallery(galleryData);
-		   
+				   
 			//Add data to table.
    		$("#imgtable").dataTable().fnDestroy();
    		$('#imgtable').DataTable({
    			//"ajax": "get_images",
 	       	"data": tableData,
-   		 	"columns": [
-   		       	{ "title": 'Image' },
-   				{ "title": 'Description' }
-   		  	  ],
-			  "columnDefs": [
-			    { "width": "20%", "targets": 0}
+		    "fnCreatedRow": function( nRow, aData, iDataIndex ) {
+				  $(nRow).attr('url',""+aData[2]);
+				  $(nRow).attr('style',"cursor:pointer;");
+		    },
+			"columnDefs": [
+			    { "width": "20%", "targets": 0},
+                {"targets": [ 2 ],"visible": false}
 			  
 		      ],
-			  
+				/*columnDefs: [ {
+				            className: 'control',
+				            orderable: false,
+							targets:   0,
+							"width": "20%", 
+							"targets": 0
+				        } ],*/
+				
+			  order: [ 1, 'asc' ],
 			  scrollY: 900,
 			  pageLength: 20,
-   		 });	
+			  "oLanguage": {
+				     "sInfo": "'   Showing 1 to "+end_record+" of "+total_record_found+" entries",
+				      "sZeroRecords": "  No data to show" 
+			 },
+					
+   		 });
+		 
+		 $('#imgtable tbody').on('click', 'tr', function() {
+			 window.location.href = $(this).attr('url');
+		 });	
 		   
 		   // Add data to facet.
 		 $('#facets').treeview({

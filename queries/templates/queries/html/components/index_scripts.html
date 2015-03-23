@@ -81,6 +81,7 @@ $(document).ready(function() {
 	
 	//keypress event handler
 	$('#indexInput').keypress( function(e){
+		
 		if(e.which == 13){
 			loadSearchPage();	
 			$.blockUI({ message: '<h1>Loading...<img src="'+loading_waiter_url+'"/></h1>'});		

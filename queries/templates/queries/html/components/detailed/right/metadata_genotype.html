@@ -1,4 +1,4 @@
-<div class="row">
+<div id="imagemetadata" class="row">
 
 	   	<h3 id="" class="panel-title">
 			<a data-toggle="collapse" data-parent="#accordion" href="#anatomyterms">Metadata & Genotype</a>
@@ -61,12 +61,15 @@
 			 </li>
 			{% endif %}
 			
+			<!--
   			 {% if image.height or  image.width %}
   			  <li href="#" class="list-group-item">
   				  Dimension:
   	         	 <span class="badge"> {{image.height}} x {{image.width}}</span>
   			 </li>
   			 {% endif %}
+			 
+			 -->
 			 
  			{% if image.observations %}
  			 <li href="#" class="list-group-item">

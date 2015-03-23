@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, Http404
 import simplejson
 import urllib2
 import urllib
@@ -101,18 +101,12 @@ def get_image_data(request):
     
         json_data = simplejson.load(response)
         docs = json_data['response']['docs']
-        
+        (image_data, roi_data) = extract_image_data(docs, imageId, queryString)
     except (urllib2.HTTPError, urllib2.URLError, simplejson.JSONDecodeError):
-        json_data = get_local_data()
-        docs = json_data['response']['docs']
-    
-    (image_data, roi_data) = extract_image_data(docs, imageId, queryString)
-    #source_location, image_name = downloadImage(imageString)
-    #dzi_location = generateImageTiles(source_location, image_name)
+        #(image_data, roi_data) = ('{"server_error": "Server Unreachable"}', '{"server_error": "Server Unreachable"}')
+        raise Http404
     
     context = {"image_data": image_data, "roi_data":roi_data}
-    
-    #context = {"image_data": image_data, "dzi_name": image_name}
     
     return context
 
@@ -258,12 +252,6 @@ def extract_image_data(docs, imageId, queryString):
             image_data.append(image_data_dict)
             
     return (image_data, simplejson.dumps(roi_data))        
-            
-def get_local_data():
-    json_data_file = open('/opt/pheno/python/pis/static/queries/txt/search_response_hwu_ann.json')
-    json_data = simplejson.load(json_data_file)
-      
-    return json_data
     
 def processQuery(request):
     query = {}
@@ -350,15 +338,17 @@ def getAutosuggest(request):
 def getROIs(imageId):
     query={}
     
-    query[rois_endpoints['imageId']] = imageId
-    url = api_url + rois_acp
-    url_data=urllib.urlencode(query)
-    req = urllib2.Request(url, url_data)
+    try:
+        query[rois_endpoints['imageId']] = imageId
+        url = api_url + rois_acp
+        url_data=urllib.urlencode(query)
+        req = urllib2.Request(url, url_data)
     
-    response = urllib2.urlopen(req)
-    responsedata = simplejson.load(response)
-    #roi_data = simplejson.dumps(responsedata['response']['docs'])
-    
+        response = urllib2.urlopen(req)
+        responsedata = simplejson.load(response)
+    except urllib2.HTTPError:
+        responsedata = '{"server_error": "Server Unreachable"}'
+        
     return responsedata
 
 def get_roi_data(request):
@@ -367,36 +357,38 @@ def get_roi_data(request):
     if 'id' in request.GET:
         roiId = request.GET['id']
             
-    roi_data = getROI(roiId)['response']['docs']
+    roi_data = getROI(roiId)
     
     if roi_data is not None:
-        for roi in roi_data:
-            try: 
-                channels_data = []
+        if "server_error" not in roi_data:
+            for roi in roi_data:
+                try: 
+                    channels_data = []
                 
-                for channelId in roi['associated_channel']:
-                    channels_data.append(getChannel(channelId)['response']['docs'][0])
+                    for channelId in roi['associated_channel']:
+                        channels_data.append(getChannel(channelId)['response']['docs'][0])
                     
-                roi['channels'] = channels_data
-            except:
-                print "No attribute exists"
+                    roi['channels'] = channels_data
+                except:
+                    print "No attribute exists"
                 print roi
-    
-    #context = {"roi_data": roi_data}
-    roi_data = simplejson.dumps(roi_data)
-    
+            roi_data = simplejson.dumps(roi_data)
+            
     return HttpResponse(roi_data, mimetype='application/json')
     
 def getROI(roiId):
     query={}
     
-    query[roi_endpoints['id']] = roiId
-    url = api_url + roi_acp
-    url_data=urllib.urlencode(query)
-    req = urllib2.Request(url, url_data)
+    try:
+        query[roi_endpoints['id']] = roiId
+        url = api_url + roi_acp
+        url_data=urllib.urlencode(query)
+        req = urllib2.Request(url, url_data)
     
-    response = urllib2.urlopen(req)
-    responsedata = simplejson.load(response)
+        response = urllib2.urlopen(req)
+        responsedata = simplejson.load(response)['response']['docs']
+    except urllib2.HTTPError:
+        responsedata = '{"server_error": "Server Unreachable"}'
     
     return responsedata
     
@@ -413,3 +405,6 @@ def getChannel(channelId):
     responsedata = simplejson.load(response)
     
     return responsedata
+    
+#def error404(request):
+    #return render(request, 'queries/html/404.html')

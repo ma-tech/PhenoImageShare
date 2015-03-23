@@ -10,13 +10,17 @@
 	         content: 'Code-named PhIS, PhenoImageShare delivers tools for the annotation, querying, and submission of images (and their regions of interest) stored in distributed databases.',
 	         placement: 'left'
 	       },
-			  */
+		   */
+			  
 		   {
-  	         target: 'phis',
-  	         title: 'PhenoImageShare!',
-  	         content: 'PhenoImageSgare is a phenotype image annotation, sharing and discovery platform.',
-  	         placement: 'left'
+  	         target: 'dashboard',
+  	         title: 'Dashboard!',
+  	         content: 'Dashboard presents visual summary of Phenoimageshare dataset',
+  	         placement: 'bottom',
+		     yOffset: -90,
+			 xOffset: 500,
 	   	   },
+		   
 	      /* {
 	         target: 'searchMenuItem',
 	         title: 'Searching & Querying',
@@ -27,7 +31,7 @@
 	       {
 	         target: 'searchMenuItem',
 	         title: 'Searching & Querying',
-	         content: 'PhenoImageShare provides tools for querying the images, and image metadata, stored within its repository.',
+	         content: 'PhenoImageShare provides tools for discovery and query of complex annotations and metadata (of bio-images) stored within its repository.',
 	         placement: 'bottom',
 	       },
 		   
@@ -42,7 +46,7 @@
 	       {
 	         target: 'submissionMenuItem',
 	         title: 'Submission Service',
-	         content: 'PhenoImageShare provides a submission tool to allow users to submit new images and their associated annotaitons.',
+	         content: 'PhenoImageShare provides a submission tool to allow users to register new image instances (i.e. image metadata and annotaitons).',
 	         placement: 'bottom',
 	       },
 		   
@@ -147,7 +151,13 @@
 			 placement: 'left',
 			 width: 300,
 		     yOffset: 80,
+			 multipage: true,
+  	         onNext: function() {
+  	           window.location = "/search/detail/?q=&imageId=komp2_112968"
+  	         },
+  			 width: 300,
 	       },
+		   /*
 	       {
 	         target: 'searchInput',
 	         title: 'Enjoy your search',
@@ -156,6 +166,33 @@
 		     yOffset: 0,
 			 xOffset: 0,
 	       }
+		   */
+		   
+	       {
+	         target: 'imagecanvass',
+	         title: 'Annotated Image',
+	         content: 'Image canvass displaying annotated image along with associated annotations.',
+			 placement: 'left',
+			 width: 200
+	       },
+		   
+	       {
+	         target: 'imagemetadata',
+	         title: 'Metadata/Genotype',
+	         content: 'Metadata and Genotype information associated with the selected image.',
+			 placement: 'right',
+			 width: 200
+	       },
+		   
+	       {
+	         target: 'imagerois',
+	         title: 'ROIs',
+	         content: 'Interactive table displaying the image\'s Regions of Interest and annotations.' +
+			   			'Click on each row to view annotations associated with ROI.' + 
+			   			'Hover over a row to view annotations in tooltip',
+			 placement: 'right',
+			 width: 200
+	       },
 		   
 	     ],
 	     showPrevButton: true,
@@ -185,6 +222,8 @@
 	     if (state === 'phis-tour:5') {
 	       // Already started the tour at some point!
 	       hopscotch.startTour(tour);
+	     } else if (state === 'phis-tour:10') {
+	     	 hopscotch.startTour(tour);
 	     }
 	     else {
 	       // Landing on the PhIS Index page for the first(?) time.
@@ -217,6 +256,9 @@
    	       // Already started the tour at some point!
    	       hopscotch.startTour(tour);
    	     }
+		 else if (state === 'phis-tour:10') {
+			    hopscotch.startTour(tour);
+		 }
 		}
 	     
 	   };

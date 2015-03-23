@@ -1,33 +1,36 @@
 {% load staticfiles %}
 <hr/>
 
-<p class="text-center"><div class="row">
-
+<div class="row" style="margin: 0px;padding-top: 0px;">
   <div class="col-lg-3">
   </div>
+  
+  <div class="col-lg-6">
 	      <table id="imgtable" class="table table-bordered table-striped table-hover table-condensed">
 	            <thead>
 	            </thead>
 
 	  		  	<tbody>
+					<tr>
+		  		 	 <td  style="padding: 0px;">
+		  				 <img src="{% static 'queries/img/partner_logos/BBSRC.png' %}"/>
+		  		  	 </td>
+		  		 	 <td style="padding: 0px;">
+						 <img src="{% static 'queries/img/partner_logos/HGU.png' %}" />
+  				  	 </td>
+		  		 	 <td style="padding: 0px;">
+		  				 <img src="{% static 'queries/img/partner_logos/EMBL_EBI.png' %}" />
+		  		  	 </td>
 
-		  		 	 <tr>
-		  				 <img src="{% static 'queries/img/BBSRC.jpg' %}"/>
-		  		  	 </tr>
-		  		 	 <tr>
-						 <img src="{% static 'queries/img/HGU.png' %}" />
-  				 
-		  		  	 </tr>
-		  		 	 <tr>
-		  				 <img src="{% static 'queries/img/EMBL_EBI_Logo_black.png' %}" />
-		  		  	 </tr>
-		  		 	 <tr>
-  				 
-		  		  	 </tr>
-		  		 	 <tr>
-		  				 <img src="{% static 'queries/img/HWU.png' %}"/>
-		  		  	 </tr>
+		  		 	 <td>
+		  				 <img src="{% static 'queries/img/partner_logos/HWU.png' %}"/>
+		  		  	 </td>
+					 </tr>
 	  			 </tbody>
 	        </table>
-
-</div></p>
+  </div>  
+  
+  <div class="col-lg-3">
+  </div>
+ 
+</div>

@@ -41,6 +41,9 @@
 <!-- Annotation Tool -->
 <script type="text/javascript" charset="utf8" src="{% static 'annotation/js/controllers/annotation_tool.js' %}"></script>
 
+<!-- PhenoImageShare Site Tour -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/utils/phis_tour.js' %}"></script>
+
 <script>
 
 $(document).ready(function(){
@@ -65,14 +68,20 @@ function initialiseController(){
 	params.imageDimensions = ['{{image_data.0.height | safe}}', '{{image_data.0.width | safe}}'];
 	params.swfURL = "{% static 'queries/swf/copy_csv_xls_pdf.swf' %}";
 	params.ROIs = JSON.parse('{{roi_data | safe}}');
-	
+		
 	//console.log("DZI Location: " + params.dziLocation);
 	
 	var controller = new DetailedController();
 	
 	controller.setParams(params);
 	controller.initialiseElements();
-	controller.displayROIs();
+	
+	if (params.ROIs['server_error'] == undefined){
+		console.log(params.ROIs);
+		
+		controller.displayROIs();
+	}
+		
 	
 	/*
 	var viewer = OpenSeadragon({
