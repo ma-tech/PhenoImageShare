@@ -146,6 +146,8 @@ Processor.prototype.loadJSON = function(){
 	
 	var displayQuery = this.source_url+query_base_url+"?term="+searchString+"&"+queryString;
 	
+	console.log("Query : " + displayQuery);
+	
 	//Sample competency question for demo (BSA section meeting)
 	var comp_que = "[Competency question corresponding to query / semantic reasoning]";
 	
@@ -232,7 +234,7 @@ Processor.prototype.loadJSON = function(){
 			  scrollY: 900,
 			  pageLength: 20,
 			  "oLanguage": {
-				     "sInfo": "'   Showing 1 to "+end_record+" of "+total_record_found+" entries",
+				     "sInfo": "   Showing 1 to "+end_record+" of "+total_record_found+" entries",
 				      "sZeroRecords": "  No data to show" 
 			 },
 					

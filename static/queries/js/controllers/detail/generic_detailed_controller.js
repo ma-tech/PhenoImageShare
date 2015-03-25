@@ -87,9 +87,9 @@ DetailedController.prototype.displayROIs= function() {
 		var annotation_data = {};
 		var channels_data = {};
 		
-		if (this.ROIs[i].depicted_anatomy_term != undefined){
-			annotation_data.anatomy = this.ROIs[i].depicted_anatomy_term;
-			annotations = annotations +  "Anatomy: "+this.ROIs[i].depicted_anatomy_term +"<br/>";
+		if (this.ROIs[i].expressed_in_anatomy_term != undefined){
+			annotation_data.anatomy = this.ROIs[i].expressed_in_anatomy_term;
+			annotations = annotations +  "Anatomy: "+this.ROIs[i].expressed_in_anatomy_term +"<br/>";
 		}
 		
 		if (this.ROIs[i].phenotype_term != undefined) {
@@ -247,8 +247,8 @@ DetailedController.prototype.displayROIs= function() {
 								var start = "";
 								var end = "";
 								
-								if (content[i].depicted_anatomy_term !=undefined){
-									term = content[i].depicted_anatomy_term;
+								if (content[i].expressed_in_anatomy_term !=undefined){
+									term = content[i].expressed_in_anatomy_term;
 									type = "anatomy";
 								}else if (content[i].phenotype_term !=undefined){
 									term = content[i].phenotype_term;

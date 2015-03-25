@@ -233,9 +233,10 @@
 	             title: "What is PhenoImageShare ?",
 	             content: "Let's start by taking a tour of the PhenoImageShare tool.",
 	             target: startBtnId,
-	             placement: "right",
-	         	 yOffset: -25,
-	           	 arrowOffset: 20,
+	             placement: "bottom",
+	         	 yOffset: -5,
+				 xOffset: -50,
+	           	 arrowOffset: 100,
 	           	 width: 240
 	         });
 	       }, 100);

@@ -234,6 +234,7 @@ Stats.prototype.renderSTIMCharts = function(){
 Stats.prototype.sampleTypePlot = function(){
 	var sample_type_container = 'sample-type-chart';
 	var plotData = [];
+	var baseURL = this.query_base_url;
 	
 	//extract and prepare plot data
 	for (key in this.stats.sampleTypeImageTypeData){
@@ -266,6 +267,14 @@ Stats.prototype.sampleTypePlot = function(){
 				size:180,
                 allowPointSelect: true,
                 cursor: 'pointer',
+				point: {
+                    events: {
+                        click: function () {
+							window.open(baseURL + "?term=&imageType=PHENOTYPE_ANATOMY&sampleType="+
+							(this.name == "Mutants" ? "MUTANT" : "WILD_TYPE"));
+                        }
+                    }
+                },
                 dataLabels: {
                     enabled: false,
                     format: '<b>{point.name}</b>: {point.percentage:.1f} %',
@@ -300,6 +309,7 @@ Stats.prototype.sampleTypePlot = function(){
 Stats.prototype.imageTypePlot = function(){
 	var image_type_container = 'image-type-chart';
 	var plotData = [];
+	var baseURL = this.query_base_url;
 	
 	//extract and prepare plot data
 	for (key in this.stats.sampleTypeImageTypeData){
@@ -332,6 +342,14 @@ Stats.prototype.imageTypePlot = function(){
 				size:180,
                 allowPointSelect: true,
                 cursor: 'pointer',
+				point: {
+                    events: {
+                        click: function () {
+							window.open(baseURL + "?term=&sampleType=MUTANT&imageType="+
+							(this.name == "Phenotype" ? "PHENOTYPE_ANATOMY" : "EXPRESSION"));
+                        }
+                    }
+                },
 				depth: 35,
                 dataLabels: {
                     enabled: false,
@@ -424,10 +442,14 @@ Stats.prototype.imagingMethodPlot = function() {
 	var imagingMethod_container = 'imagingmethods-chart';
 	var plotData = [];
 	
+	var baseURL = this.query_base_url;
+	
 	//extract and prepare plot data
 	for (key in this.stats.imagingMethodsData){
 		plotData.push([key, this.stats.imagingMethodsData[key].percentage]);
 	}
+	
+	console.log(plotData);
 	
 	//construct sample type chart
 	var imagingSharechart = new Highcharts.Chart({
@@ -454,6 +476,13 @@ Stats.prototype.imagingMethodPlot = function() {
 				size:180,
                 allowPointSelect: true,
                 cursor: 'pointer',
+				point: {
+                    events: {
+                        click: function () {
+							window.open(baseURL + "?term=&imagingMethod="+this.name);
+                        }
+                    }
+                },
                 dataLabels: {
                     enabled: false,
                     format: '<b>{point.name}</b>: {point.percentage:.1f} %',

@@ -1,48 +1,16 @@
 {% load staticfiles %}
-<!-- jQuery -->
-<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/jquery/v1.10.2/jquery.min.js' %}"></script>
-
-<!-- <script type="text/javascript" charset="utf8" src="{% static 'queries/assets/jquery/v1.8.3/jquery-1.8.3.min.js' %}"></script>-->
-
-<!-- jQuery UI -->
-<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/jquery-ui/v1.11.0/jquery-ui.js' %}"></script>
-
-<!-- Datatables JQuery JS -->
-<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
-
-<!-- Tabletools datatables extension JS -->
-<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/datatables/extensions/tabletools/dataTables.tableTools.js' %}"></script>
-
-<!-- Colvis JqueryUI datatables extension JS -->
-<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/datatables/extensions/jqueryui/dataTables.jqueryui.js' %}"></script>
-
-<!-- Colvis datatables extension JS -->
-<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/datatables/extensions/colvis/dataTables.colVis.js' %}"></script>
 
 <!-- jQuery-lightbox -->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/assets/lightbox/jquery.lightbox.js' %}"></script>
 
-<!-- Datatables JS -->
-<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/plug-ins/be7019ee387/integration/bootstrap/3/dataTables.bootstrap.js"></script>
-
-<!-- Responsive datatables JS -->
-<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/responsive/1.0.4/js/dataTables.responsive.min.js"></script>
-
 <!-- Detailed View Generic Controller -->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/js/controllers/detail/generic_detailed_controller.js' %}"></script>
-
-<!-- qTip help jquery script -->
-<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/qTip/jquery.qtip.min.js' %}"></script>
 
 <!-- Openseadragon Zoom Creator 
 <script type="text/javascript" charset="utf8" src="{% static 'utils/assets/openseadragon.min.js' %}"></script>
 -->
-
 <!-- Annotation Tool -->
 <script type="text/javascript" charset="utf8" src="{% static 'annotation/js/controllers/annotation_tool.js' %}"></script>
-
-<!-- PhenoImageShare Site Tour -->
-<script type="text/javascript" charset="utf8" src="{% static 'queries/js/utils/phis_tour.js' %}"></script>
 
 <script>
 
@@ -62,6 +30,11 @@ function initialiseController(){
 	params.associatedROIURL = "{{image_data.0.associatedROI | safe}}";
 	params.imageId = "{{image_data.0.imageId | safe}}";
 	params.imageURL = "{{image_data.0.imageURL | safe}}";
+	
+	console.log("Image = {{image_data}}");
+	
+	console.log("ImageURL = "+params.imageURL);
+	
 	params.queryString = "{{image_data.0.queryString | safe}}";
 	params.dziName = "{{dzi_name | safe}}";
 	params.annotationBaseURL = "{% url 'annotation:drawing_view' %}";

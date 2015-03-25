@@ -7,6 +7,7 @@ from pis.settings import IQS as iqs
 #import deepzoom
 import re
 import os
+import logging
 
 try: from pis.settings import BASE_URL
 except ImportError: BASE_URL="http://dev.phenoimageshare.org"
@@ -34,6 +35,10 @@ channel_endpoints = access_points['getchannel']['options']
 
 autosuggest_acp = access_points['getautosuggest']['name']
 autosuggest_endpoints = access_points['getautosuggest']['options']
+
+iqs_version = '005'
+
+logger = logging.getLogger(__name__)
 
 def index(request):
     return render(request, 'queries/html/phis_index.html', '')
@@ -70,6 +75,7 @@ def get_image_data(request):
     imageId = ""
     base_url = ""
     query = {}
+    query['version'] = iqs_version
     
     if 'q' in request.GET:
         queryString = request.GET['q']
@@ -88,7 +94,7 @@ def get_image_data(request):
     elif "MGI" in queryString:
         query[image_endpoints['gene']] = queryString 
     elif queryString == "":
-        query = {}
+        query['version'] = iqs_version
     else:
         query[image_endpoints['term']] = queryString 
       
@@ -101,9 +107,17 @@ def get_image_data(request):
     
         json_data = simplejson.load(response)
         docs = json_data['response']['docs']
+        
+     
+        
         (image_data, roi_data) = extract_image_data(docs, imageId, queryString)
+        
+        logger.debug(image_data)
+        logger.debug(roi_data)
+        
     except (urllib2.HTTPError, urllib2.URLError, simplejson.JSONDecodeError):
         #(image_data, roi_data) = ('{"server_error": "Server Unreachable"}', '{"server_error": "Server Unreachable"}')
+        logger.debug("Error extracting either ROI or Image data")
         raise Http404
     
     context = {"image_data": image_data, "roi_data":roi_data}
@@ -141,9 +155,12 @@ def extract_image_data(docs, imageId, queryString):
     image_data_dict = {}
     image_data = []
     roi_data = []
-    
+       
     for doc in docs:
+       
         if doc['id'] == imageId:
+            
+            #logger.debug(doc)
             
             if "sex" in doc:
                 image_data_dict['sex'] = doc['sex']
@@ -250,11 +267,14 @@ def extract_image_data(docs, imageId, queryString):
                         print roi
             
             image_data.append(image_data_dict)
+
+            logger.debug("extract_image_data: "+ str(image_data))
             
     return (image_data, simplejson.dumps(roi_data))        
     
 def processQuery(request):
     query = {}
+    query['version'] = iqs_version
     
     #Initialisation of query parameters, not required. TODO: device alternative declaration
     queryString = ""
@@ -271,7 +291,7 @@ def processQuery(request):
     elif "MGI" in queryString:
         query[image_endpoints['gene']] = queryString
     elif queryString == "":
-        query = {}
+        query['version'] = iqs_version
     else:
         query[image_endpoints['term']] = queryString 
     
@@ -316,6 +336,7 @@ def getImages(request):
     
 def getAutosuggest(request):
     query = {}
+    query['version'] = iqs_version
     
     if 'term' in request.GET:
         queryString = request.GET['term']
@@ -337,6 +358,7 @@ def getAutosuggest(request):
 
 def getROIs(imageId):
     query={}
+    query['version'] = iqs_version
     
     try:
         query[rois_endpoints['imageId']] = imageId
@@ -378,6 +400,7 @@ def get_roi_data(request):
     
 def getROI(roiId):
     query={}
+    query['version'] = iqs_version
     
     try:
         query[roi_endpoints['id']] = roiId
@@ -395,7 +418,7 @@ def getROI(roiId):
                 
 def getChannel(channelId):
     query={}
-    
+    query['version'] = iqs_version
     query[channel_endpoints['id']] = channelId
     url = api_url + channel_acp
     url_data=urllib.urlencode(query)
@@ -407,4 +430,4 @@ def getChannel(channelId):
     return responsedata
     
 #def error404(request):
-    #return render(request, 'queries/html/404.html')
+#    return render(request, 'queries/html/404.html')

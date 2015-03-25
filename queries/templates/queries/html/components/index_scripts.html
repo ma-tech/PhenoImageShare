@@ -48,6 +48,32 @@ var query_url = "{% url 'queries:query_view' %}";
 var autosuggest_acp = "getAutosuggest?term=";
 
 $(document).ready(function() {
+
+	//beta 1.0 release announcement
+	setInterval(function (){
+		$('div.beta-release').block({ 
+	        message: '<p><h5>Beta release 1.0</h5></p><p>Coming soon...</p>',
+	        fadeIn: 700, 
+	        fadeOut: 700, 
+	        showOverlay: false, 
+	        centerY: false, 
+	        css: { 
+	            width: '350px', 
+	            top: '10px', 
+	            left: '', 
+	            right: '10px', 
+	            border: 'none', 
+	            padding: '5px', 
+	            backgroundColor: '#000', 
+	            '-webkit-border-radius': '10px', 
+	            '-moz-border-radius': '10px', 
+	            opacity: .6, 
+	            color: '#fff' 
+	        } 
+	    });  
+		
+	},2000)
+	
 	
 	//autosuggest JS library 
 	var terms = new Bloodhound({
@@ -89,19 +115,6 @@ $(document).ready(function() {
 
 	});
 });
-
-
-var index_tour = {
-  id: "phis_tour",
-  steps: [
-    {
-      title: "What is this about ?",
-      content: "Let's start by taking a tour of the tool",
-      target: "tourButton",
-      placement: "bottom"
-    }
-  ]
-};
 
 // Start the tour!
 //hopscotch.startTour(index_tour);
