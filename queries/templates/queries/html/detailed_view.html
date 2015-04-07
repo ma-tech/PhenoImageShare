@@ -35,9 +35,7 @@
 			
       <!-- Detailed Image Display Canvass
       ================================================== -->
-		{% for image in image_data %}
-
- 		{% block top %}
+		{% block top %}
 			{% include "queries/html/components/detailed_top.html" %}
  		{% endblock top %}
 		
@@ -58,8 +56,6 @@
 						  
 		</div>
         
-		{% endfor %}
-
 		<!-- Site Logos-->
 		{% block logos %}
 			{% include "phis/logos.html" %}

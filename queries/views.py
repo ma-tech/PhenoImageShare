@@ -24,6 +24,9 @@ access_points = iqs['ACP']
 image_acp = access_points['getimages']['name']
 image_endpoints = access_points['getimages']['options']
 
+image_details_acp = access_points['getimage']['name']
+image_details_endpoints = access_points['getimage']['options']
+
 rois_acp = access_points['getrois']['name']
 rois_endpoints = access_points['getrois']['options']
 
@@ -83,34 +86,20 @@ def get_image_data(request):
         queryString = "MP:0010254"
         
     if 'imageId' in request.GET:
-        imageId = request.GET['imageId']
+        query[image_details_endpoints['imageId']] = request.GET['imageId']
     else:
-        imageId = "http://www.mousephenotype.org/data/media/images/0/M00144272_00010241_download_full.jpg"
-    
-    if "MP" in queryString:
-        query[image_endpoints['phenotype']] = queryString   
-    elif "MA" in queryString:
-        query[image_endpoints['anatomy']] = queryString 
-    elif "MGI" in queryString:
-        query[image_endpoints['gene']] = queryString 
-    elif queryString == "":
-        query['version'] = iqs_version
-    else:
-        query[image_endpoints['term']] = queryString 
-      
-    url = api_url + image_acp
+        logger.debug("No imageId provided")
+        imageId = "komp2_112968"
+
+    url = api_url + image_details_acp
     url_data=urllib.urlencode(query)
     req = urllib2.Request(url, url_data)
     
     try:
         response = urllib2.urlopen(req)
-    
         json_data = simplejson.load(response)
-        docs = json_data['response']['docs']
-        
-     
-        
-        (image_data, roi_data) = extract_image_data(docs, imageId, queryString)
+        image_json = json_data['response']['docs'][0]
+        (image_data, roi_data) = extract_image_data(image_json)
         
         logger.debug(image_data)
         logger.debug(roi_data)
@@ -120,7 +109,7 @@ def get_image_data(request):
         logger.debug("Error extracting either ROI or Image data")
         raise Http404
     
-    context = {"image_data": image_data, "roi_data":roi_data}
+    context = {"image": image_data, "roi_data":roi_data}
     
     return context
 
@@ -151,106 +140,96 @@ def downloadImage(url):
     
     return (source_location, image_name)
     
-def extract_image_data(docs, imageId, queryString):
+def extract_image_data(doc):
     image_data_dict = {}
-    image_data = []
     roi_data = []
-       
-    for doc in docs:
-       
-        if doc['id'] == imageId:
             
-            #logger.debug(doc)
-            
-            if "sex" in doc:
-                image_data_dict['sex'] = doc['sex']
-            
-            if "age" in doc:
-                image_data_dict['age'] = doc['age']
+    if "sex" in doc:
+        image_data_dict['sex'] = doc['sex']
+    
+    if "age" in doc:
+        image_data_dict['age'] = doc['age']
+
+    if "age_since_birth" in doc:
+        image_data_dict['age'] = doc['age_since_birth']
         
-            if "age_since_birth" in doc:
-                image_data_dict['age'] = doc['age_since_birth']
+    if "embrionic_age" in doc:
+        image_data_dict['embrionic_age'] = doc['embrionic_age']  
+          
+    if "host_name" in doc:
+        image_data_dict['host_name'] = doc['host_name']
+        image_data_dict['source'] = doc['host_name']
+        
+    if "anatomy_term" in doc:
+        image_data_dict['anatomy_term'] = doc['anatomy_term']
+    
+    if "sample_generated_by" in doc:
+        image_data_dict['sample_generated_by'] = doc['sample_generated_by']
+    
+    if "image_generated_by" in doc:
+        image_data_dict['image_generated_by'] = doc['image_generated_by']
+    
+    if "sample_preparation_label" in doc:
+        image_data_dict['sample_preparation'] = doc['sample_preparation_label']
+        
+    if "image_url" in doc:
+        image_data_dict['url'] = doc['image_url']
+    
+    if "sample_type" in doc:
+        image_data_dict['sample_type'] = doc['sample_type']
+    
+    if "image_type" in doc:
+        image_data_dict['image_type'] = doc['image_type']
+    
+    if "zygosity" in doc:
+        image_data_dict['zygosity'] = doc['zygosity']
+    
+    if "height" in doc:
+        image_data_dict['height'] = doc['height']
+        
+    if "width" in doc:
+        image_data_dict['width'] = doc['width']
+          
+    if "associated_roi" in doc:
+        rois = []
+        
+        for roi in doc['associated_roi']:
+            rois.append(str(roi))
+        
+        image_data_dict['associatedROI'] = rois
+        
+    if "observations" in doc:
+        observations = []
+        for observation in doc['observations']:
+            observations.append(observation.split(':',1))
+        
+        image_data_dict['observations'] = observations
+    
+    if "taxon" in doc:
+        image_data_dict['organism'] = doc['taxon']
+    
+    if "imaging_method_label" in doc:
+        image_data_dict['imaging_method_label'] = doc['imaging_method_label']
+        
+    if "stage" in doc:
+        image_data_dict['stage'] = doc['stage']
+             
+    if "gene_symbol" in doc:
+        gene_symbols = []
+        for gene_symbol in doc['gene_symbol']:
+            gene_symbols.append(gene_symbol)
+        image_data_dict['gene'] = gene_symbols       
                 
-            if "embrionic_age" in doc:
-                image_data_dict['embrionic_age'] = doc['embrionic_age']  
-                  
-            if "host_name" in doc:
-                image_data_dict['host_name'] = doc['host_name']
-                image_data_dict['source'] = doc['host_name']
-                
-            if "anatomy_term" in doc:
-                image_data_dict['anatomy_term'] = doc['anatomy_term']
-            
-            if "sample_generated_by" in doc:
-                image_data_dict['sample_generated_by'] = doc['sample_generated_by']
-            
-            if "image_generated_by" in doc:
-                image_data_dict['image_generated_by'] = doc['image_generated_by']
-            
-            if "sample_preparation_label" in doc:
-                image_data_dict['sample_preparation'] = doc['sample_preparation_label']
-                
-            if "image_url" in doc:
-                image_data_dict['url'] = doc['image_url']
-            
-            if "sample_type" in doc:
-                image_data_dict['sample_type'] = doc['sample_type']
-            
-            if "image_type" in doc:
-                image_data_dict['image_type'] = doc['image_type']
-            
-            if "zygosity" in doc:
-                image_data_dict['zygosity'] = doc['zygosity']
-            
-            if "height" in doc:
-                image_data_dict['height'] = doc['height']
-                
-            if "width" in doc:
-                image_data_dict['width'] = doc['width']
-                  
-            if "associated_roi" in doc:
-                rois = []
-                
-                for roi in doc['associated_roi']:
-                    rois.append(str(roi))
-                
-                image_data_dict['associatedROI'] = rois
-                
-            if "observations" in doc:
-                observations = []
-                for observation in doc['observations']:
-                    observations.append(observation.split(':',1))
-                
-                image_data_dict['observations'] = observations
-            
-            if "taxon" in doc:
-                image_data_dict['organism'] = doc['taxon']
-            
-            if "imaging_method_label" in doc:
-                image_data_dict['imaging_method_label'] = doc['imaging_method_label']
-                
-            if "stage" in doc:
-                image_data_dict['stage'] = doc['stage']
-                     
-            if "gene_symbol" in doc:
-                gene_symbols = []
-                for gene_symbol in doc['gene_symbol']:
-                    gene_symbols.append(gene_symbol)
-                image_data_dict['gene'] = gene_symbols       
-                        
-            if "phenotype_label_bag" in doc:
-                phenotype_list = []
-            
-                for phenotype in doc['phenotype_label_bag']:
-                    phenotype_list.append(phenotype)
-                image_data_dict['phenotype_ann_bag'] = phenotype_list
-                
+    if "phenotype_label_bag" in doc:
+        phenotype_list = []
+    
+        for phenotype in doc['phenotype_label_bag']:
+            phenotype_list.append(phenotype)
+            image_data_dict['phenotype_ann_bag'] = phenotype_list
             image_data_dict['id'] = doc['id']
-            
-            image_data_dict['queryString'] = queryString
             image_data_dict['imageURL'] = doc['image_url']
             
-            roi_data = getROIs(imageId)['response']['docs']
+            roi_data = getROIs(doc['id'])['response']['docs']
             
             if roi_data is not None:
                 for roi in roi_data:
@@ -263,14 +242,11 @@ def extract_image_data(docs, imageId, queryString):
                         roi['channels'] = channels_data
                         #print roi.channel
                     except:
-                        print "No attribute exists"
-                        print roi
+                        logger.debug("No attribute exists")
             
-            image_data.append(image_data_dict)
-
-            logger.debug("extract_image_data: "+ str(image_data))
+    logger.debug("extract_image_data: "+ str(image_data_dict))
             
-    return (image_data, simplejson.dumps(roi_data))        
+    return (image_data_dict, simplejson.dumps(roi_data))        
     
 def processQuery(request):
     query = {}
@@ -320,7 +296,9 @@ def processQuery(request):
         query[image_endpoints['anatomy']] = request.GET['anatomy'] 
     if 'gene' in request.GET:
         query[image_endpoints['mutantGene']] = request.GET['gene']
-        
+    
+    logger.debug(query)
+    
     url = api_url + image_acp
     url_data=urllib.urlencode(query)
     req = urllib2.Request(url, url_data)
@@ -330,8 +308,10 @@ def processQuery(request):
     return response
     
 def getImages(request):
-    
     json_response = processQuery(request)
+    
+    #logger.debug(simplejson.loads(json_response))
+    
     return HttpResponse(json_response, mimetype='application/json')
     
 def getAutosuggest(request):

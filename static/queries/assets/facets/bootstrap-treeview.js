@@ -298,6 +298,13 @@
 			    displayKey: 'value',
 			    source: anatomyterms.ttAdapter()
 			});
+			
+			//Code for click event on autosuggest
+			var selectionHandler = function (eventObject, suggestionObject, suggestionDataset) {
+			    console.log("Clicked");
+			};
+			
+			$('#'+element).on('typeahead:selected', selectionHandler);
 		},
 		
 		/*

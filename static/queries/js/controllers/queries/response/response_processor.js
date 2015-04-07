@@ -141,103 +141,126 @@ Processor.prototype.loadJSON = function(){
 		}
 	}
 	
+	console.log(queryParams);
+	
 	var query = this.query;
 	var queryString = (queryParams ? $.param(queryParams): "");
 	
+	var query_in_url = "?term="+searchString+"&"+queryString;
 	var displayQuery = this.source_url+query_base_url+"?term="+searchString+"&"+queryString;
-	
-	console.log("Query : " + displayQuery);
-	
+
 	//Sample competency question for demo (BSA section meeting)
 	var comp_que = "[Competency question corresponding to query / semantic reasoning]";
 	
 	this.queryHistoryBuilder(comp_que, displayQuery);
 	 
-	//$.blockUI(); 
-	 
 	$.getJSON(query_base_url+"getImages?q="+searchString,queryParams,
  	   function(data, textStatus, jqXHR)
  	   {
-		   tableTitle.innerHTML=data.response.numFound +" records found in database";
- 		   
-		   var end_record = 0;
-		   var total_record_found = data.response.numFound;
-		   
-		   if (total_record_found < 20)
-		  	 end_record = total_record_found;
-		   else
-			  end_record = 20;
-		   
 		   $.unblockUI();
-		   
-		   var numDocs = data.response.docs.length;
-		   for (var i = 0; i < numDocs; i++) {
-		      
-			   id = data.response.docs[i].id; //capture image id.
-			   expression = data.response.docs[i].expression_in_label_bag ? data.response.docs[i].expression_in_label_bag : " None " ; //capture expression for description.
-			   anatomy = data.response.docs[i].anatomy_term ? data.response.docs[i].anatomy_term : " None ";
-			   phenotype = data.response.docs[i].phenotype_label_bag ? data.response.docs[i].phenotype_label_bag : " None " ;
-			   gene = data.response.docs[i].gene_symbol ? data.response.docs[i].gene_symbol : " None ";
-			   
-			   imageId = data.response.docs[i].id;
-			   image_url = data.response.docs[i].image_url;
-			   image_query_string = searchString;
-			   
-			   detail_url = detail_base_url + "?q="+searchString+"&imageId="+imageId;
-				
-			   image_hyperlink = "<a href="+encodeURI(detail_url)+" data-toggle=\"tooltip\" title="+ id +">";
-			   
-			   image = "<img src="+image_url+" style=\"width: 50%;\"/> </a>";
-			   
-			   image_with_hyperlink =  image_hyperlink + "<img src="+image_url+" style=\"width: 100%;\"/> </a>";
-			   
-			   descr = (data.response.docs[i].expression_in_label_bag ? "<b> Expression: </b>" + data.response.docs[i].expression_in_label_bag : "") + 
-			   		   (data.response.docs[i].anatomy_term ? "<br/> <b> Anatomy: </b>" + data.response.docs[i].anatomy_term : "") +
-			   		   (data.response.docs[i].phenotype_label_bag ? "<br/> <b> Phenotype: </b>" + data.response.docs[i].phenotype_label_bag: "") +
-			   		   (data.response.docs[i].gene_symbol ? "<br/> <b> Associated gene: </b>" + data.response.docs[i].gene_symbol : "") ;
-			   
-			   tableData[i]=[image_with_hyperlink, descr, detail_url];
-			   galleryData[i] = [image, image_url, descr]
+		 
+		   if (data.server_error != undefined){
+	   		$('div.error-message').block({ 
+	   	        message: '<p><h5>Error contacting database server</h5></p>',
+	   	        fadeIn: 700, 
+	   	        fadeOut: 700, 
+	   	        showOverlay: false, 
+	   	        centerY: false, 
+	   	        css: { 
+	   	            width: '350px', 
+	   	            top: '10px', 
+	   	            left: '', 
+	   	            right: '10px', 
+	   	            border: 'none', 
+	   	            padding: '5px', 
+	   	            backgroundColor: '#000', 
+	   	            '-webkit-border-radius': '10px', 
+	   	            '-moz-border-radius': '10px', 
+	   	            opacity: .6, 
+	   	            color: '#fff' 
+	   	        } 
+	   	    });  
+			
+			return ;
+			
 		   }
-	
+			   
 		   data['query'] = query;
 		   
 		   //fetch facets data from response.
 		   facet_data = get_facets_data(data, single_level_facets_callback, static_urls);
 		   
 			//add data to gallery
-		   create_gallery(galleryData);
+		   //create_gallery(galleryData);
 				   
 			//Add data to table.
    		$("#imgtable").dataTable().fnDestroy();
-   		$('#imgtable').DataTable({
-   			//"ajax": "get_images",
-	       	"data": tableData,
-		    "fnCreatedRow": function( nRow, aData, iDataIndex ) {
-				  $(nRow).attr('url',""+aData[2]);
-				  $(nRow).attr('style',"cursor:pointer;");
-		    },
-			"columnDefs": [
-			    { "width": "20%", "targets": 0},
-                {"targets": [ 2 ],"visible": false}
-			  
-		      ],
-				/*columnDefs: [ {
-				            className: 'control',
-				            orderable: false,
-							targets:   0,
-							"width": "20%", 
-							"targets": 0
-				        } ],*/
+   		
+		$('#imgtable').DataTable({
+       	 	"processing": true,
+       	 	"serverSide": true,
+			"ajax": function ( data, callback, settings ) {
+			
+			$.ajax( {
+		      "url": query_base_url+"getImages?q="+searchString+"&"+queryString,
+    		  "data": $.extend( {}, data ),
+		      "success": function ( json ) {
+	   		   tableTitle.innerHTML = json.response.numFound +" records found in database";
+			   var numDocs = json.response.docs.length;
 				
-			  order: [ 1, 'asc' ],
-			  scrollY: 900,
-			  pageLength: 20,
-			  "oLanguage": {
-				     "sInfo": "   Showing 1 to "+end_record+" of "+total_record_found+" entries",
-				      "sZeroRecords": "  No data to show" 
-			 },
-					
+			   for (var i = 0; i < numDocs; i++) {
+		      
+				   id = json.response.docs[i].id; //capture image id.
+				   expression = json.response.docs[i].expression_in_label_bag ? json.response.docs[i].expression_in_label_bag : " None " ; //capture expression for description.
+				   anatomy = json.response.docs[i].anatomy_term ? json.response.docs[i].anatomy_term : " None ";
+				   phenotype = json.response.docs[i].phenotype_label_bag ? json.response.docs[i].phenotype_label_bag : " None " ;
+				   gene = json.response.docs[i].gene_symbol ? json.response.docs[i].gene_symbol : " None ";
+			   
+				   imageId = json.response.docs[i].id;
+				   image_url = json.response.docs[i].image_url;
+				   image_query_string = searchString;
+			   
+				   detail_url = detail_base_url + "?q="+searchString+"&imageId="+imageId;
+				
+				   image_hyperlink = "<a href="+encodeURI(detail_url)+" data-toggle=\"tooltip\" title="+ id +">";
+			   
+				   image = "<img src="+image_url+" style=\"width: 50%;\"/> </a>";
+			   
+				   image_with_hyperlink =  image_hyperlink + "<img src="+image_url+" style=\"width: 100%;\"/> </a>";
+			   
+				   descr = (json.response.docs[i].expression_in_label_bag ? "<b> Expression: </b>" + json.response.docs[i].expression_in_label_bag : "") + 
+				   		   (json.response.docs[i].anatomy_term ? "<br/> <b> Anatomy: </b>" + json.response.docs[i].anatomy_term : "") +
+				   		   (json.response.docs[i].phenotype_label_bag ? "<br/> <b> Phenotype: </b>" + json.response.docs[i].phenotype_label_bag: "") +
+				   		   (json.response.docs[i].gene_symbol ? "<br/> <b> Associated gene: </b>" + json.response.docs[i].gene_symbol : "") ;
+			   
+				   tableData[i]=[image_with_hyperlink, descr, detail_url];
+				   //galleryData[i] = [image, image_url, descr]
+			   }
+
+	           var o = {
+	             recordsTotal: json.response.numFound,
+	             recordsFiltered: json.response.numFound,
+	             data: tableData
+	           };
+           
+	           callback( o );
+			   
+		       }
+			  
+		  		});
+		    },
+
+ 		   	 "fnCreatedRow": function( nRow, aData, iDataIndex ) {
+ 				  $(nRow).attr('url',""+aData[2]);
+ 				  $(nRow).attr('style',"cursor:pointer;");
+ 		    },
+		"columnDefs": [
+		    { "width": "20%", "targets": 0},
+               {"targets": [ 2 ],"visible": false}
+		  
+	      ],
+		  order: [ 1, 'asc' ],
+		  scrollY: 900,					
    		 });
 		 
 		 $('#imgtable tbody').on('click', 'tr', function() {
@@ -318,7 +341,7 @@ Processor.prototype.getFacetsData= function(data, single_level_facets_callback, 
 	mutants.tags.push(0);
 	
 	//Phenotype data
-	var mutants_phenotype = {}
+	var mutants_phenotype = {};
 	mutants_phenotype.text = "Phenotype";
 	mutants_phenotype.fulltext = "Mutant-Phenotype";
 	mutants_phenotype.queryText = "PHENOTYPE_ANATOMY";
@@ -330,7 +353,7 @@ Processor.prototype.getFacetsData= function(data, single_level_facets_callback, 
 	mutants_phenotype.query = query;
 	
 	//Expression data
-	var mutants_expression = {}
+	var mutants_expression = {};
 	mutants_expression.text = "Expression";
 	mutants_expression.fulltext = "Mutant-Expression";
 	mutants_expression.queryText = "EXPRESSION";
@@ -613,7 +636,7 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 						
 				imaging_method_label_nodes.push(node);
 				
-				if (query.imagingMethod.expanded && query.imagingMethod[node.text]) {
+				if (query.imagingMethod.value == node.queryText) {
 					node.checked = true;
 					imaging_method_label._nodes = imaging_method_label_nodes;
 				}else{
@@ -623,7 +646,7 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 						$("#filters").removeTag(node);
 					}
 					
-					if (query.imagingMethod.expanded) {
+					if (query.imagingMethod.expanded == true) {
 						imaging_method_label._nodes = imaging_method_label_nodes;
 					}else{
 						imaging_method_label.nodes = imaging_method_label_nodes;						
@@ -675,7 +698,7 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 				
 				stage_nodes.push(node);
 				
-				if (query.stage.expanded && query.stage[node.text]) {
+				if (query.stage.value == node.queryText) {
 					node.checked = true;
 					stage._nodes = stage_nodes;
 				}else{
@@ -685,7 +708,7 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 						$("#filters").removeTag(node);
 					}
 					
-					if (query.stage.expanded)
+					if (query.stage.expanded == true)
 						stage._nodes = stage_nodes;
 					else
 						stage.nodes = stage_nodes;
@@ -734,7 +757,7 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 				
 				taxon_nodes.push(node);
 				
-				if (query.taxon.expanded && query.taxon[node.text]) {
+				if (query.taxon.value == node.queryText) {
 					node.checked = true;
 					taxon._nodes = taxon_nodes;
 				}else{
@@ -743,7 +766,7 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 					if($("#filters").tagExist(node.fulltext))
 						$("#filters").removeTag(node);
 					
-					if (query.taxon.expanded)
+					if (query.taxon.expanded == true)
 						taxon._nodes = taxon_nodes;
 					else
 						taxon.nodes = taxon_nodes;
