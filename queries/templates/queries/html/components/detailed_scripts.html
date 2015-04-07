@@ -27,18 +27,16 @@ $(document).ready(function(){
 function initialiseController(){
 	var params = new Object();
 	
-	params.associatedROIURL = "{{image_data.0.associatedROI | safe}}";
-	params.imageId = "{{image_data.0.imageId | safe}}";
-	params.imageURL = "{{image_data.0.imageURL | safe}}";
-	
-	console.log("Image = {{image_data}}");
+	params.associatedROIURL = "{{image.associatedROI | safe}}";
+	params.imageId = "{{image.imageId | safe}}";
+	params.imageURL = "{{image.url | safe}}";
 	
 	console.log("ImageURL = "+params.imageURL);
 	
-	params.queryString = "{{image_data.0.queryString | safe}}";
+	params.queryString = "{{image.queryString | safe}}";
 	params.dziName = "{{dzi_name | safe}}";
 	params.annotationBaseURL = "{% url 'annotation:drawing_view' %}";
-	params.imageDimensions = ['{{image_data.0.height | safe}}', '{{image_data.0.width | safe}}'];
+	params.imageDimensions = ['{{image.height | safe}}', '{{image.width | safe}}'];
 	params.swfURL = "{% static 'queries/swf/copy_csv_xls_pdf.swf' %}";
 	params.ROIs = JSON.parse('{{roi_data | safe}}');
 		
@@ -54,7 +52,6 @@ function initialiseController(){
 		
 		controller.displayROIs();
 	}
-		
 	
 	/*
 	var viewer = OpenSeadragon({
