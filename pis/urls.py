@@ -19,3 +19,5 @@ urlpatterns = patterns('',
     url(r'^annotation/', include('annotation.urls', namespace="annotation")),
     #url(r'^submission/', include('queries.urls', namespace="submission")),
 )
+
+#handler404 = 'qviews.error404'

@@ -8,10 +8,20 @@ try: from pis.settings import BASE_PORT
 except ImportError: BASE_PORT=80
 
 def index(request):
-    return render(request, 'documentation/html/doc_index.html', '')
+    return render(request, 'documentation/html/documentation_index.html', '')
     
 def about(request):
     return render(request, 'documentation/html/about.html', '')
+
+def search(request):
+    return render(request, 'documentation/html/search.html', '')
+
+def detail(request):
+    return render(request, 'documentation/html/detail.html', '')
+
+def events(request):
+    return render(request, 'documentation/html/events.html', '')
+    
     
 def searchHelpTooltip(request):
     source_url = ""

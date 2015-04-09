@@ -1,0 +1,33 @@
+{% load staticfiles %}
+
+<div id="main-content">
+<a href="https://twitter.com/share" class="twitter-share-button" data-url="www.phenoimageshare.org/phis" data-text="Check out PhenoImageShare for sharing annotations for image resources! http://www.phenoimageshare.org/phis" data-count="none"></a>
+		  
+	  <h4>PhenoImageShare - Discovery & Search</h4>
+	  <p>PhenoImageSgare is an online repository of complex annotations of phenotype images, supporting the discovery, searching and sharing of these annotations and associated metadata and genotype information through a responsive and configurable web interface. It also provides web-based tools for submission of new instances of these images and their annotations. Support for submissions of pipeline will also be provided in future releases.</p>
+	  
+	  <p>Users are provided with a range of options for discovering, searching and querying for their images of interest. You can either browse the PhIS repository by clicking your way through from the PhenoImageShare landing <a href="http://beta.phenoimageshare.org/">page</a> and perform further filtering through the facets provided on the search interface or perform a freetext search from the landing or the search page or a combination of both. Freetext could range from a gene (or allele) or gene symbol, phenotype or anatomy term of interest or previously captured annotations. Facets are organised as top level and subfacets for further filtering your data. Each top level data type has 1 or more lower-level data fields (subfacets) which allows further data filtering.</p>
+	  
+	  <br/>
+	  
+	  <h6>Querying by clicking through</h6>
+	  
+	  <p>The screenshots below shows a typical interaction flow when you begin your search by clicking through points on the charts on PhenoImageShare index page.</p>
+	  
+	  <p><a href="{% static 'documentation/images/click_through_landing_page.png' %}" title="Searching the database by clicking through points on charts" class="lightbox"><img src="{% static 'documentation/images/click_through_landing_page.png' %}" width="850" height="280" alt="Clickthrough facility"/ ></a></p>
+	  
+	  <p><a href="{% static 'documentation/images/clickthrough_filtering_results.png' %}" title="Results of clickthrough search" class="lightbox"><img src="{% static 'documentation/images/clickthrough_filtering_results.png' %}" width="750" height="350" alt="Clickthrough search results"/ ></a></p>
+	  
+	  
+	  <br/>
+	
+	  <h6>Freetext search - for anatomy term</h6>
+	  <p>Users can enter freetext such as gene or allele symbol, phenotype, anatomy or annotation term in the main input field of the index page. With the autosuggest facility, a list of database-indexed features or terms are provide automatically to the user based on the entered keystrokes. Figure below shows a freetext search for anatomy term "heart".</p>
+	  
+	  	  <p><a href="{% static 'documentation/images/freetext_search_landing_page.png' %}" title="Search from the landing page" class="lightbox"><img src="{% static 'documentation/images/freetext_search_landing_page.png' %}" width="850" height="280" alt="Search from the landing page"/ ></a></p>
+		  
+		  	  	  <p><a href="{% static 'documentation/images/anatomy_search_landing.png' %}" title="Results of search started from the landing page" class="lightbox"><img src="{% static 'documentation/images/anatomy_search_landing.png' %}" width="750" height="350" alt="Anatomy search results"/ ></a></p>
+				  
+	  <br/>
+
+</div>

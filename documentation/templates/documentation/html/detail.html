@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="utf-8">
  	
-     <title>{% block title %}PhenoImageShare: Documentation View {% endblock title %}</title>
+     <title>{% block title %}PhenoImageShare: User Guide {% endblock title %}</title>
    
 	<!-- Detailed-specific styles-->
 	{% block styles %}
@@ -44,22 +44,16 @@
 		
 		<div class="wrapper">
 			
-				  <div class="col-lg-3">			  
+				   <div class="col-lg-3">			  
 				 	  {% block first %}
-							{% include "documentation/html/widgets/about_links_panel.html" %}
+							{% include "documentation/html/widgets/search_links_panel.html" %}
 	    			  {% endblock first %}
 				  </div>
 						
-				<div class="col-lg-8">
+				 <div class="col-lg-9">
 					{% block second %}
-						{% include "documentation/html/widgets/about_contents.html" %}
+						{% include "documentation/html/widgets/detail_contents_panel.html" %}
 					{% endblock second %}
-				</div>
-					  				  
-				<div class="col-lg-3">
-					{% block third %}
-					
-					{% endblock third %}
 				</div>
 						  
 		</div>
