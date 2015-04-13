@@ -17,8 +17,9 @@
   	         title: 'Dashboard!',
   	         content: 'Dashboard presents visual summary of Phenoimageshare dataset',
   	         placement: 'bottom',
-		     yOffset: -90,
+		     yOffset: -100,
 			 xOffset: 500,
+			    height: 50,
 	   	   },
 		   
 	      /* {
@@ -242,7 +243,7 @@
 	  	             target: startBtnId,
 	  	             placement: "bottom",
 	  	         	 yOffset: -5,
-	  				 xOffset: -50,
+	  				 xOffset: -70,
 	  	           	 arrowOffset: 100,
 	  	           	 width: 240
 	  	         });
