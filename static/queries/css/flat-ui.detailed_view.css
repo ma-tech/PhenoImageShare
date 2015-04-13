@@ -1,7 +1,7 @@
 @font-face {
   font-family: 'Lato';
-  src: url('../fonts/lato/lato-black.eot');
-  src: url('../fonts/lato/lato-black.eot?#iefix') format('embedded-opentype'), url('../fonts/lato/lato-black.woff') format('woff'), url('../fonts/lato/lato-black.ttf') format('truetype'), url('../fonts/lato/lato-black.svg#latoblack') format('svg');
+  src: url({% static 'queries/fonts/lato/lato-black.eot' %});
+  src: url({% static 'queries/fonts/lato/lato-black.eot?#iefix' %}) format('embedded-opentype'), url('../fonts/lato/lato-black.woff') format('woff'), url('../fonts/lato/lato-black.ttf') format('truetype'), url('../fonts/lato/lato-black.svg#latoblack') format('svg');
   font-weight: 900;
   font-style: normal;
 }
@@ -1150,21 +1150,6 @@ label {
 }
 .form-control.placeholder {
   color: #b2bcc5;
-}
-.form-control {
-  border: 2px solid #bdc3c7;
-  color: #34495e;
-  font-family: "Lato", Helvetica, Arial, sans-serif;
-  font-size: 15px;
-  line-height: 1.467;
-  padding: 8px 12px;
-  height: 42px;
-  -webkit-appearance: none;
-  border-radius: 6px;
-  -webkit-box-shadow: none;
-  box-shadow: none;
-  -webkit-transition: border .25s linear, color .25s linear, background-color .25s linear;
-  transition: border .25s linear, color .25s linear, background-color .25s linear;
 }
 .form-group.focus .form-control,
 .form-control:focus {
@@ -3616,16 +3601,17 @@ footer {
 footer a {
   color: #9aa4af;
   font-weight: 700;
+  font-size: 10px;
 }
 footer p {
-  font-size: 15px;
+  font-size: 11px;
   line-height: 20px;
   margin-bottom: 10px;
 }
 .footer-title {
-  margin: 0 0 22px;
-  padding-top: 21px;
-  font-size: 24px;
+  margin: 0 0 1px;
+  padding-top: 5px;
+  font-size: 20px;
   line-height: 40px;
 }
 .footer-brand {
@@ -3639,8 +3625,8 @@ footer p {
 .footer-banner {
   background-color: #1abc9c;
   color: #d1f2eb;
-  margin-left: 42px;
-  min-height: 316px;
+  margin-left: 120px;
+  min-height: 3px;
   padding: 0 30px 30px;
 }
 .footer-banner .footer-title {

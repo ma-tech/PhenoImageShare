@@ -194,16 +194,25 @@ Processor.prototype.loadJSON = function(){
 		   //create_gallery(galleryData);
 				   
 			//Add data to table.
+		   
    		$("#imgtable").dataTable().fnDestroy();
    		
 		$('#imgtable').DataTable({
+			"fnDrawCallback": function () {
+				
+			},
+			
        	 	"processing": true,
        	 	"serverSide": true,
+			"lengthChange" : true,
+			//"stateSave" : true, 
+			"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
 			"ajax": function ( data, callback, settings ) {
 			
 			$.ajax( {
 		      "url": query_base_url+"getImages?q="+searchString+"&"+queryString,
-    		  "data": $.extend( {}, data ),
+    		  "data": $.extend( {}, data, {"num":data.length} ),
+				//"cache":    false,
 		      "success": function ( json ) {
 	   		   tableTitle.innerHTML = json.response.numFound +" records found in database";
 			   var numDocs = json.response.docs.length;
@@ -236,11 +245,11 @@ Processor.prototype.loadJSON = function(){
 				   tableData[i]=[image_with_hyperlink, descr, detail_url];
 				   //galleryData[i] = [image, image_url, descr]
 			   }
-
+			   
 	           var o = {
 	             recordsTotal: json.response.numFound,
 	             recordsFiltered: json.response.numFound,
-	             data: tableData
+	             data: tableData,
 	           };
            
 	           callback( o );

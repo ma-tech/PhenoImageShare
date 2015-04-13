@@ -54,7 +54,7 @@
 			 
 			 {% if image.imaging_method_label %}
 			 <li href="#" class="list-group-item">
-				Imaging method:
+				Method:
 	 				 	<span class="badge"> {{image.imaging_method_label}} </span>
 			 </li>
 			{% endif %}
@@ -72,7 +72,11 @@
  			{% if image.observations %}
  			 <li href="#" class="list-group-item">
  		    {% for key, value in image.observations %}
-				{{key}}:
+			 	{% if key == "Procedure name" %}
+					Procedure:
+				{% else %}
+					{{key}}:
+				{% endif %}	
  			 	<span class="badge">{{value}}</span>
  		    {% endfor %}
  			 </li>

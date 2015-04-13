@@ -1,8 +1,8 @@
  
    $(document).ready(function(){ // Included document.ready to ensure that the DOM elements are loaded before applying the tour facility.
 	   
-	   var tour = {
-	     id: 'phis-tour',
+	   var tour_home_page = {
+	     id: 'phis-tour-home',
 	     steps: [
 	      /*  {
 	         target: 'phis',
@@ -41,7 +41,7 @@
 	         content: 'PhenoImageShare provides submission tool for users to submit new images and associated annotations to the PhIS repository for indexing and querying by a wider community.',
 	         placement: 'bottom',
 	       },
-		   */
+		   
 			  
 	       {
 	         target: 'submissionMenuItem',
@@ -49,6 +49,7 @@
 	         content: 'PhenoImageShare provides a submission tool to allow users to register new image instances (i.e. image metadata and annotaitons).',
 	         placement: 'bottom',
 	       },
+			  
 		   
 	      /* {
 	         target: 'glossaryMenuItem',
@@ -78,7 +79,7 @@
 		     xOffset: -200,
 			 arrowOffset: 230
 	       },
-		   */
+		  
 	       {
 	         target: 'registerButton',
 	         title: 'Are you a registered user ?',
@@ -102,7 +103,7 @@
 		   */
 	       {
 	         target: 'freetextLabel',
-	         title: 'What\'s Next ?',
+	         title: 'Perform search',
 	         content: 'You can search for images by using our auto-complete or simply entering free-text !',
 			 placement: 'bottom',
 	         multipage: true,
@@ -116,8 +117,8 @@
 	         target: 'facetsTab',
 	         title: 'Faceted View',
 	         content: 'PhenoImageShare presents faceted view of the indexed data (and search results) for ease of search and navigation.',
-			 placement: 'left',
-			 width: 200
+			 placement: 'right',
+			 width: 300
 	       },
 	       {
 	         target: 'imgtable',
@@ -131,18 +132,18 @@
 	         target: 'imgtable',
 	         title: 'Filtering the results',
 	         content: 'Further filtering can be performed on the results by using the table search box. E.g. enter \'Gtf3c5\' to view records containing gene Gtf3c5.',
-			 placement: 'right',
+			 placement: 'left',
 			 width: 300,
 		     yOffset: -100,
-			 xOffset: -80,
+			 xOffset: 600,
 	       },
 	       {
 	         target: 'tour-placeholder',
 	         title: 'Browsing results',
 	         content: 'Results are paginated and navigation can be peformed by easy-to-use controls.',
-			 placement: 'right',
-		     yOffset: -90,
-			 xOffset: -70,
+			 placement: 'left',
+		     yOffset: -70,
+			 xOffset: 200,
 	       },
 	       {
 	         target: 'imgtable',
@@ -172,16 +173,16 @@
 	         target: 'imagecanvass',
 	         title: 'Annotated Image',
 	         content: 'Image canvass displaying annotated image along with associated annotations.',
-			 placement: 'left',
-			 width: 200
+			 placement: 'right',
+			 width: 300
 	       },
 		   
 	       {
 	         target: 'imagemetadata',
 	         title: 'Metadata/Genotype',
 	         content: 'Metadata and Genotype information associated with the selected image.',
-			 placement: 'right',
-			 width: 200
+			 placement: 'left',
+			 width: 300
 	       },
 		   
 	       {
@@ -190,8 +191,8 @@
 	         content: 'Interactive table displaying the image\'s Regions of Interest and annotations.' +
 			   			'Click on each row to view annotations associated with ROI.' + 
 			   			'Hover over a row to view annotations in tooltip',
-			 placement: 'right',
-			 width: 200
+			 placement: 'left',
+			 width: 300
 	       },
 		   
 	     ],
@@ -219,46 +220,54 @@
 			 
 			// console.log("Hopstoch state: "+ state);
 			 
-	     if (state === 'phis-tour:5') {
+	     if (state === 'phis-tour-home:3') {
 	       // Already started the tour at some point!
-	       hopscotch.startTour(tour);
-	     } else if (state === 'phis-tour:10') {
-	     	 hopscotch.startTour(tour);
+	       hopscotch.startTour(tour_home_page);
+	     } else if (state === 'phis-tour-home:8') {
+	     	 hopscotch.startTour(tour_home_page);
 	     }
+		 else if (state === 'phis-tour-search:5') {
+		 	 hopscotch.startTour(tour_search_page);
+		 }	 
 	     else {
 	       // Landing on the PhIS Index page for the first(?) time.
+			  var tourButton = document.getElementById(startBtnId);
 	       setTimeout(function() {
-	         mgr.createCallout({
-				 id: calloutId,
-	             title: "What is PhenoImageShare ?",
-	             content: "Let's start by taking a tour of the PhenoImageShare tool.",
-	             target: startBtnId,
-	             placement: "bottom",
-	         	 yOffset: -5,
-				 xOffset: -50,
-	           	 arrowOffset: 100,
-	           	 width: 240
-	         });
+			   
+			   if (tourButton){
+	  	         mgr.createCallout({
+	  				 id: calloutId,
+	  	             title: "What is PhenoImageShare ?",
+	  	             content: "Let's start by taking a tour of the PhenoImageShare tool.",
+	  	             target: startBtnId,
+	  	             placement: "bottom",
+	  	         	 yOffset: -5,
+	  				 xOffset: -50,
+	  	           	 arrowOffset: 100,
+	  	           	 width: 240
+	  	         });
+			   }
+
 	       }, 100);
 	     }
 	 	
-		 var tourButton = document.getElementById(startBtnId);
+		
 		 
 		 if (tourButton){
 		     addClickListener(tourButton, function() {
 		       if (!hopscotch.isActive) {
 		         mgr.removeAllCallouts();
-		         hopscotch.startTour(tour);
+		         hopscotch.startTour(tour_home_page);
 		       }
 		     });
 		 
 		}else {
-   	     if (state === 'phis-tour:5') {
+   	     if (state === 'phis-tour-home:3') {
    	       // Already started the tour at some point!
-   	       hopscotch.startTour(tour);
+   	       hopscotch.startTour(tour_home_page);
    	     }
-		 else if (state === 'phis-tour:10') {
-			    hopscotch.startTour(tour);
+		 else if (state === 'phis-tour-home:8') {
+			    hopscotch.startTour(tour_home_page);
 		 }
 		}
 	     
