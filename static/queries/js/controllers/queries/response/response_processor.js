@@ -241,7 +241,9 @@ Processor.prototype.loadJSON = function(){
 				   		   (json.response.docs[i].anatomy_term ? "<br/> <b> Anatomy: </b>" + json.response.docs[i].anatomy_term : "") +
 				   		   (json.response.docs[i].phenotype_label_bag ? "<br/> <b> Phenotype: </b>" + json.response.docs[i].phenotype_label_bag: "") +
 				   		   (json.response.docs[i].gene_symbol ? "<br/> <b> Associated gene: </b>" + json.response.docs[i].gene_symbol : "") ;
-			   
+			   	   
+				   descr = (descr != "" ? descr : "No annotations found" );
+					  
 				   tableData[i]=[image_with_hyperlink, descr, detail_url];
 				   //galleryData[i] = [image, image_url, descr]
 			   }
