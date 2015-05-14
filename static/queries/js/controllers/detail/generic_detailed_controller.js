@@ -17,15 +17,12 @@ DetailedController.prototype.initialiseElements= function() {
   var imageURL = this.imageURL;
   var queryString = this.queryString;
   var annotationBaseURL = this.annotationBaseURL;
+  var imageId = this.imageId;
   
 $("#drawingToolButton").on( "click", function() {
-	console.log("[Detailed View Controller] Launching Drawing Tool with parameters: ");
+	console.log("[Detailed View Controller] Launching Drawing Tool with parameters: "+imageId);
 	
-	console.log("Associated ROI: "+associatedROIURL);
-	console.log("Image URL: "+imageURL);
-	console.log("Query String: "+queryString);
-	
-	DetailedController.openwindow(queryString, imageURL, associatedROIURL, annotationBaseURL);
+	DetailedController.openwindow(imageId, annotationBaseURL);
 });
 
 
@@ -51,21 +48,20 @@ DetailedController.prototype.enabledSlider= function() {
 DetailedController.prototype.setParams= function(params) {
 	this.associatedROIURL = params.associatedROIURL;
 	this.imageURL = params.imageURL;
-	this.queryString = params.queryString;
+	this.imageId = params.imageId;
 	this.annotationBaseURL = params.annotationBaseURL;
 	this.ROIs = params.ROIs;
 	this.imageDimensions = params.imageDimensions;
 	this.swfURL = params.swfURL;
 }
 
-DetailedController.openwindow= function(query, imageURL, associatedROI, annotationBaseURL) {
- var drawingURL = "?q="+query+"&img="+imageURL;
- var annotationToolURL = annotationBaseURL + drawingURL
+DetailedController.openwindow= function(imageId, annotationBaseURL) {
+ var image = "?imageId=" + imageId;
+ var annotationToolURL = annotationBaseURL + image
  
  var drawingWindow = window.open(annotationToolURL,"_blank","height=1000,width=1400,status=yes, scrollbars=yes,top=500px, left=400px");
  
- //var drawingWindow = window.open("drawing" + "?q="+query+"&img="+imageURL+"&roi_ids="+associatedROI,"_blank","height=1400,width=1800,status=yes, scrollbars=yes,top=500px, left=400px");
- console.log("[Drawing View] Parameters - Image URL:"+imageURL+", Associated ROI:"+associatedROI+", Query:"+query);
+ console.log("[Drawing View] Loading image: "+ imageId);
 };
 
 DetailedController.prototype.displayROIs= function() { 
@@ -346,7 +342,7 @@ DetailedController.prototype.displayROIs= function() {
        },
 	style:{
 		classes:"qtip-bootstrap",
-		width: 700,
+		width: 600,
 	}
     });
 	

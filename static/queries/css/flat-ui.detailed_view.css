@@ -1606,7 +1606,7 @@ fieldset[disabled] .input-group.focus .input-group-btn .btn-default.active {
   background-color: #ffffff;
   border: 2px solid #bdc3c7;
   color: #bdc3c7;
-  line-height: 18px;
+  line-height: 20px;
 }
 .input-group-btn .btn-default {
   color: #ffffff;
@@ -3616,9 +3616,27 @@ footer p {
 }
 .footer-brand {
   display: block;
-  margin-bottom: 26px;
+  margin-bottom: 2px;
   width: 220px;
 }
+
+.footer-brand ul{
+    list-style-type: none;
+    margin: 0 0 26px;
+    padding: 0;
+}
+
+.footer-brand ul li {
+  border-top: 1px solid #1bc5a3;
+  line-height: 19px;
+  padding: 6px 0;
+}
+
+.footer-brand ul li:first-child {
+  border-top: none;
+  padding-top: 1px;
+}
+
 .footer-brand img {
   width: 216px;
 }

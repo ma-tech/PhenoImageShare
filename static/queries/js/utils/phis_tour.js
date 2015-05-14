@@ -15,7 +15,7 @@
 		   {
   	         target: 'dashboard',
   	         title: 'Dashboard!',
-  	         content: 'Dashboard presents visual summary of Phenoimageshare dataset',
+  	         content: 'Dashboard presents visual summary of the PhenoImageShare dataset.',
   	         placement: 'bottom',
 		     yOffset: -100,
 			 xOffset: 500,
@@ -32,7 +32,7 @@
 	       {
 	         target: 'searchMenuItem',
 	         title: 'Searching & Querying',
-	         content: 'PhenoImageShare provides tools for discovery and query of complex annotations and metadata (of bio-images) stored within its repository.',
+	         content: 'PhenoImageShare provides tools for the discovery and querying of complex annotations and metadata (of bio-images) stored within its repository.',
 	         placement: 'bottom',
 	       },
 		   
@@ -103,9 +103,9 @@
 	       },
 		   */
 	       {
-	         target: 'freetextLabel',
+	         target: 'indexInput',
 	         title: 'Perform search',
-	         content: 'You can search for images by using our auto-complete or simply entering free-text !',
+	         content: 'You can discover images by using our auto-complete or by entering anatomy, phenotype term or free-text !',
 			 placement: 'bottom',
 	         multipage: true,
 	         onNext: function() {
@@ -116,8 +116,8 @@
 		   
 	       {
 	         target: 'facetsTab',
-	         title: 'Faceted View',
-	         content: 'PhenoImageShare presents faceted view of the indexed data (and search results) for ease of search and navigation.',
+	         title: 'Facets',
+	         content: 'PhenoImageShare presents faceted, indexed data (and search results) for ease of search and navigation.',
 			 placement: 'right',
 			 width: 300
 	       },
@@ -127,7 +127,7 @@
 	         content: 'Search results contain the images matching the search text and/or selected facets and are presented in the results panel.',
 			 placement: 'left',
 			 width: 300,
-		     yOffset: -140,
+		     yOffset: -110,
 	       },
 	       {
 	         target: 'imgtable',
@@ -135,7 +135,7 @@
 	         content: 'Further filtering can be performed on the results by using the table search box. E.g. enter \'Gtf3c5\' to view records containing gene Gtf3c5.',
 			 placement: 'left',
 			 width: 300,
-		     yOffset: -100,
+		     yOffset: -70,
 			 xOffset: 600,
 	       },
 	       {
@@ -149,7 +149,7 @@
 	       {
 	         target: 'imgtable',
 	         title: 'Navigating to detailed view',
-	         content: 'Click on the image icon to view details of the image',
+	         content: 'Click on the image icon to view details of the image.',
 			 placement: 'left',
 			 width: 300,
 		     yOffset: 80,
@@ -188,13 +188,26 @@
 		   
 	       {
 	         target: 'imagerois',
-	         title: 'ROIs',
-	         content: 'Interactive table displaying the image\'s Regions of Interest and annotations.' +
-			   			'Click on each row to view annotations associated with ROI.' + 
-			   			'Hover over a row to view annotations in tooltip',
+	         title: 'ROIs/Annotations',
+	         content: 'Interactive table displaying the image\'s Regions of Interest (ROI) and annotations.' +
+			   			'Click on each row to view annotations associated with the ROI.' + 
+			   			'Hover over a row to view annotations in a pop up.',
+			 placement: 'left',
+			 width: 300,
+			 multipage: true,
+	         onNext: function() {
+	           window.location = "http://localhost:8000/annotation/?q=&img=komp2_161689"
+	         },
+	       },
+		   
+	       {
+	         target: 'viewer',
+	         title: 'Image viewer',
+	         content: 'Image viewer',
 			 placement: 'left',
 			 width: 300
 	       },
+		   
 		   
 	     ],
 	     showPrevButton: true,
@@ -227,8 +240,8 @@
 	     } else if (state === 'phis-tour-home:8') {
 	     	 hopscotch.startTour(tour_home_page);
 	     }
-		 else if (state === 'phis-tour-search:5') {
-		 	 hopscotch.startTour(tour_search_page);
+		 else if (state === 'phis-tour-search:11') {
+		 	 hopscotch.startTour(tour_home_page);
 		 }	 
 	     else {
 	       // Landing on the PhIS Index page for the first(?) time.
@@ -268,6 +281,9 @@
    	       hopscotch.startTour(tour_home_page);
    	     }
 		 else if (state === 'phis-tour-home:8') {
+			    hopscotch.startTour(tour_home_page);
+		 }
+		 else if (state === 'phis-tour-home:11') {
 			    hopscotch.startTour(tour_home_page);
 		 }
 		}

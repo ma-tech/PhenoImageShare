@@ -201,7 +201,9 @@ Processor.prototype.loadJSON = function(){
 			"fnDrawCallback": function () {
 				
 			},
-			
+			"oLanguage": {
+			         "sSearch": "Filter records:"
+	       },
        	 	"processing": true,
        	 	"serverSide": true,
 			"lengthChange" : true,
@@ -241,7 +243,9 @@ Processor.prototype.loadJSON = function(){
 				   		   (json.response.docs[i].anatomy_term ? "<br/> <b> Anatomy: </b>" + json.response.docs[i].anatomy_term : "") +
 				   		   (json.response.docs[i].phenotype_label_bag ? "<br/> <b> Phenotype: </b>" + json.response.docs[i].phenotype_label_bag: "") +
 				   		   (json.response.docs[i].gene_symbol ? "<br/> <b> Associated gene: </b>" + json.response.docs[i].gene_symbol : "") ;
-			   
+			   	   
+				   descr = (descr != "" ? descr : "No annotations found" );
+					  
 				   tableData[i]=[image_with_hyperlink, descr, detail_url];
 				   //galleryData[i] = [image, image_url, descr]
 			   }
@@ -266,10 +270,9 @@ Processor.prototype.loadJSON = function(){
 		"columnDefs": [
 		    { "width": "20%", "targets": 0},
                {"targets": [ 2 ],"visible": false}
-		  
 	      ],
 		  order: [ 1, 'asc' ],
-		  scrollY: 900,					
+		  //scrollY: 900,					
    		 });
 		 
 		 $('#imgtable tbody').on('click', 'tr', function() {
@@ -599,7 +602,7 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 	taxon.tags.push(0);
 		
 	var imaging_method_label = {};
-	imaging_method_label.text = "ImagingMethod";
+	imaging_method_label.text = "Imaging Method";
 	imaging_method_label.selectable = false;
 	imaging_method_label.tags = [];
 	imaging_method_label_nodes = [];

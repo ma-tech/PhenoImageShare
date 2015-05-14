@@ -1,5 +1,6 @@
 from django.shortcuts import render
-
+import logging
+from django.http import HttpResponse, Http404
 try:
     from pymongo import MongoClient 
 except: 
@@ -19,6 +20,8 @@ api_url = dev_api
 access_points = iqs['ACP']
 image_acp = access_points['getimages']['name']
 image_endpoints = access_points['getimages']['options']
+
+logger = logging.getLogger(__name__)
 
 def save_annotations(request):
     if request.is_ajax():
@@ -40,104 +43,51 @@ def save_annotations(request):
     return HttpResponse(simplejson.dumps({'message' : message},ensure_ascii=False), mimetype='application/javascript')
 
 def drawing_view(request):
- 
-    if 'local' in request.GET:
-        json_data = qviews.get_local_data()
-        docs = json_data['response']['docs']
-                
-        roi_data = getROI(docs, imageString, queryString)
-        context = {"image_data": roi_data}
-    else:  
-        context = get_roi_data(request)
-        
-    return render(request, 'annotation/html/drawing_view.html', context)
+    context = {}
     
-def get_roi_data(request):
-    roi_data_dict = {}
-    roi_docs = []
-    roi_data = []
-    roi_ids = []
-    docs = {}
-    imageString = ""
-    queryString = ""
-    image_base_url = ""
-    query = {}
-    
+    if 'imageId' in request.GET:
+        imageId = request.GET['imageId']
+        dziName =  imageId + '.dzi'
         
-    if 'q' in request.GET:
-        queryString = request.GET['q']
+        roiData = getRoiData(imageId)
+        url = getImageURL(imageId)
+        dimension = getImageDimension(imageId)
+        
+        imageData = {"Id":imageId,"dziName": dziName, "url": url, "dimension": dimension}
+        context = {"roiData":roiData, "image":imageData}
+        
+    return render(request, 'annotation/html/annotation_view.html', context)
+
+def getRoiData(imageId):
+    return qviews.getROIs(imageId)
+
+def getImageDimension(imageId):
+    return qviews.getImageDimension(imageId)
+
+def getImageURL(imageId):
+    return qviews.getImageURL(imageId)
+
+def getTree(request):
+    myTree = {'children': [], 'title':'Mouse', 'hideCheckbox': 'false', "isLazy": 'true'}
+    myTree['children'].append( {'title':'body fluid or substance', 'children':[],'hideCheckbox': 'false', "key":"Child 1", "isLazy": 'true'} )
+    myTree['children'].append( {'title':'body region', 'children':[], 'hideCheckbox': 'false', "key":"Child 2",  "isLazy": 'true'} )
+    myTree['children'].append( {'title':'germ layer', 'children':[], 'hideCheckbox': 'false', "key":"Child 3", "isLazy": 'true'} )
+
+    # Convert result list to a JSON string
+    res = simplejson.dumps(myTree, encoding="Latin-1")
+
+    # Support for the JSONP protocol.
+    response_dict = {}
+    if request.GET.has_key('callback'):
+        response_dict = request.GET['callback'] + "(" + res + ")"
     else:
-        queryString = "MP:0010254"
-        
-    if 'img' in request.GET:
-        imageString = request.GET['img']
-        roi_data_dict['image_url'] = imageString
-    
-    if "MP" in queryString:
-        query[image_endpoints['phenotype']] = queryString   
-    elif "MA" in queryString:
-        query[image_endpoints['anatomy']] = queryString 
-    elif "MGI" in queryString:
-        query[image_endpoints['gene']] = queryString 
-    elif queryString == "":
-        query = {}
-    else:
-        query[image_endpoints['term']] = queryString 
-      
-    url = api_url + image_acp
-    url_data=urllib.urlencode(query)
-    req = urllib2.Request(url, url_data)
-    
-    try:
-        response = urllib2.urlopen(req)
-    
-        json_data = simplejson.load(response)
-        docs = json_data['response']['docs']
-        
-    except (urllib2.HTTPError, urllib2.URLError, simplejson.JSONDecodeError):
-        json_data = get_local_data()
-        docs = json_data['response']['docs']
-        
-    for doc in docs:
-        if doc['image_url'] == imageString:
-            if "associated_roi" in doc:
-                roi_ids = doc['associated_roi']
-            
-                for roi_id in roi_ids:
-                    base_url = "http://lxbisel.macs.hw.ac.uk:8080/IQS/getroi?id="
-                    url = base_url + roi_id
-                    req = urllib2.Request(url)
-                    response = urllib2.urlopen(req)
-                    json_data = simplejson.load(response)
-        
-                    roi_docs.append(json_data['response']['docs'])
+        response_dict = res
 
-    roi_data_dict['roi_docs'] = roi_docs
-    roi_data.append(roi_data_dict)
+    return HttpResponse(response_dict, mimetype='application/json')
     
-    context = {"roi_data": roi_data}
-    
-    return context
-    
+    response_dict = {}
+    response_dict.update({'children': tree })
+    return HttpResponse(response_dict, mimetype='application/javascript')
 
-def process_roi_docs(roi_docs):
-    image_data_dict = {}
-    roi_data = []
-    
-    for roi in roi_docs:
-        roi_data.append(roi)
-   
-    return roi_data 
-    
-
-def get_fdp_data(request):
-    return process_fdp_docs()
-
-def process_fdp_docs():
-    fdp_data_dict = {}
-    fdp_data = []    
-    
-    return fdp_data
-    
-def getChannel(request):
+def getDZI(request):
     pass

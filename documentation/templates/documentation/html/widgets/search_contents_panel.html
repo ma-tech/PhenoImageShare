@@ -4,22 +4,22 @@
 <a href="https://twitter.com/share" class="twitter-share-button" data-url="www.phenoimageshare.org/phis" data-text="Check out PhenoImageShare for sharing annotations for image resources! http://www.phenoimageshare.org/phis" data-count="none"></a>
 		  
 	  <h4>Search & Query the PhenoImageShare Repository</h4>
-	  <p>PhenoImageSgare presently allows freetext search through its database, while supporting filtering based on eight data types, namely Sample type, Image type, Imaging method, Development stage, Anatomy, Gene and Phenotype. </p>
-	  <p>Users can browse the PhIS repository using the filters or perform a freetext search or combination of both. Freetext could range from a gene or gene symbol, phenotype description or anatomy term of interest to the user. Each top level data type has 1 or more lower-level data fields allowing for further data filtering.</p>
+	  <p>PhenoImageShare (PhIS) allows freetext search through its database. It presently supports filtering of search results based on eight data types, namely Sample and Image types, Imaging method, Developmental stage, Anatomy, Gene and Phenotype. </p>
+	  <p>To begin, you can browse the PhIS repository using the filters or perform a freetext search or combine these. You can also combine these search facilities. Freetext could range from a gene or gene symbol, phenotype description or anatomy term. Facets have top and second levels, with the second level ones being the data filters. Each top level data type has 1 or more subfacets which allows for data filtering.</p>
 	  
 	  <br/>
 	
 	  <h6>Freetext search - phenotype term search</h6>
-	  <p>Entering freetext such as gene or allele symbol, phenotype, anatomy or annotation term in the main input field of the search interface produces and displays an autosuggested list of terms indexed in the database. Figure below shows a freetext search for phenotype term "abnormal hair cycle".</p>
+	  <p>As user begins to type in the main input field of the search interface, a list of autosuggested terms is provided. Selecting a value from this list and clicking the "Search" button will return results that match search terms. Figure below shows a freetext search for phenotype term "abnormal hair cycle".</p>
 	  
 	  <p><a href="{% static 'documentation/images/phenotype_abnormal_hair_cycle.png' %}" title="Phenotype term search - for abnormal hair cycle" class="lightbox"><img src="{% static 'documentation/images/phenotype_abnormal_hair_cycle.png' %}" width="650" height="450" alt="Single Image"/ ></a></p>
 	  
 	  <br/>
 	  
-	  <h6>Freetext search & facet controls - gene symbol search & data filtering </h6>
-	  <p>Following a freetext search, data obtained in search result can be further filtered using the facets. The figure below shows a freetext search for a gene <b><i>Stx8</i></b> followed by filtering based on Sample/Image types (Mutant/Expression) and the Development stage (postnatal).</p>
+	  <h6>Freetext search & facet controls - gene search, data filtering </h6>
+	  <p>Following a search, results can be filtered using the facets. The figure below shows a freetext search for a gene <b><i>Stx8</i></b> followed by filtering based on Sample/Image types (e.g. Mutant/Expression) and the Development stage (e.g. postnatal).</p>
 	  
-  	  <p> Results obtained from the gene search can be filtered by clicking/opening any of the facets for which data exists and ticking any of the subfacets under the facet.</p>
+  	  <p> Results from gene search can be filtered by opening any of the facets for which data exists (i.e., non-zero facet count), and ticking any of the filters under the facet.</p>
 	  
 	  <p><a href="{% static 'documentation/images/gene_search_facet_controls.png' %}" title="Search for gene symbol Stx8 and filtering results" class="lightbox"><img src="{% static 'documentation/images/gene_search_facet_controls.png' %}" width="650" height="450" alt="Single Image"/ ></a></p>
   
@@ -28,13 +28,13 @@
 		
 	  <h4>Browsing through the database & faceting</h4>
 	  
-	  <p>You can browse the database to your desired results set using facets. The facets allow you to drill down to the desired results without having to type in freetexts in the generic search box. Exploring the database could start right from the landing page, where you can click on any point of interest on the landing charts. These charts present the visual summaries of the dataset in PhenoImageShare repository.</p>
+	  <p>You can browse the PhIS database using facets. The facets allow you to drill down to the desired results without having to type in the main search box. Exploring the database in this manner can commence from either the landing page or search page. From the index page, clicking on points on the charts makes you navigate to the search page where results are displayed for your selection. These charts are canned queries that present the visual summaries of the datasets within PhenoImageShare database.</p>
 	  
 	  <br />
 	  <h6>Browsing from landing page</h6>
-	  <p>You can click on any point on the charts and this would take you to the search page where the corresponding records are displayed based on applied filters.</p>
+	  <p>Clicking on points on the charts takes you to the search page where the corresponding records are displayed based on applied filters (selected point on chart).</p>
 	  
-	  <p>The screenshot below shows a clicking through of points corresponding to Mutants-Phenotype sample/image type on charts on the index page.</p>
+	  <p>The screenshot below shows a clicking-through of points corresponding to Mutants-Phenotype sample/image field types on charts on the index page.</p>
 	  
 	  <p><a href="{% static 'documentation/images/click_through_mutants_landing.png' %}" title="Searching the database by clicking through points on charts" class="lightbox"><img src="{% static 'documentation/images/click_through_mutants_landing.png' %}" width="900" height="280" alt="Clickthrough facility"/ ></a></p>
 	  
@@ -44,9 +44,9 @@
 	  
 	  <br />
 	  <h6>Browsing using facets (checkboxes & freetext inputs)</h6>
-	  <p>Data in the PhIS repository can be browsed and/or filtered using the facets and the subfacets without having to type in freetext in generic search box. Facets and subfacets allows you to navigate to the records of interest by checking the facet boxes or making a facet-based freetext search (e.g for Gene, Anatomy, or Phenotype using facets equivalents). Clicking on the top-level facets (such as Mutants, Wildtype, Imaging method, or Development stage) will open up subfilters (such as Expression or Phenotype subfacets of Mutants / Wiltype main facets) for filtering. Checking or ticking a subfacet of interest will return and display a narrowed down result set based on selected field values.</p>
+	  <p>PhIS database can be browsed and/or filtered using the facets provided on the search page. Facets and subfacets allow quick navigation to the records of interest by checking applicable facet boxes or making an ontology-based faceted search (e.g for Gene, Anatomy, or Phenotype using facets equivalents). Clicking on the top-level facets (such as Mutants, Wildtype, Imaging method, or Development stage) will open up subfilters (such as Expression or Phenotype subfacets of Mutants / Wiltype main facets). Checking or ticking a subfacet of interest will return and display a narrowed result set based on selected field values.</p>
 
-	  <p>The screenshot below shows returned records from Mutant-Phenotype selection plus facet-based search for <b><i>Fam73b</i></b> gene.</p>
+	  <p>The screenshot below shows returned records for Mutant-Phenotype selection followed by faceted search for <b><i>Fam73b</i></b> gene.</p>
 	  
 	  	  <p><a href="{% static 'documentation/images/faceting_checkboxes_inputfield.png' %}" title="Facets by checkboxes and input fields search" class="lightbox"><img src="{% static 'documentation/images/faceting_checkboxes_inputfield.png' %}" width="550" height="400" alt="Faceting by checkboxes and input boxes"/ ></a></p>
 	  <br/>

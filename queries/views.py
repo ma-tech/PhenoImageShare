@@ -4,10 +4,15 @@ import simplejson
 import urllib2
 import urllib
 from pis.settings import IQS as iqs
-#import deepzoom
+
 import re
 import os
 import logging
+
+logger = logging.getLogger(__name__)
+
+try: import deepzoom
+except ImportError: logger.debug("Unable to load Deepzoom library")
 
 try: from pis.settings import BASE_URL
 except ImportError: BASE_URL="http://dev.phenoimageshare.org"
@@ -40,8 +45,6 @@ autosuggest_acp = access_points['getautosuggest']['name']
 autosuggest_endpoints = access_points['getautosuggest']['options']
 
 iqs_version = '005'
-
-logger = logging.getLogger(__name__)
 
 def index(request):
     return render(request, 'queries/html/phis_index.html', '')
@@ -106,28 +109,48 @@ def get_image_data(request):
         
     except (urllib2.HTTPError, urllib2.URLError, simplejson.JSONDecodeError):
         #(image_data, roi_data) = ('{"server_error": "Server Unreachable"}', '{"server_error": "Server Unreachable"}')
-        logger.debug("Error extracting either ROI or Image data")
+        
+        logger.debug("Error extracting either ROI or Image data, email sent to administrator")
+        
         raise Http404
+    
+    # Call functions to download image and generate dzi files from image
+    image_name = downloadImage(image_data['url'], request.GET['imageId'])
+    generateImageTiles(image_name, request.GET['imageId'])
+       
+    image_data['imageId'] = request.GET['imageId']
+    image_data['queryString'] = queryString
     
     context = {"image": image_data, "roi_data":roi_data}
     
     return context
 
-def generateImageTiles(source_location, image_name):
+def generateImageTiles(imageName, imageId):
    
     # Creating Deep Zoom Image creator with default parameters
-    #creator = deepzoom.ImageCreator(tile_size=128, tile_overlap=2, tile_format="png",
-    #                               image_quality=0.8, resize_filter="bicubic")
+    creator = deepzoom.ImageCreator(tile_size=128, tile_overlap=2, tile_format="png",
+                                  image_quality=0.8, resize_filter="bicubic")
     
-    dzi_base = '/opt/pheno/python/PhenoImageShare/static/utils/images/dzifiles/'
-    dzi_location = dzi_base + image_name + '.dzi'
+    resource_base = '/opt/pheno/python/PhenoImageShare/static/utils/images'
     
+    dzi_base = resource_base + '/dzifiles/'
+    img_base = resource_base + '/sources/'
+    img_location = img_base + imageName
+    
+    dzi_location = dzi_base + imageId + '.dzi'
+    
+    logger.debug("Creating deepzoom files for "+ imageId + " (located at " + img_location + ") in "+dzi_location)
     # Create Deep Zoom image pyramid from source
-    creator.create(source_location, dzi_location)
+    if os.path.isfile(dzi_location) == False:
+        
+        creator.create(img_location, dzi_location)
+        logger.debug("Successfully created deepzoom files for "+ imageId + "(located at " + img_location + ") in " + dzi_location)
+    else:
+        logger.debug("Deepzoom file already exists on Image Server")
     
-    return dzi_location
+    return None
 
-def downloadImage(url):
+def downloadImage(url, imageId):
     
     image_name = re.search("(?P<url>[^\s]+)/(?P<name>[^\s]+)", url).group("name")
     source_base = '/opt/pheno/python/PhenoImageShare/static/utils/images/sources/'
@@ -137,8 +160,11 @@ def downloadImage(url):
         image_file = open(source_location, 'wb')
         image_file.write(urllib.urlopen(url).read())
         image_file.close()
-    
-    return (source_location, image_name)
+        logger.debug("Image downloaded from: " + url + " into: " + str(source_location))
+    else:
+        logger.debug("Image file already exists on Image Server")
+   
+    return image_name
     
 def extract_image_data(doc):
     image_data_dict = {}
@@ -178,6 +204,9 @@ def extract_image_data(doc):
     if "sample_type" in doc:
         image_data_dict['sample_type'] = doc['sample_type']
     
+    if "expression_in_label_bag" in doc:
+        image_data_dict['expression_in_label_bag'] = doc['expression_in_label_bag']
+            
     if "image_type" in doc:
         image_data_dict['image_type'] = doc['image_type']
     
@@ -320,10 +349,11 @@ def getAutosuggest(request):
     
     if 'term' in request.GET:
         queryString = request.GET['term']
-    else:
-        queryString = "unset"
-
-    query[autosuggest_endpoints['term']] = queryString 
+        query[autosuggest_endpoints['term']] = queryString 
+    
+    if 'type' in request.GET:
+        autosuggestype = request.GET['type']
+        query[autosuggest_endpoints['asType']] = autosuggestype 
      
     url = api_url + autosuggest_acp
     url_data=urllib.urlencode(query)
@@ -411,3 +441,29 @@ def getChannel(channelId):
     
 #def error404(request):
 #    return render(request, 'queries/html/404.html')
+
+#Utility functions/services
+def getImageURL(imageId):
+    imagedata = getImageData(imageId)
+    return  imagedata[0]['image_url']
+
+def getImageData(imageId):
+    query={}
+    query['version'] = iqs_version
+    
+    try:
+        query[image_details_endpoints['imageId']] = imageId
+        url = api_url + image_details_acp
+        url_data=urllib.urlencode(query)
+        req = urllib2.Request(url, url_data)
+    
+        response = urllib2.urlopen(req)
+        imagedata = simplejson.load(response)['response']['docs']
+    except urllib2.HTTPError:
+        imagedata = '{"server_error": "Server Unreachable"}'
+    
+    return imagedata
+    
+def getImageDimension(imageId):
+    imagedata = getImageData(imageId)
+    return  [imagedata[0]['height'], imagedata[0]['width']]
