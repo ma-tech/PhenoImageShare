@@ -41,7 +41,10 @@
 		this.base_detail_url = "";
 		this.base_query_url = "";
 		this.autosuggest_url = "";
-				
+
+		//Autosuggest endpoint mappings
+		this.autosuggest_mappings = {"PhenotypeButtonField":"PHENOTYPE", "AnatomyButtonField":"ANATOMY", "GeneButtonField":"GENE"}
+
 		this._init(options);
 	};
 
@@ -130,12 +133,22 @@
 
 			this._unsubscribeEvents();
 
-			this.$element.on('click', $.proxy(this._clickHandler, this));	
+			this.$element.on('click', $.proxy(this._clickHandler, this));
+			//this.$element.on('keypress', $.proxy(this._keypressHandler, this));
+			
 			if (typeof (this.options.onNodeSelected) == 'function') {
 				this.$element.on('nodeSelected', this.options.onNodeSelected);
 			}
 		},
-	
+		
+		_keypressHandler: function(event) {
+				if(event.which == 13){
+						//console.log("Key is now pressed");	
+						this._clickHandler(event);	
+				}
+
+		},
+			
 		_clickHandler: function(event) {
 			
 			if (!this.options.enableLinks) { event.preventDefault();}
@@ -143,6 +156,8 @@
 			var target = $(event.target),
 				classList = target.attr('class') ? target.attr('class').split(' ') : [],
 				node = this._findNode(target);
+			
+			//console.log("Called click handler, Node parent = " + node.parent);
 			
 			if (node.parent == "Anatomy" || node.parent == "Gene" || node.parent == "Phenotype"){
 					//perform some operations here, knowing the we've selected a search field.
@@ -175,6 +190,10 @@
 					node.query = this.query;
 					this.options.onNodeSelected(event, node);
 					
+				}else if(target.attr('type') == "text"){
+					//if(event.which == 13){}
+					console.log("Clicked area = " + node.parent);
+					return;
 				}else{
 					return;
 				}
@@ -211,7 +230,7 @@
 								this.query.taxon[node.text] = node.queryText;
 								this.query.taxon.expanded = EXPANDED;
 								this.query.taxon.value = node.queryText;
-							} else if (node.parent == "ImagingMethod"){
+							} else if (node.parent == "Imaging Method"){
 								this.query.imagingMethod[node.text] = node.queryText;
 								this.query.imagingMethod.expanded = EXPANDED;
 								this.query.imagingMethod.value = node.queryText;
@@ -228,7 +247,7 @@
 								this.query.taxon[node.text] = "";
 								this.query.taxon.value = "";
 								//this.query.taxon.expanded = COLLAPSED;
-							} else if (node.parent == "ImagingMethod"){
+							} else if (node.parent == "Imaging Method"){
 								this.query.imagingMethod[node.text] = "";
 								this.query.imagingMethod.value = "";
 								//this.query.imagingMethod.expanded = COLLAPSED;
@@ -277,7 +296,7 @@
 			    },
 			    queryTokenizer: Bloodhound.tokenizers.whitespace,
 			    remote: {
-			        url: this.autosuggest_url + "?"+ endpoint + "=" + '%QUERY',
+			        url: this.autosuggest_url + "?"+ endpoint + "=" + '%QUERY'+ "&type=" + this.autosuggest_mappings[element],
 			        filter: function (data) {
 			            return $.map(data, function (term) {
 			                return {
@@ -287,7 +306,7 @@
 			        }
 			    }
 			});
-	
+						
 			anatomyterms.initialize();
 		
 			$('#'+element).typeahead({
@@ -664,10 +683,10 @@
 			labelUnChecked: '<label class="checkbox" for="checkboxUnchecked" style="margin-left:10x;">Unchecked</label>',
 			checkboxUnchecked:'<input type="checkbox" value="" id="checkboxUnchecked" data-toggle="checkbox">',
 			checkboxChecked:'<input type="checkbox" checked="checked" value="" id="checkboxChecked" data-toggle="checkbox" checked="">',
-			textField: '<input type="text" class="form-control col-xs-1 autosuggest" id="anatomyField" placeholder="">',
+			textField: '<input type="text" class="form-control col-lg-8 autosuggest" id="anatomyField" placeholder="">',
 			inputGroupButton: '<span class="input-group-btn"></scan>',
 			inputGroup: '<div class="input-group"></div>',
-			facetButton: '<button type="button" id="facetsearchButton" class="btn btn-primary btn-sm">Go!</button>',
+			facetButton: '<button type="button" id="facetsearchButton" class="btn btn-lg">Go!</button>',
 			inputGroupAddOn: '<span class="input-group-addon">:</span>'
 		},
 

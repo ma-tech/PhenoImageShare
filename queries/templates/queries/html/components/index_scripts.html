@@ -7,9 +7,10 @@
 <script type="text/javascript" charset="utf8" src="{% static 'queries/assets/highcharts/data.js' %}"></script>
 <script type="text/javascript" charset="utf8" src="{% static 'queries/assets/highcharts/drilldown.js' %}"></script>
 
-<!-- ECharts for Dashboard -->
+<!-- ECharts for Dashboard 
 <script type="text/javascript" charset="utf8" src="{% static 'queries/assets/echarts/echarts-all.js' %}"></script>
-<!--sscript type="text/javascript" charset="utf8" src="{% static 'queries/assets/echarts/pie.js' %}"></script-->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/echarts/pie.js' %}"></script>
+-->
 
 <!-- Statistics Utility -->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/js/utils/stats.js' %}"></script>
@@ -17,12 +18,21 @@
 <!-- jQuery BlockUI blocker -->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/assets/blocker/jquery.blockUI.js' %}"></script>
 
-
 <!-- Autosuggest Plugin for PhIS -->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.typeahead-bundle.js' %}"></script>
 <script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.bloodhound.js' %}"></script>
 
+<!-- Bootstrap Switch -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/bootstrap-switch.js' %}"></script>
 
+<!-- Bootstrap Placeholder -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.placeholder.js' %}"></script>
+
+<!-- Bootstrap Tags Input -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.tagsinput.js' %}"></script>
+
+<!-- Bootstrap Application for Switch & Selection -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/application.js' %}"></script>
 <script>
 
 var base_query_url = "{% url 'queries:query_view' %}";
@@ -50,7 +60,7 @@ $(document).ready(function() {
 	//beta 1.0 release announcement
 	
 		$('div.beta-release').block({ 
-	        message: '<p style="font-size:15px;">This is a beta website. Please report any shortcomings to webmaster@phenoimageshare.org</p>',
+	        message: '<p style="font-size:15px; cursor: default">This is a beta website. Please report any shortcomings to <a href="mailto:webmaster@phenoimageshare.org">webmaster@phenoimageshare.org</a></p>',
 	        fadeIn: 700, 
 	        fadeOut: 700, 
 	        showOverlay: false, 

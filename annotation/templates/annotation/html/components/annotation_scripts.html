@@ -1,0 +1,172 @@
+{% load staticfiles %}
+
+<!-- Openseadragon -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/seadragon/v1.2.1/openseadragon/openseadragon.min.js' %}"></script>
+
+<!-- Dynatree -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/dynatree/jquery.dynatree.js' %}"></script>
+
+<!-- jQuery Cookie manager -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.cookie.js' %}"></script>
+
+	<!-- Kinetic Drawing Tool -->
+	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/kinetic/v.5.0.2/kinetic.min.js' %}"></script>
+	
+	<!-- PhIS Viewer Canvas -->
+	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/views/canvas.js' %}"></script>
+	
+	<!-- PhIS Drawing Tool -->
+	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/controllers/drawing_tool.js' %}"></script>
+	
+	<!-- PhIS Annotation Tool -->
+	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/controllers/annotation_tool.js' %}"></script>
+	
+	<!-- PhiS Event Handlers -->
+	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/events/events.js' %}"></script>
+	
+	<!-- PhiS Error Handlers-->
+	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/errors/errors.js' %}"></script>
+	
+	<!-- PhiS Models-->
+	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/models/models.js' %}"></script>
+	
+	<!-- PhIS Utilities-->
+	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/utils/db.js' %}"></script>
+<script>
+
+var dziName = "{{image.dziName | safe}}";
+console.log("Image url = {{image.url | safe}}");
+console.log("Image dimensions = {{image.dimension | safe}}");
+
+         $(document).ready(
+			
+		//function to load image canvas
+		function(){
+			
+			initialiseControllers();
+			
+		    var viewer = OpenSeadragon({
+		        id: "viewer",
+	      	  	tileSources: "{% static 'utils/images/dzifiles/' %}" + dziName,
+		        overlays: [{
+		            id: 'phis-sample-overlay',
+		            px: 300, 
+		            py: 300, 
+		            width: 50, 
+		            height: 50,
+		            className: 'highlight'
+		        }],
+				showNavigator:  true,
+		    });
+			
+			var overlay = false;
+			
+			$("#zoomabletoggler").click(function() {
+				if (overlay) {
+			        viewer.removeOverlay("runtime-overlay");
+					alert("Overlay removed");
+			    } else {
+			        var elt = document.createElement("div");
+			        elt.id = "runtime-overlay";
+			        elt.className = "highlight";
+			        viewer.addOverlay({
+			            element: elt,
+			            location: new OpenSeadragon.Rect(300, 300, 50, 50)
+			        });
+					alert("Overlay readded");
+			    }
+			    overlay = !overlay;
+			});
+
+  		  // start tree load
+  		  $("#tree").dynatree({
+  		    checkbox: false,
+  		    selectMode: 2,
+  		    initAjax: {
+  		      url: "/annotation/getTree",
+  		      dataType: "jsonp",
+  		      data:  {"param1":"param"}
+  		    },
+		    onSelect: function(flag, node) {
+  		      getTree(node);
+			  
+  		    },
+  		    onActivate: function (node) {
+				getTree(node);
+  		    },
+			onLazyRead: function(node){
+		        node.appendAjax({
+				data: {"key": node.data.key, // Optional url arguments
+                                  "mode": "all"
+                                  },
+		          url: "/annotation/getTree",
+		          debugLazyDelay: 750
+		        });
+			},
+  		    persist: true,
+  		    noLink: false,
+  		    fx: { height: "toggle", duration: 200 },
+			autoFocus: false,
+  		    onPostInit: function (isReloading, isError) {
+  		        if (getStringOfSelectedTreeNodes() != '') {
+  		          //updateChart();
+  		          //updateDataTable();
+  		        }
+  		    }
+  		  });
+  		  // end tree load
+		  
+ 	    $("#activation").click(function(){
+ 	         $("#tree").dynatree("getTree").activateKey("Child 1");
+ 	   	  console.log("Clicking to select Child 1")
+ 	   });
+	   
+		}
+
+
+);
+
+function getTree(node) {
+	console.log("Clicked on: "+node.data.title);
+}
+
+function initialiseControllers(){
+  console.log("[Drawing View] Initialising Controller")
+  //Load and initialize PhIS Viewer Canvas.
+  
+  var drawingContainer = document.getElementById("drawing-div");
+  var drawingController = new DrawingTool();
+  var imageURL = "{image.url}}";
+  var annotationController = new AnnotationTool();
+ 
+  annotationStoreURL = "{% url 'annotation:save_annotations' %}";
+  annotationController.setAnnotationAJAXURL(annotationStoreURL);
+  
+  var eventHandler = new EventHandler();
+  var errorHandlers = new ErrorHandlers();
+  var controllers = new Array();
+  
+  //setting controllers
+  controllers.push(drawingController);
+  controllers.push(annotationController);
+  
+  //initialising DB Conncector
+  var dataHelper = new DBUtil();
+  var modelsData = dataHelper.loadModelsData();
+  
+  //initialising drawing canvas
+  phISCanvas = new PhiSCanvas(drawingContainer, imageURL, controllers, modelsData, eventHandler, errorHandlers);
+}
+
+function getStringOfSelectedTreeNodes() {
+    var returnString ="";
+    var nodes = $("#tree").dynatree("getSelectedNodes");
+    for (i in nodes) {
+      returnString = nodes[i].data.title + "|" + returnString;
+    }
+    return nodes;
+}
+
+ 
+ </script>
+ 

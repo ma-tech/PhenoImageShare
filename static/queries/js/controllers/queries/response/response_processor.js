@@ -201,7 +201,9 @@ Processor.prototype.loadJSON = function(){
 			"fnDrawCallback": function () {
 				
 			},
-			
+			"oLanguage": {
+			         "sSearch": "Filter records:"
+	       },
        	 	"processing": true,
        	 	"serverSide": true,
 			"lengthChange" : true,
@@ -268,10 +270,9 @@ Processor.prototype.loadJSON = function(){
 		"columnDefs": [
 		    { "width": "20%", "targets": 0},
                {"targets": [ 2 ],"visible": false}
-		  
 	      ],
 		  order: [ 1, 'asc' ],
-		  scrollY: 900,					
+		  //scrollY: 900,					
    		 });
 		 
 		 $('#imgtable tbody').on('click', 'tr', function() {
@@ -601,7 +602,7 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 	taxon.tags.push(0);
 		
 	var imaging_method_label = {};
-	imaging_method_label.text = "ImagingMethod";
+	imaging_method_label.text = "Imaging Method";
 	imaging_method_label.selectable = false;
 	imaging_method_label.tags = [];
 	imaging_method_label_nodes = [];

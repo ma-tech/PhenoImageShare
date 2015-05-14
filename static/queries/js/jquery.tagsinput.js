@@ -120,7 +120,7 @@
 								object.query.taxon[object.text] = "";
 								object.query.taxon.value = "";
 								//this.query.taxon.expanded = COLLAPSED;
-							} else if (object.parent == "ImagingMethod"){
+							} else if (object.parent == "Imaging Method"){
 								object.query.imagingMethod[object.text] = "";
 								object.query.imagingMethod.value = "";
 								//this.query.imagingMethod.expanded = COLLAPSED;

@@ -31,17 +31,12 @@ function initialiseController(){
 	params.imageId = "{{image.imageId | safe}}";
 	params.imageURL = "{{image.url | safe}}";
 	
-	console.log("ImageURL = "+params.imageURL);
-	
-	params.queryString = "{{image.queryString | safe}}";
-	params.dziName = "{{dzi_name | safe}}";
+	//params.dziName = "{{image.deepzoom | safe}}";
 	params.annotationBaseURL = "{% url 'annotation:drawing_view' %}";
 	params.imageDimensions = ['{{image.height | safe}}', '{{image.width | safe}}'];
 	params.swfURL = "{% static 'queries/swf/copy_csv_xls_pdf.swf' %}";
 	params.ROIs = JSON.parse('{{roi_data | safe}}');
 		
-	//console.log("DZI Location: " + params.dziLocation);
-	
 	var controller = new DetailedController();
 	
 	controller.setParams(params);
