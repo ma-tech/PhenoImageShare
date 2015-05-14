@@ -4,6 +4,8 @@ import simplejson
 import urllib2
 import urllib
 from pis.settings import IQS as iqs
+from pis.settings import DZI_DIR
+from pis.settings import IMAGE_RESOURCE_BASE
 
 import re
 import os
@@ -131,10 +133,8 @@ def generateImageTiles(imageName, imageId):
     creator = deepzoom.ImageCreator(tile_size=128, tile_overlap=2, tile_format="png",
                                   image_quality=0.8, resize_filter="bicubic")
     
-    resource_base = '/opt/pheno/python/PhenoImageShare/static/utils/images'
-    
-    dzi_base = resource_base + '/dzifiles/'
-    img_base = resource_base + '/sources/'
+    dzi_base = IMAGE_RESOURCE_BASE + '/dzifiles/'
+    img_base = IMAGE_RESOURCE_BASE + '/sources/'
     img_location = img_base + imageName
     
     dzi_location = dzi_base + imageId + '.dzi'
@@ -153,7 +153,7 @@ def generateImageTiles(imageName, imageId):
 def downloadImage(url, imageId):
     
     image_name = re.search("(?P<url>[^\s]+)/(?P<name>[^\s]+)", url).group("name")
-    source_base = '/opt/pheno/python/PhenoImageShare/static/utils/images/sources/'
+    source_base = IMAGE_RESOURCE_BASE + 'sources/'
     source_location = source_base + image_name
     
     if os.path.isfile(source_location) == False:
