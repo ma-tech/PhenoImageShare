@@ -1,0 +1,143 @@
+Introduction
+============
+
+About
+-----
+PhenoImageShare (PhIS) is a cross-species, cross-repository tool enabling semantic discovery, 
+browsing and annotation of phenotypical images.PhIS is a collaborative open source project 
+between EMBL-EBI, MRC Human Genetics Unit at The University of Edinburgh and Heriot-Watt University.
+
+The frontend web application is developed with Python, Django and Javascript. 
+The backend services are developed primarily with Java and exposed via RESTful APIs. 
+
+
+Getting started
+---------------
+PhenoImageShare web application can be accessed at http://beta.phenoimageshare.org. 
+
+
+Backend Services & APIs
+-----------------------
+Data Access APIs can be accessed at http://beta.phenoimageshare.org/data.
+Middleware APIs can be accessed at http://beta.phenoimageshare.org/middleware/IQS.
+
+
+License & Releases
+------------------
+PhIS is released under Apache Version 2.0. Please see at http://beta.phenoimageshare.org/release/license
+The following sections provide the change logs for the PhIS GUI beta releases. 
+Please see data release notes at http://beta.phenoimageshare.org/release/data
+
+
+============ Beta Release 1.1 =============
+
+Release status
+--------------
+14 May 2015 beta release
+
+Details of Change
+-----------------
+
+New features
+	1.	Typed autosuggest implemented for facet-based text search inputs
+	2.	
+
+Bug fixes
+	1. Fixed tooltip out of bound - PHIS-142
+	2. Inconsistent boundary theme for search input box on landing and search pages - PHIS-147
+	3. Beta warning email link enabled - PHIS-121
+	4. ImagingMethod facet changed to "Imaging Method" -- PHIS-116
+	5. Fixed typo in box 11 of Site tour -- PHIS-115
+	6. Fixed style fitting between input box and search button on landing and search page
+	7. Fixed size fitting between input box and "Go" button for search-based facets on search page
+	8. Fixed display visibility for number of pages box for search results table
+
+
+Other changes
+	1. Removed "Enter freetext" label from the main search fields on the landing and search pages - PHIS-149
+	2. Included search term and expression description to detail view for images - PHIS-141
+	3. Changed colour of the background for "Take a tour" from teal to grey - PHIS-150
+	4. Change color of "Contacts" in the footer from green to blue as other links - PHIS-154
+	5. Removed "Email" title from email address contained in the "Contacts" link - PHIS-154
+	6. Corrected acknowledgement for sponsorship grant - PHIS-166
+	7. Removed double scroll from results table on search page - PHIS-153
+	8. Renamed "Search" to "Filter records" in result table
+	9. changed wordings, sentence length and structure of documentation pages - PHIS-117 PHIS-118 & PHIS-119
+	10. Shortened "Procedure" label to "Proc." on detail view - PHIS-113
+	11. Removed placeholder text in search boxes on landing and search pages
+
+
+Known issues  
+	1. Facets: Search text disappears from a facet search box when another facet search box is activated (clicked)
+	2. GUI should send email to list when database connectivity issue - PHIS-111
+	3. Detailed view: annotation pop up window obscures other rows in annotations table PHIS-120
+	4. Missing license information - PHIS-114
+	5. Number of records displayed on table does not correspond to selection - Search page - PHIS-106
+	6. Autosuggest does not close after pressing enter key - PHIS-169
+	7. Mouse click or Enter-key press to launch search on autosuggest selection in facet-based search - PHIS-168
+	8. Change color for search box & button - PHIS-151
+	9. Search results: search box above results doesn't work - PHIS-139
+	10. First value from autosuggest appears in the box without selection
+	11. Take a tour breakes
+	12. RESTful implementation, allowing users to go back to search URL history.
+	13. Selecting "All" entries in the table not working
+	14. White space between search box and menu bar
+	15. Change text of the site tour boxes.
+
+
+
+============ Beta Release 1.0 =============
+
+Release status
+--------------
+13 April 2015 beta release.
+
+
+Details of Change
+-----------------
+New features
+	1.	Query logging & sharing - Logging, sharing and bookmarking of queries
+	2.	Help features (v1) / Tooltips - facets usage help guide
+	3.  Implemented click-through feature on charts
+	4.  Added About, Documentation and Help pages - user cases
+	5.  Added logging, error & exception handling 	
+
+Bug fixes
+	1. Fixed facets tabs and behavior - previously not consistent 
+	2. Changed position of "take a tour" button to the right of search box
+	3. Removed PhenoImageShare title from index page
+	4. Removed dimensions from metadata display on detail view
+	5. Fixed detail view size issue with low-res screens
+	6. Fixed autosuggest not working on index and search pages
+	7. Fixed partner logo display
+	8. Fixed pagination issue - selecting a specific page now works
+
+
+Other changes
+	1. Visualisation  - improved dashboard on landing page, reduced size of charts
+	2. Added page loading indicator - for searching and filtering/faceting
+	3. Improved Detail view - changed style and theme, and display annotations
+	4. Search box on langind page works with "Enter" key press
+	5. Implemented autocomplete for landing page search box
+	6. Changed rendering style for graphs on index page
+	7. Removed combination graphs from landing page
+	8. Added contact details to index page and beta release warning box
+	9. Changed backend API version to 0.05 & fixed issues
+	10. Implemented server-side processing for Datatables for pagination to work
+
+Known bugs
+
+
+
+============ Pre-Beta Release =============
+
+Release status
+--------------
+Features prior to 13 April 2015
+
+Application Features (beta pre-release)
+	1. Query/Search facility - allows generic or faceted search with autosuggest
+	2. Responsive display of results
+	3. Faceted search - checkboxes and search fields
+	4. Index/Landing page - showing summary statistics, search capability and site tour
+	5. Detail view - detailing image genotype information and associated metadata
