@@ -1,5 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.template import loader, Context
+import logging
+
+logger = logging.getLogger(__name__)
 
 try: from pis.settings import BASE_URL
 except ImportError: BASE_URL="http://dev.phenoimageshare.org"
@@ -11,6 +15,7 @@ def index(request):
     return render(request, 'documentation/html/documentation_index.html', '')
     
 def about(request):
+    logger.debug("Path = " + request.path)
     return render(request, 'documentation/html/about.html', '')
 
 def search(request):
@@ -22,6 +27,21 @@ def detail(request):
 def events(request):
     return render(request, 'documentation/html/events.html', '')
     
+def release(request):
+    response = HttpResponse(content_type='text/plain')
+    t = loader.get_template('documentation/html/release/changelog')
+    c = Context({})
+    response.write(t.render(c))
+        
+    return response
+
+def license(request):
+    response = HttpResponse(content_type='text/plain')
+    t = loader.get_template('documentation/html/release/license')
+    c = Context({})
+    response.write(t.render(c))
+        
+    return response
     
 def searchHelpTooltip(request):
     source_url = ""

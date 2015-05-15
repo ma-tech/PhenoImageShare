@@ -13,6 +13,7 @@ urlpatterns = patterns('',
     # URL patters to the views of the Query application.
     url(r'^search/', include('queries.urls', namespace="queries")),
     url(r'^documentation/', include('documentation.urls', namespace="documentation")),
+    url(r'^release/', include('documentation.urls', namespace="release")),
     url(r'^admin/', include(admin.site.urls)),
     
     # URL patters for the views of the Annotation application.

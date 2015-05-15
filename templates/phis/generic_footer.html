@@ -5,7 +5,7 @@
         <div class="row">
           <div class="col-xs-3">
              <a class="footer-brand" href="http://beta.phenoimageshare.org/" target="_blank"><h4 class="footer-title">PhenoImageShare</h4></a>
-            <p>PhenoImageShare is a cross-species, cross-repository tool enabling semantic discovery, browsing and annotation of phenotypical images.</p>
+            <p>PhenoImageShare is a cross-species, cross-repository tool enabling semantic discovery, browsing and annotation of phenotype images.</p>
 						  <p class="textright">&copy; 2015 <a href="http://www.hgu.mrc.ac.uk/"> MRC HGU</a>, <a href="http://www.macs.hw.ac.uk/bisel/index.shtml">Heriot-Watt University </a>, <a href="http://www.ebi.ac.uk/">EMBL-EBI</a></p>
 		  </div> <!-- /col-xs-3 -->
 
@@ -13,11 +13,11 @@
             <a class="footer-brand" href="http://beta.phenoimageshare.org/search" target="_blank"> <h4 class="footer-title">Search</h4></a>
           </div> <!-- /col-xs-2 -->
 		  
-          <div class="col-xs-2">
+          <div class="col-xs-3">
             <a class="footer-brand" href="http://beta.phenoimageshare.org/documentation" target="_blank"> <h4 class="footer-title">Documentation</h4></a>
           </div> <!-- /col-xs-2 -->
 		  
-          <div class="col-xs-5">
+          <div class="col-xs-2">
             <div class="footer-brand">
               <h4 class="footer-title">Contacts</h4>
               <ul>
@@ -27,6 +27,13 @@
               
             </div>
           </div>
+          
+		  <div class="col-xs-2">
+              <div class="footer-brand">
+                <h4 class="footer-title">Release</h4>
+              	<a href="{% url 'release:license' %}">License</a> | <a>Release: 0.1.1</a> | <a href="{% url 'release:changes' %}">Change Log</a>
+          </div>
+		  
         </div>
       </div>
 	</footer>
