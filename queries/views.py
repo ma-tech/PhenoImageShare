@@ -142,9 +142,12 @@ def generateImageTiles(imageName, imageId):
     logger.debug("Creating deepzoom files for "+ imageId + " (located at " + img_location + ") in "+dzi_location)
     # Create Deep Zoom image pyramid from source
     if os.path.isfile(dzi_location) == False:
-        
-        creator.create(img_location, dzi_location)
-        logger.debug("Successfully created deepzoom files for "+ imageId + "(located at " + img_location + ") in " + dzi_location)
+        try:
+            creator.create(img_location, dzi_location)
+            logger.debug("Successfully created deepzoom files for "+ imageId + "(located at " + img_location + ") in " + dzi_location)
+        except IOError:
+            logger.debug("Error creating DZI file - I/O Error")
+            
     else:
         logger.debug("Deepzoom file already exists on Image Server")
     
@@ -157,10 +160,13 @@ def downloadImage(url, imageId):
     source_location = source_base + image_name
     
     if os.path.isfile(source_location) == False:
-        image_file = open(source_location, 'wb')
-        image_file.write(urllib.urlopen(url).read())
-        image_file.close()
-        logger.debug("Image downloaded from: " + url + " into: " + str(source_location))
+        try:
+            image_file = open(source_location, 'wb')
+            image_file.write(urllib.urlopen(url).read())
+            image_file.close()
+            logger.debug("Image downloaded from: " + url + " into: " + str(source_location))
+        except IOError:
+            logger.debug("Error downloading file from "+ url)
     else:
         logger.debug("Image file already exists on Image Server")
    
@@ -260,20 +266,7 @@ def extract_image_data(doc):
             
             roi_data = getROIs(doc['id'])['response']['docs']
             
-            if roi_data is not None:
-                for roi in roi_data:
-                    try: 
-                        channels_data = []
-                        
-                        for channelId in roi['associated_channel']:
-                            channels_data.append(getChannel(channelId)['response']['docs'][0])
-                            
-                        roi['channels'] = channels_data
-                        #print roi.channel
-                    except:
-                        logger.debug("No attribute exists")
-            
-    logger.debug("extract_image_data: "+ str(image_data_dict))
+    logger.debug("extract_image_data: "+ str(roi_data))
             
     return (image_data_dict, simplejson.dumps(roi_data))        
     
@@ -378,9 +371,25 @@ def getROIs(imageId):
     
         response = urllib2.urlopen(req)
         responsedata = simplejson.load(response)
+        
+        if responsedata is not None:
+            for roi in responsedata:
+                try: 
+                    channels_data = []
+                    
+                    for channelId in roi['associated_channel']:
+                        channels_data.append(getChannel(channelId)['response']['docs'][0])
+                        
+                    roi['channels'] = channels_data
+                    #print roi.channel
+                except:
+                    logger.debug("No attribute exists")
+                    
     except urllib2.HTTPError:
         responsedata = '{"server_error": "Server Unreachable"}'
-        
+    
+    logger.debug("Response data for ROI: "+ str(responsedata))
+     
     return responsedata
 
 def get_roi_data(request):
