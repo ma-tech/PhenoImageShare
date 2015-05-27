@@ -19,9 +19,8 @@ function DrawingTool() {
 	this.modelsData = [];
 	
 	//Annotation types.
-	this.ROI = "roi";
 	
-	this.FDP = "fiducial_point";
+	console.log("["+this.myname+"] Initialising " + this.myname);
 }
 
 /**
@@ -57,21 +56,28 @@ DrawingTool.prototype.selectObject = function(object) {
  * Enable selector mode.
 */
 
-DrawingTool.prototype.createModels = function(modelsData) {
+DrawingTool.prototype.displayAnnotations = function(modelsData) {
 	
 	this.modelsData = modelsData;
 	this.numModels = modelsData.length;
 	
-	console.log("[DrawingTool] Creating "+this.numModels+" models");
+	console.log("["+this.myname+"] Adding model to " + this.myname);
 	
 	for (var i=0; i < this.numModels; i++){
-		if (modelsData[i].type == this.ROI){
-			console.log("[DrawingTool] Creating ROI "+modelsData[i].id);
+		if (modelsData[i].type == "rectangle"){
+			console.log("["+this.myname+"] Adding ROI " + modelsData[i].type +" to "+ this.myname);
+			console.log("X coordinates of values = " + modelsData[i].getShape().getX());
+			console.log("Width of rectangle = " + modelsData[i].getShape().getWidth());
+			console.log("Height of rectangle = " + modelsData[i].getShape().getHeight());
 			
 			//create ROI here.
 		}
 		
-		this.models.push(model)
+		console.log("X coordinates of values = " + modelsData[i].getShape().getX());
+		
+		this.models.push(modelsData[i]);
+		this.canvas.layer.add(modelsData[i].getShape());
+		this.canvas.layer.drawScene();
 	}
 	
 };
@@ -188,10 +194,12 @@ DrawingTool.prototype.displayModels = function() {
 */
 
 DrawingTool.prototype.startDrawing = function(event) {
-	if (this.canvas.selectedShape == "tool-roi") {
+	console.log("[Drawing Tool] Selected tool - " + this.canvas.selectedShape);
+	
+	if (this.canvas.selectedShape == "tool-rectangle") {
 		//this.canvas.moving = true;
 		this.startDrawingRect(event);
-	}else if (this.canvas.selectedShape == "tool-feducial") {
+	}else if (this.canvas.selectedShape == "tool-circle") {
 		this.startDrawingCircle(event);
 		//this.canvas.moving = true;
 	}else if (this.canvas.selectedShape == "tool-arrow") {
@@ -200,22 +208,22 @@ DrawingTool.prototype.startDrawing = function(event) {
 	}else if (this.canvas.selectedShape == "tool-line") {
 		this.startDrawingLine(event);
 		//this.canvas.moving = true;
-	}else if (this.canvas.selectedShape == "tool-free") {
+	}else if (this.canvas.selectedShape == "tool-polyline") {
 		this.startDrawingFree(event);
 		//this.canvas.moving = true;
 	}
 };
 
 DrawingTool.prototype.draw = function(event) {
-	if (this.canvas.selectedShape == "tool-roi") {
+	if (this.canvas.selectedShape == "tool-rectangle") {
 		this.drawRect(event);
-	}else if (this.canvas.selectedShape == "tool-feducial") {
+	}else if (this.canvas.selectedShape == "tool-circle") {
 		this.drawCircle(event);
-	}else if (this.canvas.selectedShape == "tool-arrow") {
+	}else if (this.canvas.selectedShape == "tool-point") {
 		this.drawArrow(event);
 	}else if (this.canvas.selectedShape == "tool-line") {
 		this.drawLine(event);
-	}else if (this.canvas.selectedShape == "tool-free") {
+	}else if (this.canvas.selectedShape == "tool-polyline") {
 		this.drawFree(event);
 	}
 };
@@ -267,7 +275,7 @@ DrawingTool.prototype.drawCircle = function(event) {
 DrawingTool.prototype.drawRect= function(event) {
 	
         var mousePos = this.canvas.stage.getPointerPosition();
-      	console.log("Moving mouse position: (x, y): (" + mousePos.x + ","+ mousePos.y+" )");
+      	console.log("["+this.myname+"] mouse at: (x, y): (" + mousePos.x + ","+ mousePos.y+" )");
 		
 		var x = Math.min(mousePos.x,x0),
         	y = Math.min(mousePos.y,y0),
@@ -278,7 +286,7 @@ DrawingTool.prototype.drawRect= function(event) {
 		shape.setY(y);
 	    shape.setWidth(w);
        	shape.setHeight(h);
-		
+
 		//this.canvas.moving = true;
 		this.canvas.layer.add(shape.getShape());
 		this.canvas.layer.drawScene();
@@ -373,6 +381,12 @@ DrawingTool.prototype.startDrawingFree = function(event) {
 
 DrawingTool.prototype.stopDrawing = function(event) {
 	this.canvas.moving = false;
+	
+	/*shape.on('mousemove', function() {
+   		shape.startDrag();
+  	});
+	*/
+		
 	this.saveDrawing();
 };
 

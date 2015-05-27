@@ -52,11 +52,13 @@ Interaction.prototype.initialise = function() {
 	$('#searchInput').typeahead({
 		highlight: true,
 		hint: true,
-		minLength: 1
+		minLength: 1,
 	}, {
 	    displayKey: 'value',
-	    source: terms.ttAdapter()
-	});
+	    source: terms.ttAdapter(),
+		limit: 10
+	}
+	);
 	
 	//initialise configuration buttons
 	var gridButton = "#gridButton";

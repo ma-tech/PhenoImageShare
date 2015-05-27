@@ -220,6 +220,7 @@ DetailedController.prototype.displayROIs= function() {
 	};
 	
 	//adding tooltip to each row
+	/*
     table.$('tr').qtip({
         content: {
                 text: function(event, api) {
@@ -333,7 +334,7 @@ DetailedController.prototype.displayROIs= function() {
        hide: {
              event: false,
              inactive: 3000
-       },*/
+       },
 	   
 	   hide: 'unfocus',
 		
@@ -345,5 +346,5 @@ DetailedController.prototype.displayROIs= function() {
 		width: 600,
 	}
     });
-	
+	*/
 };

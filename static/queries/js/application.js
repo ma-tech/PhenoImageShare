@@ -93,7 +93,7 @@ String.prototype.repeat = function(num) {
     });
 
     // Switch
-    $("[data-toggle='switch']").wrap('<div class="switch" />').parent().bootstrapSwitch();
+    $("[data-toggle='switch']").wrap('<div class="switch" on-label='+$("[data-toggle='switch']").attr("on-label") + ' off-label='+$("[data-toggle='switch']").attr("off-label") + '/>').parent().bootstrapSwitch();
 
         // Typeahead
     if($('#typeahead-demo-01').length) {

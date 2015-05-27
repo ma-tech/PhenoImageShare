@@ -32,16 +32,39 @@
 	
 	<!-- PhIS Utilities-->
 	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/utils/db.js' %}"></script>
+	
+	<!-- Bootstrap Switch -->
+	<script type="text/javascript" charset="utf8" src="{% static 'queries/js/bootstrap-switch.js' %}"></script>
+	
+	<!-- Bootstrap Placeholder -->
+	<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.placeholder.js' %}"></script>
+	
+	<!-- Bootstrap Tags Input -->
+	<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.tagsinput.js' %}"></script>
+	
+	<!-- Bootstrap Application for Switch & Selection -->
+	<script type="text/javascript" charset="utf8" src="{% static 'queries/js/application.js' %}"></script>
+	
 <script>
 
 var dziName = "{{image.dziName | safe}}";
-console.log("Image url = {{image.url | safe}}");
-console.log("Image dimensions = {{image.dimension | safe}}");
+var imageURL= "{{image.url | safe}}"; //"{% static 'utils/images/sources/M00042804_00006962_download_tn_large.jpg' %}";
+var imageDimension = JSON.parse("{{image.dimension | safe}}");
+var roiData = JSON.parse('{{roiData | safe}}');
+
+console.log("[Annotation View] ROI data = " + roiData);
+console.log("[Annotation View] Image source = " + imageURL);
+console.log("[Annotation View] Image DZI name = " + dziName);
+console.log("[Annotation View] Image dimensions = " + imageDimension);
 
          $(document).ready(
 			
 		//function to load image canvas
 		function(){
+			
+			$("#tool-mode").on("click",function(){
+				alert("Im clicked");
+			});
 			
 			initialiseControllers();
 			
@@ -131,12 +154,12 @@ function getTree(node) {
 }
 
 function initialiseControllers(){
-  console.log("[Drawing View] Initialising Controller")
+	console.log("[Annotation View] Initialising Controllers, Models and Event Handlers");
   //Load and initialize PhIS Viewer Canvas.
   
   var drawingContainer = document.getElementById("drawing-div");
+  
   var drawingController = new DrawingTool();
-  var imageURL = "{image.url}}";
   var annotationController = new AnnotationTool();
  
   annotationStoreURL = "{% url 'annotation:save_annotations' %}";
@@ -151,11 +174,11 @@ function initialiseControllers(){
   controllers.push(annotationController);
   
   //initialising DB Conncector
-  var dataHelper = new DBUtil();
-  var modelsData = dataHelper.loadModelsData();
+  var dataHelper = new DBUtil(imageDimension, roiData);
+  //var modelsData = dataHelper.createModelObjects(roiData);
   
   //initialising drawing canvas
-  phISCanvas = new PhiSCanvas(drawingContainer, imageURL, controllers, modelsData, eventHandler, errorHandlers);
+  phISCanvas = new PhiSCanvas(drawingContainer, imageURL, controllers, dataHelper, eventHandler, errorHandlers);
 }
 
 function getStringOfSelectedTreeNodes() {

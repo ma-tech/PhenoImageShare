@@ -36,11 +36,11 @@
             if ($element.data('on') !== undefined)
               color = "switch-" + $element.data('on');
 
-            if ($element.data('on-label') !== undefined)
-              onLabel = $element.data('on-label');
+            if ($element.attr('on-label') !== undefined)
+              onLabel = $element.attr('on-label');
 
-            if ($element.data('off-label') !== undefined)
-              offLabel = $element.data('off-label');
+            if ($element.attr('off-label') !== undefined)
+              offLabel = $element.attr('off-label');
 
             if ($element.data('icon') !== undefined)
               icon = $element.data('icon');
@@ -88,6 +88,7 @@
               $(this).addClass('deactivate');
 
             var changeStatus = function ($this) {
+				console.log("Switching to " + $this.html() + " mode")
               $this.siblings('label').trigger('mousedown').trigger('mouseup').trigger('click');
             };
 
