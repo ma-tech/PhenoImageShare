@@ -118,7 +118,7 @@ def get_image_data(request):
     
     # Call functions to download image and generate dzi files from image
     image_name = downloadImage(image_data['url'], request.GET['imageId'])
-    generateImageTiles(image_name, request.GET['imageId'])
+    image_data['status'] = generateImageTiles(image_name, request.GET['imageId'])
        
     image_data['imageId'] = request.GET['imageId']
     image_data['queryString'] = queryString
@@ -132,6 +132,7 @@ def generateImageTiles(imageName, imageId):
     # Creating Deep Zoom Image creator with default parameters
     creator = deepzoom.ImageCreator(tile_size=128, tile_overlap=2, tile_format="png",
                                   image_quality=0.8, resize_filter="bicubic")
+    status = {};
     
     dzi_base = IMAGE_RESOURCE_BASE + '/dzifiles/'
     img_base = IMAGE_RESOURCE_BASE + '/sources/'
@@ -145,13 +146,14 @@ def generateImageTiles(imageName, imageId):
         try:
             creator.create(img_location, dzi_location)
             logger.debug("Successfully created deepzoom files for "+ imageId + "(located at " + img_location + ") in " + dzi_location)
+            status['message'] = 'OK'
         except IOError:
             logger.debug("Error creating DZI file - I/O Error")
-            
+            status['NOK'] = 'Error reaching image resource server'
     else:
         logger.debug("Deepzoom file already exists on Image Server")
     
-    return None
+    return simplejson.dumps(status)
 
 def downloadImage(url, imageId):
     

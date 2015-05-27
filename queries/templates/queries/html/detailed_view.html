@@ -69,6 +69,6 @@
 	{% endblock content %}
 	
 	 <!-- Site footer-->
-	{% block footer %}
-  	  	{% include "phis/generic_footer.html" %}
-	{% endblock footer %}
+	  {% block footer %}
+	  	{{block.super}}
+	  {% endblock footer %}

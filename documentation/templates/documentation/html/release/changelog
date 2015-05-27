@@ -28,6 +28,47 @@ PhIS is released under Apache Version 2.0. Please see at http://beta.phenoimages
 The following sections provide the change logs for the PhIS GUI beta releases. 
 Please see data release notes at http://beta.phenoimageshare.org/release/data
 
+============ Beta Release 1.2 =============
+
+Release status
+--------------
+27 May 2015 beta release
+
+Details of Change
+-----------------
+
+New features
+	1. Documentation: Re-ordered tour text and added new ones - PHIS-174
+
+Bug fixes
+	1. Detailed view: annotation pop up window obscures other rows in annotations table PHIS-120
+	2. Added missing license information - PHIS-114
+	3. Fixed autosuggest box, which does not close after pressing enter key - PHIS-169
+	4. Changed default color for search box & button to teal- PHIS-151/170
+	5. Search results: search box above results doesn't work - PHIS-139
+	6. Fix/workaround for breakes in "take a tour" - PHIS-173/176
+	7. Removed "All" option from results table selection - PHIS-177
+	8. Handled exceptions thrown whenever image resources become unavailable - PHIS-192
+	9. Add informative message when image repo or other resources are unavailable - PHIS-192
+	10. Add white space between search box and menu bar - index and search pages
+	11. Landing page header different to other pages - PHIS-189
+	12. Reformated the footer for detail view - PHIS-190
+	
+
+
+Other changes
+
+
+Known issues  
+	1. Facets: Search text disappears from a facet search box when another facet search box is activated (clicked)
+	2. GUI should send email to list when database connectivity issue - PHIS-111
+	3. Adding copyright information for dataset / images 
+	5. Number of records displayed on table does not correspond to selection - Search page - PHIS-106
+	7. Mouse click or Enter-key press to launch search on autosuggest selection in facet-based search - PHIS-168
+	12. RESTful implementation, allowing users to go back to search URL history.
+	14. Add whitespace between phenotype annotations on search page - PHIS-185
+	
+
 
 ============ Beta Release 1.1 =============
 

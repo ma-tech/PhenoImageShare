@@ -13,6 +13,68 @@ DetailedController.prototype.initialiseElements= function() {
 	  }
   });
   */
+  
+  var service_status = this.status;
+	 
+  if (this.status != "OK"){
+	  $('<div/>').qtip({
+	          content: {
+	              text: service_status['NOK'],
+	              title: {
+	                  text: 'Attention!',
+	                  button: false
+	              }
+	          },
+	          position: {
+	              target: [0,0],
+	              container: $('#error-warning-dv')
+	          },
+	          show: {
+	              event: false,
+	              ready: true,
+	              effect: function() {
+	                  $(this).stop(0, 1).animate({ height: 'toggle' }, 400, 'swing');
+	              },
+	              delay: 10,
+	              //persistent: "persistent"
+				  
+	          },
+	          hide: {
+	              event: false,
+	              effect: function(api) {
+	                  $(this).stop(0, 1).animate({ height: 'toggle' }, 400, 'swing');
+	              }
+	          },
+  			style:{
+  				classes:"jgrowl qtip-red",
+  				width: 300, 
+				tip:false
+  			}
+	         /* style: {
+	  		
+	              width: 250,
+	              classes: 'jgrowl',
+	              tip: false
+	          }*/
+				 ,
+	          events: {
+	              render: function(event, api) {
+	                  if(!api.options.show.persistent) {
+	                      $(this).bind('mouseover mouseout', function(e) {
+	                          var lifespan = 5000;
+
+	                          clearTimeout(api.timer);
+	                          if (e.type !== 'mouseover') {
+	                              api.timer = setTimeout(function() { api.hide(e) }, lifespan);
+	                          }
+	                      })
+	                      .triggerHandler('mouseout');
+	                  }
+	              }
+	          }
+	      });
+  }
+		 
   var associatedROIURL = this.associatedROIURL;
   var imageURL = this.imageURL;
   var queryString = this.queryString;
@@ -53,6 +115,7 @@ DetailedController.prototype.setParams= function(params) {
 	this.ROIs = params.ROIs;
 	this.imageDimensions = params.imageDimensions;
 	this.swfURL = params.swfURL;
+	this.status = params.status;
 }
 
 DetailedController.openwindow= function(imageId, annotationBaseURL) {

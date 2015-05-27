@@ -12,6 +12,9 @@
 <!-- Annotation Tool -->
 <script type="text/javascript" charset="utf8" src="{% static 'annotation/js/controllers/annotation_tool.js' %}"></script>
 
+<!-- jQuery BlockUI blocker -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/blocker/jquery.blockUI.js' %}"></script>
+
 <script>
 
 $(document).ready(function(){
@@ -30,13 +33,14 @@ function initialiseController(){
 	params.associatedROIURL = "{{image.associatedROI | safe}}";
 	params.imageId = "{{image.imageId | safe}}";
 	params.imageURL = "{{image.url | safe}}";
+	params.status = JSON.parse('{{image.status | safe}}');
 	
 	//params.dziName = "{{image.deepzoom | safe}}";
 	params.annotationBaseURL = "{% url 'annotation:drawing_view' %}";
 	params.imageDimensions = ['{{image.height | safe}}', '{{image.width | safe}}'];
 	params.swfURL = "{% static 'queries/swf/copy_csv_xls_pdf.swf' %}";
 	params.ROIs = JSON.parse('{{roi_data | safe}}');
-		
+	
 	var controller = new DetailedController();
 	
 	controller.setParams(params);
