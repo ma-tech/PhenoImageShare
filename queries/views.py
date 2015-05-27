@@ -89,7 +89,7 @@ def get_image_data(request):
         queryString = request.GET['q']
     else:
         queryString = "MP:0010254"
-        
+
     if 'imageId' in request.GET:
         query[image_details_endpoints['imageId']] = request.GET['imageId']
     else:
@@ -318,7 +318,11 @@ def processQuery(request):
         query[image_endpoints['anatomy']] = request.GET['anatomy'] 
     if 'gene' in request.GET:
         query[image_endpoints['mutantGene']] = request.GET['gene']
-    
+    if 'search[value]' in request.GET and request.GET['search[value]'] != "":
+        logger.debug("Filter search value = " + request.GET['search[value]'])
+        queryString = request.GET['search[value]']
+        query[image_endpoints['term']] = queryString
+        
     logger.debug(query)
     
     url = api_url + image_acp
@@ -475,4 +479,4 @@ def getImageData(imageId):
     
 def getImageDimension(imageId):
     imagedata = getImageData(imageId)
-    return  [imagedata[0]['height'], imagedata[0]['width']]
+    return  [imagedata[0]['width'], imagedata[0]['height']]

@@ -1,30 +1,30 @@
-function PhiSCanvas(container, imageURL, controllers, modelsData, event_handler, error_handler) {
-	
-	console.log("Started Initialization of Drawing Canvas.");
-	
+function PhiSCanvas(container, imageURL, controllers, model, event_handler, error_handler) {
+		
 	//this.canvas = $('#' + canvasID).get(0);
+	
+	this.myname = "Canvas";
+
+	console.log("["+this.myname+"] Constructing " + this.myname);
 	
 	this.container = container;
 
 	this.mouseDown = false;
 
-	this.layer = null; 
+	this.layer = null;
 	
-	this.shapes = {"ROI":"tool-roi", "FDP":"tool-fdp"};
+	this.shapes = {"rectangle":"tool-rectangle", "point":"tool-point"};
 	
 	this.tools = {'drawer': true, 'annotator': false};
 	
-	this.selectedShape = this.shapes.ROI; //Get selected shape from GUI.
+	this.selectedShape = this.shapes.rectangle; //Get selected shape from GUI.
 	
 	this.selectedAction = null; //Get selected shape from GUI.
 	
-	this.modes = {"EDIT": "tool-edit", "VIEW": "tool-view"}
+	this.modes = {"EDIT": "tool-edit", "VIEW": "tool-view"};
 	
 	this.selectedMode = this.modes.EDIT; //Get selected tool from GUI or event type (save, draw, etc).
 	
-	this.myname = "PhiS Canvas";
-	
-	this.modelsData = modelsData;
+	this.model = model;
 	
 	this.canvasId = null;
 	
@@ -36,9 +36,11 @@ function PhiSCanvas(container, imageURL, controllers, modelsData, event_handler,
 	
 	this.controllers = controllers;
 	
-	this.event_handler = event_handler ;
+	console.log("["+this.myname+"] Registered controllers are : " + this.controllers[0].getName() + " and " + this.controllers[1].getName());
 	
-	this.error_handler = error_handler ;
+	this.event_handler = event_handler;
+	
+	this.error_handler = error_handler;
 	
 	var x0, y0, rect;
 	
@@ -48,7 +50,7 @@ function PhiSCanvas(container, imageURL, controllers, modelsData, event_handler,
 	
 	this.backImage = new Image(); //declare a new image object for canvas background.
 	
-	this._initialisePhISCanvas() ; // finish setup from constructor now
+	this._initialisePhISCanvas(); // finish setup from constructor now
 	
 	this.setImage(this.imageURL);
 
@@ -56,9 +58,9 @@ function PhiSCanvas(container, imageURL, controllers, modelsData, event_handler,
 	
 	this.modes = {'edit': false, 'view': true}; //get available defaults from configurations.js
 	 
-	this.currentMode = "view" ; //get this default from configurations.js
+	this.currentMode = "view"; //get this default from configurations.js
 	
-	this._setupPhISCanvas() ; // finish setup from constructor now
+	this._setupCanvasEvents(); // finish setup from constructor now - setup canvas events.
 	
 	//Variables to hold the drawing points on canvas. To be moved into DrawingTool controller.
 };
@@ -68,6 +70,9 @@ function PhiSCanvas(container, imageURL, controllers, modelsData, event_handler,
  */
 PhiSCanvas.prototype._initialisePhISCanvas = function() {
 	
+	console.log("["+this.myname+"] Initialising " + this.myname);
+	var dim = this.model.getDimensions();
+	
 	//Initialize drawing layer.
 	this.layer = new Kinetic.Layer();
 	
@@ -76,14 +81,14 @@ PhiSCanvas.prototype._initialisePhISCanvas = function() {
 	
     this.stage = new Kinetic.Stage({
         container: this.container.id,
-        width: 2000,
-        height: 2000
+        width: dim[0],
+        height: dim[1]
     });
 	
 	this.stage.add(this.layer);
 	
 	// Initialise models data.
-	this.initialiseModels(this.modelsData);
+	//this.initialiseModels(this.model.getModelObjects());
 	
 	//display models data (control this with the seleted toggle option on GUI).
 	this.displayModels();
@@ -93,15 +98,15 @@ PhiSCanvas.prototype._initialisePhISCanvas = function() {
  * Set up the canvas, event handlers and listeners.
  */
 PhiSCanvas.prototype.initialiseModels = function(modelsData) {
-	console.log("[PhIS Canvas] Initialising models...");
-	this.controllers[0].createModels(modelsData);
+	console.log("["+this.myname+"] Initialising model on " + this.myname);
+	//this.controllers[0].createModels(modelsData);
 }
 
 /**
  * Set up the canvas, event handlers and listeners.
  */
 PhiSCanvas.prototype.displayModels = function() {
-	console.log("[PhIS Canvas] Displaying models...")
+	console.log("["+this.myname+"] Displaying model on " + this.myname);
 	
 	//calls the draw method of the drawing tool.
 }
@@ -109,7 +114,9 @@ PhiSCanvas.prototype.displayModels = function() {
 /**
  * Set up the canvas, event handlers and listeners.
  */
-PhiSCanvas.prototype._setupPhISCanvas = function() {
+PhiSCanvas.prototype._setupCanvasEvents = function() {
+	
+	console.log("["+this.myname+"] Setting up " + this.myname);
 	
 	//Set event hanlder with controllers.
 	this.event_handler.setControllers(this.controllers);
@@ -129,8 +136,13 @@ PhiSCanvas.prototype._setupPhISCanvas = function() {
 	
 	function mousedown_handler(e) {
 		if(this.selectedMode == "tool-edit"){
-			if (this.event_handler.getCurrentController() == this.controllers[1])
+			if (this.event_handler.getCurrentController() == this.controllers[1]){
+				
 				this.event_handler.setCurrentController(this.controllers[0]);
+			}
+			
+			console.log("["+this.myname+"] Mouse down");
+				
 			this.event_handler.mouseDown(e);
 		}
 	};
@@ -156,17 +168,17 @@ PhiSCanvas.prototype._setupPhISCanvas = function() {
 	};
 	
 	function setSelectedTool(e) {
-		console.log("[PhIS Canvas]: Tool selected: "+e.target.id);
+		console.log("["+this.myname+"] Tool selected: "+e.target.id);
 		this.event_handler.setSelectedTool(e.target.id);
 	};
 	
 	function setSelectedMode(e) {
-		console.log("[PhIS Canvas]: Mode selected: "+e.target.id);
+		console.log("["+this.myname+"] Mode selected: "+e.target.id);
 		this.event_handler.setSelectedMode(e.target.id);
 	};
 	
 	function setSelectedAction(e) {
-		console.log("[PhIS Canvas]: Action selected: "+e.target.id);
+		console.log("["+this.myname+"] Action selected: "+e.target.id);
 		this.event_handler.setSelectedMode(e.target.id);
 	};
 
@@ -189,9 +201,9 @@ PhiSCanvas.prototype._setupPhISCanvas = function() {
 	this.stage.on("mouseup", mouseup_handler.bind(this));
 	
 	//Capture events and register event handlers for the drawing tool buttons ().
-	$("#tool-roi" ).on( "click", setSelectedTool.bind(this));
-	$("#tool-feducial" ).on( "click", setSelectedTool.bind(this));
-	$("#tool-arrow" ).on( "click", setSelectedTool.bind(this));
+	$("#tool-rectangle" ).on( "click", setSelectedTool.bind(this));
+	$("#tool-point" ).on( "click", setSelectedTool.bind(this));
+	$("#tool-polyline" ).on( "click", setSelectedTool.bind(this));
 	
 	//mode buttons.
 	$("#tool-edit" ).on( "click", setSelectedMode.bind(this));
@@ -206,7 +218,12 @@ PhiSCanvas.prototype._setupPhISCanvas = function() {
 	$("#tool-cut" ).on( "click", setSelectedAction.bind(this));
 	$("#tool-paste" ).on( "click", setSelectedAction.bind(this));
 	
-	console.log("Completed Initialization of Drawing Canvas.");
+	
+	//Display annotation data on image
+	
+	
+	
+	console.log("["+this.myname+"] Done initialising " + this.myname);
 };
 
 /**
@@ -229,6 +246,8 @@ PhiSCanvas.prototype._loadImage = function(imageURL) {
 	imageObj = this.backImage;
 	layer = this.layer;
 	stage = this.stage;
+	event_handler = this.event_handler;
+	modelsData = this.model.getModelObjects();
 	
   	 imageObj.onload = function (imageURL) {
 	
@@ -243,17 +262,18 @@ PhiSCanvas.prototype._loadImage = function(imageURL) {
 						 stage.width(imageObj.width);
 						 stage.height(imageObj.height);
 						 
-						 console.log("Adding image; Layer="+layer +"; Stage="+stage.container().id+", Image="+imageObj.width);
+						 console.log("Adding image; Layer="+layer +"; Stage="+stage.container().id+", Image= ("+imageObj.width+","+imageObj.height+")");
   		                 layer.add(image);
   		                 stage.draw();
+						 
+						 event_handler.displayAnnotations(modelsData);
   	 }
 
   	imageObj.src = imageURL;
 	this.imageSizeWidth = this.backImage.width;
 	this.imageSizeHeight = this.backImage.height;
 	
-	console.log("Loading Image: Dimensions of the loaded image : width x height = "+ imageObj.width +" x "+ imageObj.height);
-    
+	console.log("["+this.myname+"] Dimensions of the loaded image : width x height = "+ imageObj.width +" x "+ imageObj.height);    
 };
 
 

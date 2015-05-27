@@ -1801,7 +1801,7 @@ input[type="number"]::-webkit-inner-spin-button {
   color: #2c3e50;
   vertical-align: middle;
   background-color: #ffffff;
-  border: 1px solid #dce4ec;
+  border: 1px solid #1abc9c;
   border-radius: 4px;
   -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
           box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
@@ -3925,6 +3925,7 @@ textarea.input-group-sm > .input-group-btn > .btn {
 .input-group-btn:first-child > .btn:not(:first-child) {
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
+  border: 2px solid #1abc9c;
 }
 
 .input-group-addon:last-child {

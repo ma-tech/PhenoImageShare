@@ -1,7 +1,9 @@
 function AnnotationTool() {
 	this.canvas = null;
-	this.myname = "Annodation Tool";
+	this.myname = "Annotation Tool";
 	this.annotationPostURL = "";
+	
+	console.log("["+this.myname+"] Initialising " + this.myname);
 };
 
 /**
@@ -30,7 +32,7 @@ AnnotationTool.prototype.setName = function(myame) {
  * Get name.
 */
 AnnotationTool.prototype.getName = function() {
-	return this.name;
+	return this.myname;
 };
 
 /**

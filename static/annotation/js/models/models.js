@@ -75,7 +75,7 @@ Line.prototype = {
 }
 
 function Rectangle(x0, y0, draggable){
-	this.type = "Rectangle";
+	this.type = "rectangle";
 	this.x0 = x0;
 	this.y0 = y0;
 	this.thickness = 2;

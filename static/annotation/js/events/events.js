@@ -6,15 +6,18 @@
  */
 function EventHandler() {
 	this.canvas = null;
+	this.myname = "Event Handler";
 	this.controllers = null;
 	this.currentController = null;
+	
+	console.log("["+this.myname+"] Constructing " + this.myname);
 }
 
 /**
  * Set the drawing canvas, in order to receive events from them.
 */
 EventHandler.prototype.setCanvas= function(canvas) {
-	console.log("[EventHandler] Registering Canvas: "+canvas.myname);
+	console.log("["+this.myname+"] Registering Canvas: "+canvas.myname);
 	this.canvas = canvas;
 };
 
@@ -22,7 +25,7 @@ EventHandler.prototype.setCanvas= function(canvas) {
  * Set the drawing canvas, in order to receive events from them.
 */
 EventHandler.prototype.addController= function(controller) {
-	console.log("[EventHandler] Registering Controller: "+controller.myname);
+	console.log("["+this.myname+"]  Registering Controller: "+controller.myname);
 	this.currentController = controller;
 	this.controllers.push(controller)
 };
@@ -31,7 +34,7 @@ EventHandler.prototype.addController= function(controller) {
  * Set the drawing canvas, in order to receive events from them.
 */
 EventHandler.prototype.setCurrentController= function(controller) {
-	console.log("[EventHandler] Setting Current Controller to: "+controller.myname);
+	console.log("["+this.myname+"] Setting Current Controller to: "+controller.myname);
 	this.currentController = controller;
 };
 
@@ -46,11 +49,11 @@ EventHandler.prototype.getCurrentController= function() {
  * Set the drawing canvas, in order to receive events from them.
 */
 EventHandler.prototype.setControllers= function(controllers) {
-	console.log("[EventHandler] Setting Current Controller: "+controllers[0].myname);
+	console.log("["+this.myname+"]  Setting Current Controller: "+controllers[0].myname);
 	this.currentController = controllers[0];
 	this.controllers = controllers;
 	
-	console.log("[EventHandler] Registered Controllers: "+controllers.myname);
+	console.log("["+this.myname+"]  Registered Controllers are : " + this.controllers[0].getName() + " and " + this.controllers[1].getName() );
 }
 
 
@@ -58,6 +61,7 @@ EventHandler.prototype.setControllers= function(controllers) {
  * Set the drawing canvas, in order to receive events from them.
 */
 EventHandler.prototype.mouseDown= function(event) {
+	console.log("["+this.myname+"] Mouse down");
 	
 	this.canvas.clicked = true;
 	
@@ -65,6 +69,7 @@ EventHandler.prototype.mouseDown= function(event) {
         this.canvas.moving = false;
 		this.canvas.layer.draw();
     } else {
+		console.log("["+this.myname+"] Triggers event to start drawing");
 		this.currentController.startDrawing(event);
 		//this.canvas.moving = true;
     }
@@ -88,7 +93,7 @@ EventHandler.prototype.mouseUp= function(event) {
 	if(this.canvas.moving){
 		this.currentController.stopDrawing(event);
 		this.setCurrentController(this.canvas.controllers[1]);
-		this.addAnnotation();
+		//this.addAnnotation();
 	}
 	
 	this.canvas.clicked = false;
@@ -99,7 +104,7 @@ EventHandler.prototype.mouseUp= function(event) {
 */
 EventHandler.prototype.setSelectedTool= function(tool) {
 	this.canvas.selectedShape = tool;
-	console.log("[EventHandler]: Tool selected: "+tool);
+	console.log("["+this.myname+"] Tool selected: "+tool);
 };
 
 /**
@@ -107,7 +112,7 @@ EventHandler.prototype.setSelectedTool= function(tool) {
 */
 EventHandler.prototype.setSelectedMode= function(mode) {
 	this.canvas.selectedMode = mode;
-	console.log("[EventHandler]: Mode selected: "+mode);
+	console.log("["+this.myname+"] Mode selected: "+mode);
 };
 
 /**
@@ -115,7 +120,7 @@ EventHandler.prototype.setSelectedMode= function(mode) {
 */
 EventHandler.prototype.setSelectedAction= function(action) {
 	this.canvas.selectedAction = action;
-	console.log("[EventHandler]: Action selected: "+action);
+	console.log("["+this.myname+"] Action selected: "+action);
 };
 
 /**
@@ -123,9 +128,15 @@ EventHandler.prototype.setSelectedAction= function(action) {
 */
 EventHandler.prototype.addAnnotation= function() {
 	this.currentController.addAnnotation();
-	console.log("[EventHandler] Clicked button: "+document.getElementById("roi_modal_edit_button").value);
+	console.log("["+this.myname+"] Clicked button: "+document.getElementById("roi_modal_edit_button").value);
 	
 	//Trigger a button click even (an hack to call up our modal annnotation box)
 	$("#roi_modal_add_button").trigger("click");
 	
+};
+
+EventHandler.prototype.displayAnnotations = function(coordinates) {
+	//Calll drawing tool to display annotation on image: ensure the correct controller is set.
+	this.setCurrentController(this.canvas.controllers[0]);
+	this.currentController.displayAnnotations(coordinates)
 };

@@ -58,8 +58,25 @@ def drawing_view(request):
         
     return render(request, 'annotation/html/annotation_view.html', context)
 
+def drawing_view_old(request):
+    context = {}
+    
+    if 'imageId' in request.GET:
+        imageId = request.GET['imageId']
+        dziName =  imageId + '.dzi'
+        
+        roiData = getRoiData(imageId)
+        url = getImageURL(imageId)
+        dimension = getImageDimension(imageId)
+        
+        imageData = {"Id":imageId,"dziName": dziName, "url": url, "dimension": dimension}
+        context = {"roiData":roiData, "image":imageData}
+        
+        logger.debug(str(context))
+    return render(request, 'annotation/html/drawing_view_copy.html', context)
+    
 def getRoiData(imageId):
-    return qviews.getROIs(imageId)
+    return simplejson.dumps(qviews.getROIs(imageId)['response']['docs'])
 
 def getImageDimension(imageId):
     return qviews.getImageDimension(imageId)

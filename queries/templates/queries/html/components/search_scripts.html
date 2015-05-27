@@ -88,8 +88,11 @@ $(document).ready(function() {
 	
 	$('#searchInput').keypress( function(e){
 		//block the UI while loading data from server, only if the Enter key is pressed
-		if(e.which == 13)
+		if(e.which == 13){
 			$.blockUI({ message: '<h1>Loading...<img src="'+loading_waiter_url+'"/></h1>'});
+			$('#searchInput').typeahead('close');	
+		}
+
 		
 		loadJSON();
 	});

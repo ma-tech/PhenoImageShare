@@ -208,7 +208,7 @@ Processor.prototype.loadJSON = function(){
        	 	"serverSide": true,
 			"lengthChange" : true,
 			//"stateSave" : true, 
-			"lengthMenu": [[10, 25, 50, -1], [10, 25, 50, "All"]],
+			"lengthMenu": [[10, 25, 50], [10, 25, 50]],
 			"ajax": function ( data, callback, settings ) {
 			
 			$.ajax( {
