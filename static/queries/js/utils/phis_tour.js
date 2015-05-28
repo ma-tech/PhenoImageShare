@@ -197,20 +197,21 @@
 	         content: 'Table listing the image\'s annotations; click on a row for more detailed information.',
 			 placement: 'left',
 			 width: 300,
-			 multipage: true,
+			 yOffset: 50,
+			/* multipage: true,
 	         onNext: function() {
 	           window.location = "/annotation/?q=&img=komp2_112968"
-	         },
+	         },*/
 	       },
 		   
-	       {
+	      /* {
 	         target: 'viewer',
 	         title: 'Image viewer',
 	         content: 'Image viewer',
 			 placement: 'left',
 			 width: 300
 	       },
-		   
+		   */
 		   
 	     ],
 	     showPrevButton: true,
@@ -243,9 +244,9 @@
 	     } else if (state === 'phis-tour-home:8') {
 	     	 hopscotch.startTour(tour_home_page);
 	     }
-		 else if (state === 'phis-tour-search:11') {
+		/* else if (state === 'phis-tour-search:11') {
 		 	 hopscotch.startTour(tour_home_page);
-		 }	 
+		 }	 */
 	     else {
 	       // Landing on the PhIS Index page for the first(?) time.
 			  var tourButton = document.getElementById(startBtnId);
@@ -286,9 +287,9 @@
 		 else if (state === 'phis-tour-home:8') {
 			    hopscotch.startTour(tour_home_page);
 		 }
-		 else if (state === 'phis-tour-home:11') {
+		/* else if (state === 'phis-tour-home:11') {
 			    hopscotch.startTour(tour_home_page);
-		 }
+		 }*/
 		}
 	     
 	   };
