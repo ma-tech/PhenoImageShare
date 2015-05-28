@@ -24,8 +24,9 @@ except ImportError: BASE_PORT=80
 
 dev_api = iqs['URL']['HWU']
 beta_api = iqs['URL']['EBI']
+hgu_dev_api = iqs['URL']['HGU']
 
-api_url = dev_api
+api_url = hgu_dev_api
 
 access_points = iqs['ACP']
 image_acp = access_points['getimages']['name']
@@ -111,7 +112,6 @@ def get_image_data(request):
         
     except (urllib2.HTTPError, urllib2.URLError, simplejson.JSONDecodeError):
         #(image_data, roi_data) = ('{"server_error": "Server Unreachable"}', '{"server_error": "Server Unreachable"}')
-        
         logger.debug("Error extracting either ROI or Image data, email sent to administrator")
         
         raise Http404
