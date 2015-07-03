@@ -3,7 +3,7 @@
   <input type="text" id="searchInput" onkeydown=autosuggest() class="form-control col-lg-8 autosuggest" value="{{query}}" placeholder="e.g. corneal opacity">-->
   <input type="text" id="searchInput" class="form-control col-lg-8 autosuggest" value="{{query.term}}" placeholder="">
   	 <span class="input-group-btn">
-    	  <button type="button" id="searchButton" class="btn btn-lg" onClick=searchClickEventHandler()>Search</button>
+    	  <button type="button" id="searchButton" class="btn btn-lg-phis-search" onClick=searchClickEventHandler()>Search</button>
  	 </span>
 	 
 <!--
@@ -14,11 +14,36 @@
 	 
 </div>
 
-<div class="col-lg-9">
+<div class="col-lg-5">
+	 Examples: 
+	
+	<a id="example_query1" href="{{source_url}}/search/?term=cornea ulcer" style="font-weight: 70;text-decoration: underline;">cornea ulcer</a>, &nbsp
+	<div class="tooltiptext" style="display:none">
+		Search for specific phenotype - <i><b>cornea ulcer</b></i>.
+	</div>
+	
+	<a id="example_query2" href="{{source_url}}/search/?term=eye&sampleType=MUTANT&imageType=PHENOTYPE_ANATOMY" style="font-weight: 70;text-decoration: underline;">eye</a>, &nbsp
+	<div class="tooltiptext" style="display:none">
+		Search for phenotype images associated with an anatomical structure of interest - <i><b>eye</b></i>.
+	</div>
+	
+	<a id="example_query3" href="{{source_url}}/search/?term=Sesn3&sampleType=MUTANT&imageType=PHENOTYPE_ANATOMY" style="font-weight: 70;text-decoration: underline;">Sesn3 </a>
+	
+	<div class="tooltiptext" style="display:none">
+		Search for phenotype images of mutations in a specific gene - <i><b>Sesn3</b></i>.
+	</div>
+	
+	<!--<b><a rel="{{source_url}}{% url 'documentation:searchHelpTooltip' %}" style="text-decoration: underline;cursor:pointer; position:relative; left:40px">View sample query</a></b>-->
 </div>
 
-<div class="col-lg-3">
-	<b><a rel="{{source_url}}{% url 'documentation:searchHelpTooltip' %}" style="text-decoration: underline;cursor:pointer; position:relative; left:40px">View sample query</a></b>
+
+<div class="col-lg-6">
+
 </div>
+
+<div class="col-lg-1">
+	<a id="clear_link" href="/search/" style="font-weight: 70;text-decoration: underline;">Clear</a> 
+</div>
+
 
 <br/>

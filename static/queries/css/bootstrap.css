@@ -2444,6 +2444,16 @@ fieldset[disabled] .btn-link:focus {
   border-radius: 6px;
 }
 
+.btn-lg-phis-search {
+  padding: 18px 27px;
+  font-size: 19px;
+  line-height: 1.33;
+  border-radius: 6px;
+  color: #ffffff;
+  background-color: #ffffff;
+  border-color: #2c3e50;
+}
+
 .btn-sm,
 .btn-xs {
   padding: 6px 9px;
@@ -3926,6 +3936,8 @@ textarea.input-group-sm > .input-group-btn > .btn {
   border-bottom-left-radius: 0;
   border-top-left-radius: 0;
   border: 2px solid #1abc9c;
+  background-color: #1abc9c;
+  color:#ffffff;
 }
 
 .input-group-addon:last-child {
@@ -5273,6 +5285,63 @@ a.list-group-item.active > .badge,
   margin-left: 3px;
 }
 
+.phis-badge {
+  display: inline-block;
+  min-width: 10px;
+  padding: 3px 7px;
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 1;
+  color: #000000;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+
+.phis-badge-genotype {
+  display: inline-block;
+  min-width: 15px;
+  padding: 1px 0px;
+  font-size: 10px;
+  font-weight: bold;
+  line-height: 1;
+  color: #000000;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  background-color: #ffffff;
+  border-radius: 10px;
+}
+
+.phis-badge:empty {
+  display: none;
+}
+
+a.phis-badge:hover,
+a.phis-badge:focus {
+  color: #ffffff;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.btn .phis-badge {
+  position: relative;
+  top: -1px;
+}
+
+a.list-group-item.active > .phis-badge,
+.nav-pills > .active > a > .phis-badge {
+  color: #18bc9c;
+  background-color: #ffffff;
+}
+
+.nav-pills > li > a > .phis-badge {
+  margin-left: 3px;
+}
+
+
 .jumbotron {
   padding: 30px;
   margin-bottom: 30px;
@@ -5606,6 +5675,15 @@ a.thumbnail:focus {
   background-color: #ffffff;
   border: 1px solid #ecf0f1;
 }
+.list-group-item-annotation{
+  position: relative;
+  display: block;
+  padding: 1px 1px;
+  margin-bottom: -1px;
+  background-color: #ffffff;
+  border: 1px solid #ecf0f1;
+}
+
 
 .list-group-item:first-child {
   border-top-right-radius: 4px;
@@ -5623,6 +5701,14 @@ a.thumbnail:focus {
 }
 
 .list-group-item > .badge + .badge {
+  margin-right: 5px;
+}
+
+.list-group-item > .phis-badge {
+  float: right;
+}
+
+.list-group-item > .phis-badge + .phis-badge {
   margin-right: 5px;
 }
 

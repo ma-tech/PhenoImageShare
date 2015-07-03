@@ -880,6 +880,15 @@ fieldset[disabled] .btn-link:focus {
   line-height: 1.083;
   border-radius: 3px;
 }
+.btn-xss {
+  padding: 0px 0px;
+  padding-left: 0x;
+  padding-right: 0px;
+  font-size: 10px;
+  line-height: 1.083;
+  border-radius: 3px;
+}
+
 .btn-tip {
   font-weight: 300;
   padding-left: 10px;
@@ -1538,9 +1547,10 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .form-group.focus .input-group-btn .btn,
 .input-group.focus .input-group-btn .btn {
   border-color: #1abc9c;
-  background-color: #ffffff;
-  color: #1abc9c;
+  background-color: #1abc9c;
+  color: #ffffff;
 }
+
 .form-group.focus .input-group-btn .btn-default,
 .input-group.focus .input-group-btn .btn-default {
   color: #ffffff;
@@ -2029,12 +2039,14 @@ fieldset[disabled] .twitter-typeahead .tt-hint {
   padding: 5px 0;
   background-color: #ffffff;
   border-radius: 6px;
+  
 }
 .twitter-typeahead .tt-suggestion p {
   padding: 6px 14px;
   font-size: 14px;
   line-height: 1.429;
   margin: 0;
+ 
 }
 .twitter-typeahead .tt-suggestion:first-child p,
 .twitter-typeahead .tt-suggestion:last-child p {

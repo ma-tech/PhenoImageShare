@@ -236,10 +236,19 @@ Stats.prototype.sampleTypePlot = function(){
 	var plotData = [];
 	var baseURL = this.query_base_url;
 	
-	//extract and prepare plot data
-	for (key in this.stats.sampleTypeImageTypeData){
+	//extract and prepare plot data - now replaced by for loop below
+	/*for (key in this.stats.sampleTypeImageTypeData){
 		if (key == "Wildtype" || key == "Mutants")
 			plotData.push([key, this.stats.sampleTypeImageTypeData[key].percentage]);
+	}*/
+	
+	for (key in this.stats.sampleTypeImageTypeData){
+		if (key == "Wildtype" || key == "Mutants"){
+			var data_point = {};
+			data_point.name = key;
+			data_point.y = this.stats.sampleTypeImageTypeData[key].value;
+			plotData.push(data_point);
+		}
 	}
 	
 	//construct sample type chart
@@ -260,7 +269,7 @@ Stats.prototype.sampleTypePlot = function(){
 			y:-90
         },
         tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            pointFormat: '{series.name}: <b>{point.y} ({point.percentage:.1f}%)</b>'
         },
         plotOptions: {
             pie: {
@@ -312,9 +321,18 @@ Stats.prototype.imageTypePlot = function(){
 	var baseURL = this.query_base_url;
 	
 	//extract and prepare plot data
-	for (key in this.stats.sampleTypeImageTypeData){
+	/*for (key in this.stats.sampleTypeImageTypeData){
 		if (key == "Expression" || key == "Phenotype")
 			plotData.push([key, this.stats.sampleTypeImageTypeData[key].percentage]);
+	}*/
+		
+	for (key in this.stats.sampleTypeImageTypeData){
+		if (key == "Expression" || key == "Phenotype"){
+			var data_point = {};
+			data_point.name = key;
+			data_point.y = this.stats.sampleTypeImageTypeData[key].value;
+			plotData.push(data_point);
+		}
 	}
 	
 	//construct sample type chart
@@ -335,7 +353,7 @@ Stats.prototype.imageTypePlot = function(){
 			y:-90
         },
         tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            pointFormat: '{series.name}: <b>{point.y} ({point.percentage:.1f}%)</b>'
         },
         plotOptions: {
             pie: {
@@ -386,7 +404,7 @@ Stats.prototype.stagePlot = function(){
 	var stage_container = 'stage-chart';
 	var plotData = [];
 	
-	//extract and prepare plot data
+	//extract and prepare plot data -  now replaced by for loop below
 	for (key in this.stats.stageStatsData){
 		plotData.push([key, this.stats.stageStatsData[key].percentage]);
 	}
@@ -444,9 +462,19 @@ Stats.prototype.imagingMethodPlot = function() {
 	
 	var baseURL = this.query_base_url;
 	
-	//extract and prepare plot data
+	
+	//extract and prepare plot data: old routine - has been replaced by the one below.
+	/*
 	for (key in this.stats.imagingMethodsData){
 		plotData.push([key, this.stats.imagingMethodsData[key].percentage]);
+	}
+	*/
+	
+	for (key in this.stats.imagingMethodsData){
+		var data_point = {};
+		data_point.name = key;
+		data_point.y = this.stats.imagingMethodsData[key].value;
+		plotData.push(data_point);
 	}
 	
 	console.log(plotData);
@@ -469,7 +497,7 @@ Stats.prototype.imagingMethodPlot = function() {
 			y:-90
         },
         tooltip: {
-            pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+            pointFormat: '{series.name}: <b>{point.y} ({point.percentage:.1f}%)</b>',
         },
         plotOptions: {
             pie: {
@@ -681,8 +709,6 @@ Stats.prototype.computeSampleImageTypeStats = function(data) {
 		sampleImagePlotData["Expression"] = expression_dict;
 	phenotype_dict.percentage = phenotypePercentage,
 		sampleImagePlotData["Phenotype"] = phenotype_dict;;
-	
-	
 	
 		return sampleImagePlotData;
 };

@@ -180,7 +180,7 @@ def extract_image_data(doc):
             
     if "sex" in doc:
         image_data_dict['sex'] = doc['sex']
-    
+     
     if "age" in doc:
         image_data_dict['age'] = doc['age']
 
@@ -203,6 +203,13 @@ def extract_image_data(doc):
     if "image_generated_by" in doc:
         image_data_dict['image_generated_by'] = doc['image_generated_by']
     
+    if "visualisation_method_label" in doc:
+        image_data_dict['visualisation'] = doc['visualisation_method_label']
+    elif "visualisation_method_freetext" in doc:
+        image_data_dict['visualisation'] = doc['visualisation_method_freetext']
+    else:
+        image_data_dict['visualisation'] = doc['visualisation_method_id']
+    
     if "sample_preparation_label" in doc:
         image_data_dict['sample_preparation'] = doc['sample_preparation_label']
         
@@ -214,7 +221,10 @@ def extract_image_data(doc):
     
     if "expression_in_label_bag" in doc:
         image_data_dict['expression_in_label_bag'] = doc['expression_in_label_bag']
-            
+    
+    if "depicted_anatomy_term_bag" in doc:
+        image_data_dict['depicted_anatomy_term_bag'] = doc['depicted_anatomy_term_bag']
+    
     if "image_type" in doc:
         image_data_dict['image_type'] = doc['image_type']
     
@@ -250,13 +260,31 @@ def extract_image_data(doc):
         
     if "stage" in doc:
         image_data_dict['stage'] = doc['stage']
-             
+
+    if "chromosome" in doc:
+        image_data_dict['chromosome'] = doc['chromosome']
+   
+    if "start_pos" in doc:
+        image_data_dict['start_pos'] = doc['start_pos']       
+    
+    if "end_pos" in doc:
+        image_data_dict['end_pos'] = doc['end_pos']
+
+    if "strand" in doc:
+        image_data_dict['strand'] = doc['strand']
+   
     if "gene_symbol" in doc:
         gene_symbols = []
         for gene_symbol in doc['gene_symbol']:
             gene_symbols.append(gene_symbol)
         image_data_dict['gene'] = gene_symbols       
-                
+    
+    if "mutation_type" in doc:
+        mutation_types = []
+        for mutation_type in doc['mutation_type']:
+            mutation_types.append(mutation_type)
+        image_data_dict['mutation_types'] = mutation_types
+        
     if "phenotype_label_bag" in doc:
         phenotype_list = []
     

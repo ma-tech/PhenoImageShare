@@ -41,6 +41,8 @@
 		this.base_detail_url = "";
 		this.base_query_url = "";
 		this.autosuggest_url = "";
+		
+		this.facet_input_field_trigger = false;
 
 		//Autosuggest endpoint mappings
 		this.autosuggest_mappings = {"PhenotypeButtonField":"PHENOTYPE", "AnatomyButtonField":"ANATOMY", "GeneButtonField":"GENE"}
@@ -160,44 +162,9 @@
 			//console.log("Called click handler, Node parent = " + node.parent);
 			
 			if (node.parent == "Anatomy" || node.parent == "Gene" || node.parent == "Phenotype"){
-					//perform some operations here, knowing the we've selected a search field.
-				this.query = node.query;
+				//perform some operations here, knowing the we've selected a search field.
+				this._prepareQueryForInputFields(event, node, target);
 				
-				//verify that button is clicked
-				if (target.attr('type') == "button"){
-					
-					//collect values from fields
-					var geneField = $('#GeneButtonField');
-					var anatomyField = $('#AnatomyButtonField');
-					var phenotypeField = $('#PhenotypeButtonField');
-					
-					if (geneField.val() && geneField.val() != "")
-						this.query.Gene.value = geneField.val();
-					else
-						this.query.Gene.value = "";
-					
-					if (anatomyField.val() && anatomyField.val() != "")
-						this.query.Anatomy.value = anatomyField.val();
-					else
-						this.query.Anatomy.value = "";
-					
-					if (phenotypeField.val() && phenotypeField.val() != "")
-						this.query.Phenotype.value = phenotypeField.val();
-					else
-						this.query.Phenotype.value = "";
-					
-					//pass the query on (query passing concept)
-					node.query = this.query;
-					this.options.onNodeSelected(event, node);
-					
-				}else if(target.attr('type') == "text"){
-					//if(event.which == 13){}
-					console.log("Clicked area = " + node.parent);
-					return;
-				}else{
-					return;
-				}
-					
 			}
 			else {
 				if ((classList.indexOf('click-expand') != -1) ||
@@ -214,53 +181,9 @@
 						this._toggleNodes(node);
 						this._render();
 					}
-				
-					if (typeof (this.options.onNodeSelected) == 'function' && !(node.nodes != undefined || node._nodes != undefined) ){
-						var EXPANDED = true;
-						var COLLAPSED = false;
 					
-						this.query.expanded[node.parent] = EXPANDED;
-				
-						if (!node.checked) {
-							if (node.sampleType != undefined) {
-								this.query.imageType = node.queryText;
-								this.query.sampleType = node.sampleType;
-							
-							}else if (node.parent == "Taxon"){
-								this.query.taxon[node.text] = node.queryText;
-								this.query.taxon.expanded = EXPANDED;
-								this.query.taxon.value = node.queryText;
-							} else if (node.parent == "Imaging Method"){
-								this.query.imagingMethod[node.text] = node.queryText;
-								this.query.imagingMethod.expanded = EXPANDED;
-								this.query.imagingMethod.value = node.queryText;
-							}else if (node.parent = "Stage"){
-								this.query.stage[node.text] = node.queryText;
-								this.query.stage.expanded = EXPANDED;
-								this.query.stage.value = node.queryText;
-							}
-						}else{
-							if (node.sampleType != undefined) {
-								this.query.imageType = "";
-								this.query.sampleType = "";
-							}else if (node.parent == "Taxon"){
-								this.query.taxon[node.text] = "";
-								this.query.taxon.value = "";
-								//this.query.taxon.expanded = COLLAPSED;
-							} else if (node.parent == "Imaging Method"){
-								this.query.imagingMethod[node.text] = "";
-								this.query.imagingMethod.value = "";
-								//this.query.imagingMethod.expanded = COLLAPSED;
-							}else if (node.parent = "Stage"){
-								this.query.stage[node.text] = "";
-								this.query.stage.value = "";
-								//this.query.stage.expanded = COLLAPSED;
-							}
-						}
-					
-						node.query = this.query;
-						this.options.onNodeSelected(event, node);
-					}
+					this._prepareQueryForCheckboxFields(event, node);
+		
 				
 					if (this._isEndNode(node)){
 						//this._toggleCheckbox(node);
@@ -268,6 +191,100 @@
 				}
 			}
 			
+		},
+		
+		_prepareQueryForInputFields: function(event, node, target){
+			this.query = node.query;
+			
+			//verify that button is clicked
+			if (target.attr('type') == "button" || (target.attr('type') == "text" && this.facet_input_field_trigger)){
+				
+				this.facet_input_field_trigger = false;
+				
+				//collect values from fields
+				var geneField = $('#GeneButtonField');
+				var anatomyField = $('#AnatomyButtonField');
+				var phenotypeField = $('#PhenotypeButtonField');
+				
+				if (geneField.val() && geneField.val() != "")
+					this.query.Gene.value = geneField.val();
+				else
+					this.query.Gene.value = "";
+				
+				if (anatomyField.val() && anatomyField.val() != ""){
+					//alert(anatomyField.val());
+					this.query.Anatomy.value = anatomyField.val();
+				}
+				else
+					this.query.Anatomy.value = "";
+				
+				if (phenotypeField.val() && phenotypeField.val() != "")
+					this.query.Phenotype.value = phenotypeField.val();
+				else
+					this.query.Phenotype.value = "";
+				
+				//pass the query on (query passing concept)
+				node.query = this.query;
+				this.options.onNodeSelected(event, node);
+				
+			}else if(target.attr('type') == "text"){
+				//if(event.which == 13){}
+				return;
+			}else{
+				return;
+			}
+		},
+		
+		_prepareQueryForCheckboxFields: function(event, node){
+			
+			if (typeof (this.options.onNodeSelected) == 'function' && !(node.nodes != undefined || node._nodes != undefined) ){
+				var EXPANDED = true;
+				var COLLAPSED = false;
+			
+				this.query.expanded[node.parent] = EXPANDED;
+				
+				if (!node.checked) {
+					if (node.sampleType != undefined) {
+						this.query.imageType = node.queryText;
+						this.query.sampleType = node.sampleType;
+					
+					}else if (node.parent == "Species"){
+						this.query.taxon[node.text] = node.queryText;
+						this.query.taxon.expanded = EXPANDED;
+						this.query.taxon.value = node.queryText;
+					} else if (node.parent == "Imaging Method"){
+						this.query.imagingMethod[node.text] = node.queryText;
+						this.query.imagingMethod.expanded = EXPANDED;
+						this.query.imagingMethod.value = node.queryText;
+					}else if (node.parent == "Stage"){
+						this.query.stage[node.text] = node.queryText;
+						this.query.stage.expanded = EXPANDED;
+						this.query.stage.value = node.queryText;
+					}
+				}else{
+					if (node.sampleType != undefined) {
+						this.query.imageType = "";
+						this.query.sampleType = "";
+					}else if (node.parent == "Species"){
+						this.query.taxon[node.text] = "";
+						this.query.taxon.value = "";
+						//this.query.taxon.expanded = COLLAPSED;
+					} else if (node.parent == "Imaging Method"){
+						this.query.imagingMethod[node.text] = "";
+						this.query.imagingMethod.value = "";
+						//this.query.imagingMethod.expanded = COLLAPSED;
+					}else if (node.parent = "Stage"){
+						this.query.stage[node.text] = "";
+						this.query.stage.value = "";
+						//this.query.stage.expanded = COLLAPSED;
+					}
+				}
+				
+				//console.log(node);
+				
+				node.query = this.query;
+				this.options.onNodeSelected(event, node);
+			}
 		},
 		
 		//Looks up the node for the input or button element.
@@ -290,6 +307,7 @@
 		},
 
 		_appendAutosuggest: function(element, endpoint){
+			var self = this;
 			var anatomyterms = new Bloodhound({
 			    datumTokenizer: function (datum) {
 			        return Bloodhound.tokenizers.whitespace(datum.value);
@@ -320,10 +338,30 @@
 			
 			//Code for click event on autosuggest
 			var selectionHandler = function (eventObject, suggestionObject, suggestionDataset) {
-			    console.log("Clicked");
+			var target = $(eventObject.target),
+				classList = target.attr('class') ? target.attr('class').split(' ') : [],
+				node = self._findNode(target);
+			
+				self.facet_input_field_trigger = true;
+				
+				self._prepareQueryForInputFields(eventObject, node, target);
 			};
 			
 			$('#'+element).on('typeahead:selected', selectionHandler);
+			$('#'+element).keypress( function(event){
+				
+				if(event.which == 13){
+					var target = $(event.target),
+					classList = target.attr('class') ? target.attr('class').split(' ') : [],
+					node = self._findNode(target);
+			
+					self.facet_input_field_trigger = true;
+					self._prepareQueryForInputFields(event, node, target);	
+				}
+				
+			});
+			
+			
 		},
 		
 		/*

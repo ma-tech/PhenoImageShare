@@ -116,7 +116,7 @@
 							if (object.sampleType != undefined) {
 								object.query.imageType = "";
 								object.query.sampleType = "";
-							}else if (object.parent == "Taxon"){
+							}else if (object.parent == "Species"){
 								object.query.taxon[object.text] = "";
 								object.query.taxon.value = "";
 								//this.query.taxon.expanded = COLLAPSED;

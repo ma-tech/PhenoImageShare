@@ -141,14 +141,14 @@ Processor.prototype.loadJSON = function(){
 		}
 	}
 	
-	console.log(queryParams);
-	
 	var query = this.query;
 	var queryString = (queryParams ? $.param(queryParams): "");
 	
 	var query_in_url = "?term="+searchString+"&"+queryString;
 	var displayQuery = this.source_url+query_base_url+"?term="+searchString+"&"+queryString;
 
+	console.log(displayQuery);
+	
 	//Sample competency question for demo (BSA section meeting)
 	var comp_que = "[Competency question corresponding to query / semantic reasoning]";
 	
@@ -201,8 +201,11 @@ Processor.prototype.loadJSON = function(){
 			"fnDrawCallback": function () {
 				
 			},
+			//Changed default bInfo to reflect UX testing suggestions (PHIS-237).
 			"oLanguage": {
-			         "sSearch": "Filter records:"
+			         "sSearch": "Filter images:",
+					 "sInfo": "Showing _START_ to _END_ of _TOTAL_ images",
+					 "sLengthMenu": "_MENU_ images per page"
 	       },
        	 	"processing": true,
        	 	"serverSide": true,
@@ -216,7 +219,7 @@ Processor.prototype.loadJSON = function(){
     		  "data": $.extend( {}, data, {"num":data.length} ),
 				//"cache":    false,
 		      "success": function ( json ) {
-	   		   tableTitle.innerHTML = json.response.numFound +" records found in database";
+	   		   tableTitle.innerHTML = json.response.numFound +" images found in database";
 			   var numDocs = json.response.docs.length;
 				
 			   for (var i = 0; i < numDocs; i++) {
@@ -232,6 +235,7 @@ Processor.prototype.loadJSON = function(){
 				   image_query_string = searchString;
 			   
 				   detail_url = detail_base_url + "?q="+searchString+"&imageId="+imageId;
+				  // detail_url = detail_base_url + "?q="+encodeURI(displayQuery)+"&imageId="+imageId;
 				
 				   image_hyperlink = "<a href="+encodeURI(detail_url)+" data-toggle=\"tooltip\" title="+ id +">";
 			   
@@ -267,7 +271,7 @@ Processor.prototype.loadJSON = function(){
  				  $(nRow).attr('url',""+aData[2]);
  				  $(nRow).attr('style',"cursor:pointer;");
  		    },
-		"columnDefs": [
+			"columnDefs": [
 		    { "width": "20%", "targets": 0},
                {"targets": [ 2 ],"visible": false}
 	      ],
@@ -596,7 +600,7 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 	var taxon = {};
 	var taxon_tags = [];
 	var taxon_nodes = [];
-	taxon.text = "Taxon";
+	taxon.text = "Species";
 	taxon.selectable = false;
 	taxon.tags = [];
 	taxon.tags.push(0);

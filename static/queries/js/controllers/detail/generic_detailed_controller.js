@@ -221,6 +221,9 @@ DetailedController.prototype.displayROIs= function() {
  											 
 											 //build table for annotations
 											 var annotations = roi_annotation_data[rowIdx];
+											 
+											 console.log(annotations);
+											 
 											 var annotations_template = '<caption><i>Annotations</i></caption><thead><tr><th>ID</th><th>Term</th><th>Type</th>'+
 											 							 '<th>Curator</th><th>Created</th><th>Edit/Delete</th></tr></thead><tbody>';
 											 var annotations_count = 0;
@@ -234,7 +237,9 @@ DetailedController.prototype.displayROIs= function() {
 											 annotations_template = annotations_template + '</tbody>'
 											 
 											 //build table for channels
+											 
 											 var channels = roi_channels_data[rowIdx];
+											 
 											 var channels_template = '<caption><i>Channels</i></caption><thead><tr><th>ID</th><th>Gene</th><th>Start</th>'+
 											 						 '<th>End</th><th>Curator</th><<th>Created</th><</tr></thead><tbody>';
 											 var channels_count = 0;
@@ -252,7 +257,26 @@ DetailedController.prototype.displayROIs= function() {
 											 var roi_table_ext = $('<table/>').append( data );
 											 
 											 
-											 return (data && annotations_template && channels_template ? $('<div/>').append(roi_table_ext).append(annotations_table).append(channels_template) : false);
+											 //return (data && annotations_template && channels_template ? $('<div/>').append(roi_table_ext).append(annotations_table).append(channels_template) : false);
+											 return (data && annotations_template && channels_template ? $('<div/>').append(roi_table_ext).append(annotations_table) : false); // temporary fix for channel table displaying without channel
+											 
+											 /* routine to permanently fix channel table displaying without existing channels.: TODO
+											 var final_table_div = $('<div/>');
+											 
+											 if (data){
+												 if (annotations != undefined){
+													 final_table_div.append(roi_table_ext).append(annotations_table);
+												 }
+											 
+												 if (channels != undefined){
+													 final_table_div.append(channels_template);
+												 }
+												 
+												 return final_table_div;
+											 }
+											 
+											 return false;	
+											*/
 					 }
             }			
 		},
