@@ -245,9 +245,29 @@ Processor.prototype.loadJSON = function(){
 			   
 				   descr = (json.response.docs[i].expression_in_label_bag ? "<b> Expression: </b>" + json.response.docs[i].expression_in_label_bag : "") + 
 				   		   (json.response.docs[i].anatomy_term ? "<br/> <b> Anatomy: </b>" + json.response.docs[i].anatomy_term : "") +
-				   		   (json.response.docs[i].phenotype_label_bag ? "<br/> <b> Phenotype: </b>" + json.response.docs[i].phenotype_label_bag: "") +
-				   		   (json.response.docs[i].gene_symbol ? "<br/> <b> Associated gene: </b>" + json.response.docs[i].gene_symbol : "") ;
-			   	   
+				   		   (json.response.docs[i].phenotype_label_bag ? "<br/> <b> Phenotype: </b>" + json.response.docs[i].phenotype_label_bag: "");
+				  
+			 	   if (json.response.docs[i].gene_symbol != undefined){
+				   		   descr = descr + "<br/> <b> Genotype: </b> | " + json.response.docs[i].gene_symbol;
+						   
+						   if( json.response.docs[i].zygosity != undefined )
+							   descr = descr + " | " + 	json.response.docs[i].zygosity;
+						   if ( json.response.docs[i].mutation_type != undefined)	
+							   descr = descr + " | " + 	json.response.docs[i].mutation_type;
+						  
+						   descr = descr + " | " ;
+					  
+					   }else if (json.response.docs[i].chromosome != undefined){
+						   descr = descr + "<br/> <b> Genotype: </b> | CR" + json.response.docs[i].chromosome[0] ;
+						   
+						   if( json.response.docs[i].zygosity != undefined )
+							   descr = descr + " | " + 	json.response.docs[i].zygosity;
+						   if ( json.response.docs[i].mutation_type != undefined)	
+							   descr = descr + " | " + 	json.response.docs[i].mutation_type;
+						  
+						   descr = descr + " | " ;
+					   }
+					   	
 				   descr = (descr != "" ? descr : "No annotations found" );
 					  
 				   tableData[i]=[image_with_hyperlink, descr, detail_url];
