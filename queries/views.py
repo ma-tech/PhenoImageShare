@@ -189,6 +189,9 @@ def extract_image_data(doc):
         
     if "embrionic_age" in doc:
         image_data_dict['embrionic_age'] = doc['embrionic_age']  
+        
+    if "id" in doc:
+        image_data_dict['id'] = doc['id']  
           
     if "host_name" in doc:
         image_data_dict['host_name'] = doc['host_name']
