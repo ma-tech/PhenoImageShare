@@ -28,6 +28,54 @@ PhIS is released under Apache Version 2.0. Please see at http://beta.phenoimages
 The following sections provide the change logs for the PhIS GUI beta releases. 
 Please see data release notes at http://beta.phenoimageshare.org/release/data
 
+
+============ Beta Release 1.3 =============
+
+Release status
+--------------
+3 July 2015 beta release
+
+Details of Change
+-----------------
+
+New features
+	1. None
+	
+
+Bug fixes
+	1. Fixed broken line in "search" field/button on the search page by changing background of button - PHIS-202
+	2. 
+
+
+Other changes
+	1. Renamed facet for "Taxon" to "Species" - PHIS-238
+	2. On results page, "record" replaced with "image" - PHIS-237
+	3. Added clickable example of queries under the search box - PHIS-239
+	4. Simplifed headers for results table - PHIS-236
+	5. Removed "proc."/ procedure from detail view - PHIS-230
+	6. Renamed "Hots" to "Repository" - PHIS-227
+	7. Landing page: displayed short summary of PhIS - PHIS-223
+	8. Removed "image type" metadata display from detail view - PHIS-216
+	9. Fixed anatomy annotations missing from results table - 214
+	10. Changed color for search box & button to green / teal - PHIS-151
+	11. Added more genotype information in results table - PHIS-234
+	12. Search box - pressing enter or autosuggest select now triggers search - PHIS-233
+	13. Removed display of empty channels on detail view - PHIS-232
+	14. Changed style of metadata values on detail view - PHIS-220
+	15. Search page: added explicit clear button - PHIS-211
+	16. Added the number of images to pie chart tooltips - PHIS-244
+	17. Added staining information as "Visualization" - PHIS-225
+
+Known issues  
+	1. Facets: Search text disappears from a facet search box when another facet search box is activated (clicked)
+	2. GUI should send email to list when database connectivity issue - PHIS-111
+	3. Adding copyright information for dataset / images 
+	4. Number of records displayed on table does not correspond to selection - Search page - PHIS-106
+	5. RESTful implementation, allowing users to go back to search URL history.
+	6. Add whitespace between phenotype annotations on search page - PHIS-185
+	
+	
+	
 ============ Beta Release 1.2 =============
 
 Release status
