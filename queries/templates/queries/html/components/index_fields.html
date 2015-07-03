@@ -10,6 +10,28 @@
 	    	  <button type="button" id="searchButton" class="btn btn-primary" onClick=loadSearchPage()>Search</button>
 	 	 </span>
 	</div>
+	<div class="col-lg-5">
+		 Examples: 
+	
+		<a id="index_query1" href="{{source_url}}/search/?term=cornea ulcer" style="font-weight: 70;text-decoration: underline;">cornea ulcer</a>, &nbsp
+		<div class="tooltiptext" style="display:none">
+			Search for specific phenotype - <i><b>cornea ulcer</b></i>.
+		</div>
+	
+		<a id="index_query2" href="{{source_url}}/search/?term=eye&sampleType=MUTANT&imageType=PHENOTYPE_ANATOMY" style="font-weight: 70;text-decoration: underline;">eye</a>, &nbsp
+		<div class="tooltiptext" style="display:none">
+			Search for phenotype images associated with an anatomical structure of interest - <i><b>eye</b></i>.
+		</div>
+	
+		<a id="index_query3" href="{{source_url}}/search/?term=Sesn3&sampleType=MUTANT&imageType=PHENOTYPE_ANATOMY" style="font-weight: 70;text-decoration: underline;">Sesn3 </a>
+	
+		<div class="tooltiptext" style="display:none">
+			Search for phenotype images of mutations in a specific gene - <i><b>Sesn3</b></i>.
+		</div>
+	
+		<!--<b><a rel="{{source_url}}{% url 'documentation:searchHelpTooltip' %}" style="text-decoration: underline;cursor:pointer; position:relative; left:40px">View sample query</a></b>-->
+	</div>
+	
 </div>
 
 <div class="col-lg-2">	
