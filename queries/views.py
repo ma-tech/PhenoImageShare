@@ -207,7 +207,7 @@ def extract_image_data(doc):
         image_data_dict['visualisation'] = doc['visualisation_method_label']
     elif "visualisation_method_freetext" in doc:
         image_data_dict['visualisation'] = doc['visualisation_method_freetext']
-    else:
+    elif "visualisation_method_id" in doc:
         image_data_dict['visualisation'] = doc['visualisation_method_id']
     
     if "sample_preparation_label" in doc:
