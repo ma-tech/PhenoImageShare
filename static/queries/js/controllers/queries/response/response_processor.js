@@ -259,6 +259,9 @@ Processor.prototype.loadJSON = function(){
 					  
 					   }else if (json.response.docs[i].chromosome != undefined){
 						   descr = descr + "<br/> <b> Genotype: </b> | CR" + json.response.docs[i].chromosome[0] ;
+						   descr = descr + " ; " + json.response.docs[i].start_pos[0];
+						   descr = descr + " , " + json.response.docs[i].end_pos[0];
+						   descr = descr + " ; " + json.response.docs[i].strand[0];
 						   
 						   if( json.response.docs[i].zygosity != undefined )
 							   descr = descr + " | " + 	json.response.docs[i].zygosity;
