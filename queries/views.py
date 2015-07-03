@@ -197,6 +197,9 @@ def extract_image_data(doc):
     if "anatomy_term" in doc:
         image_data_dict['anatomy_term'] = doc['anatomy_term']
     
+    if "host_url" in doc:
+        image_data_dict['host_url'] = doc['host_url']
+    
     if "sample_generated_by" in doc:
         image_data_dict['sample_generated_by'] = doc['sample_generated_by']
     
