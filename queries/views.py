@@ -47,7 +47,7 @@ channel_endpoints = access_points['getchannel']['options']
 autosuggest_acp = access_points['getautosuggest']['name']
 autosuggest_endpoints = access_points['getautosuggest']['options']
 
-iqs_version = '005'
+iqs_version = '007'
 
 def index(request):
     return render(request, 'queries/html/phis_index.html', '')

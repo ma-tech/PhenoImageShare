@@ -244,7 +244,8 @@ Processor.prototype.loadJSON = function(){
 				   image_with_hyperlink =  image_hyperlink + "<img src="+image_url+" style=\"width: 100%;\"/> </a>";
 			   
 				   descr = (json.response.docs[i].expression_in_label_bag ? "<b> Expression: </b>" + json.response.docs[i].expression_in_label_bag : "") + 
-				   		   (json.response.docs[i].anatomy_term ? "<br/> <b> Anatomy: </b>" + json.response.docs[i].anatomy_term : "") +
+				   		   (json.response.docs[i].anatomy_term || json.response.docs[i].depicted_anatomy_term_bag  ? "<br/> <b> Anatomy: </b>" + 
+				   			(json.response.docs[i].anatomy_term ? json.response.docs[i].anatomy_term : "") + (json.response.docs[i].depicted_anatomy_term_bag ? json.response.docs[i].depicted_anatomy_term_bag : "") : "") +
 				   		   (json.response.docs[i].phenotype_label_bag ? "<br/> <b> Phenotype: </b>" + json.response.docs[i].phenotype_label_bag: "");
 				  
 			 	   if (json.response.docs[i].gene_symbol != undefined){
@@ -786,7 +787,15 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 				
 				var node = {};
 				node.tags = [];
-				node.text = key;
+				
+				if (key == "Drosophila melanogaster") {
+					node.text = "D. Melanogaster";
+				} else if (key == "Mus musculus") {
+					node.text = "M. Musculus";
+				} else {
+					node.text = key;
+				}
+				
 				node.queryText = key;
 				node.fulltext = key;
 				node.tags.push(taxons[key]);
