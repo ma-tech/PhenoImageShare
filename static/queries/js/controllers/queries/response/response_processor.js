@@ -258,7 +258,17 @@ Processor.prototype.loadJSON = function(){
 						  
 						   descr = descr + " | " ;
 					  
-					   }else if (json.response.docs[i].chromosome != undefined){
+					   } else if (json.response.docs[i].expressed_gf_symbol_bag != undefined) {
+				   		   descr = descr + "<br/> <b> Genotype: </b> | " + json.response.docs[i].expressed_gf_symbol_bag;
+						   
+						   if( json.response.docs[i].zygosity != undefined )
+							   descr = descr + " | " + 	json.response.docs[i].zygosity;
+						   if ( json.response.docs[i].mutation_type != undefined)	
+							   descr = descr + " | " + 	json.response.docs[i].mutation_type;
+						  
+						   descr = descr + " | " ;
+					   }
+					   else if (json.response.docs[i].chromosome != undefined){
 						   descr = descr + "<br/> <b> Genotype: </b> | CR" + json.response.docs[i].chromosome[0] ;
 						   descr = descr + " ; " + json.response.docs[i].start_pos[0];
 						   descr = descr + " , " + json.response.docs[i].end_pos[0];

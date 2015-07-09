@@ -237,6 +237,9 @@ def extract_image_data(doc):
     if "zygosity" in doc:
         image_data_dict['zygosity'] = doc['zygosity']
     
+    if "expressed_gf_symbol_bag" in doc:
+        image_data_dict['expressed_gf_symbol'] = doc['expressed_gf_symbol_bag']
+    
     if "height" in doc:
         image_data_dict['height'] = doc['height']
         

@@ -182,6 +182,22 @@
 			  			 {% endfor %}
 						 
 				 	</li>
+				 {% elif image.expressed_gf_symbol %}
+					 <li href="#" class="list-group-item">
+						 Genotype: 
+						 {% for symbol in image.expressed_gf_symbol %}
+				 			 <span class="phis-badge-genotype"> | {{symbol}} | </span>
+			    		 {% endfor %}
+				
+						 {% for zyg in image.zygosity %}
+				 			 <span class="phis-badge-genotype">{{zyg}} |</span>
+			  			 {% endfor %}
+						 
+						 {% for mutation_type in image.mutation_types %}
+				 			 <span class="phis-badge-genotype">{{mutation_type}} |</span>
+			  			 {% endfor %}
+						 
+				 	</li>
 				 {% elif image.chromosome %}
 					 <li href="#" class="list-group-item">
 	 					Genotype: |
