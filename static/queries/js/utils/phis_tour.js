@@ -159,7 +159,7 @@
 		     yOffset: 80,
 			 multipage: true,
   	         onNext: function() {
-  	           window.location = "/search/detail/?q=&imageId=komp2_112968"
+  	           window.location = "/search/detail/?q=&imageId=emage_EMAGE_5572.1"
   	         },
   			 width: 300,
 	       },

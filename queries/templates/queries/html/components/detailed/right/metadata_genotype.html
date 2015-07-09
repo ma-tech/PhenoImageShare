@@ -91,15 +91,18 @@
 			-->
  			{% endif %}
 			
- 			 {% if image.anatomy_term or image.depicted_anatomy_term_bag %}
+ 			 {% if image.anatomy_term or image.depicted_anatomy_term_bag or image.expressed_in_anatomy_term %}
  			  <li href="#" class="list-group-item">
  				  Anatomy:
 				  {% if image.anatomy_term  %}
  	         		 <span class="phis-badge"> {{image.anatomy_term}}</span>
 				  {% endif %}
- 				 {% for value in image.depicted_anatomy_term_bag %}
+ 				  {% for value in image.depicted_anatomy_term_bag %}
   			 		<span class="phis-badge">{{value}}</span>
- 				{% endfor %}
+ 				  {% endfor %}
+ 				  {% for term in image.expressed_in_anatomy_term %}
+  			 		<span class="phis-badge">{{term}}</span>
+ 				  {% endfor %}
  			 </li>
  			 {% endif %}
 			 
@@ -120,7 +123,9 @@
  			 {% if image.expression_in_label_bag %}
  			  <li href="#" class="list-group-item">
  				  Expression:
- 	         	 <span class="phis-badge"> {{image.expression_in_label_bag.0}}</span>
+ 	         	  {% for term in image.expression_in_label_bag %}
+ 			 		<span class="phis-badge">{{term}},</span>
+				  {% endfor %}
  			 </li>
  			 {% endif %}
 			 
