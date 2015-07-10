@@ -9,6 +9,7 @@ function EventHandler() {
 	this.myname = "Event Handler";
 	this.controllers = null;
 	this.currentController = null;
+	this.drawingController = null;
 	
 	console.log("["+this.myname+"] Constructing " + this.myname);
 }
@@ -53,7 +54,10 @@ EventHandler.prototype.setControllers= function(controllers) {
 	this.currentController = controllers[0];
 	this.controllers = controllers;
 	
-	console.log("["+this.myname+"]  Registered Controllers are : " + this.controllers[0].getName() + " and " + this.controllers[1].getName() );
+	this.drawingController = controllers[0];
+	this.annotationController = controllers[1];
+	
+	console.log("["+this.myname+"]  Registered Controllers are : " + this.controllers[0].getName() + " and " + this.controllers[1].getName());
 }
 
 
@@ -69,9 +73,7 @@ EventHandler.prototype.mouseDown= function(event) {
         this.canvas.moving = false;
 		this.canvas.layer.draw();
     } else {
-		console.log("["+this.myname+"] Triggers event to start drawing");
 		this.currentController.startDrawing(event);
-		//this.canvas.moving = true;
     }
 };
 
@@ -85,17 +87,18 @@ EventHandler.prototype.mouseMove= function(event) {
 	}
 };
 
-
 /**
  * Set the drawing canvas, in order to receive events from them.
 */
 EventHandler.prototype.mouseUp= function(event) {
-	if(this.canvas.moving){
+	if(this.canvas.moving || (this.canvas.selectedShape == "tool-point" && !this.canvas.pointExists)){
+		this.canvas.moving = false;
 		this.currentController.stopDrawing(event);
 		this.setCurrentController(this.canvas.controllers[1]);
 		//this.addAnnotation();
 	}
 	
+	this.canvas.layer.draw();
 	this.canvas.clicked = false;
 };
 
@@ -104,6 +107,18 @@ EventHandler.prototype.mouseUp= function(event) {
 */
 EventHandler.prototype.setSelectedTool= function(tool) {
 	this.canvas.selectedShape = tool;
+	
+	if(tool == "tool-rectangle" || tool == "tool-point"){
+		var annotationObjects = this.drawingController.getModels();
+		var numObjects = annotationObjects.length;
+		//make annotation objects undraggable
+		
+		for (var i = 0 ; i < numObjects ; i ++){
+			annotationObjects[i].getShape().draggable(false);
+		}
+		
+	}
+	
 	console.log("["+this.myname+"] Tool selected: "+tool);
 };
 
@@ -112,7 +127,24 @@ EventHandler.prototype.setSelectedTool= function(tool) {
 */
 EventHandler.prototype.setSelectedMode= function(mode) {
 	this.canvas.selectedMode = mode;
-	console.log("["+this.myname+"] Mode selected: "+mode);
+	console.log("["+this.myname+"] Mode selected: "+this.canvas.selectedMode);
+	
+	if (mode == "tool-drag"){
+		var annotationObjects = this.drawingController.getModels();
+		var numObjects = annotationObjects.length;
+		
+		for (var i = 0 ; i < numObjects ; i ++){
+			annotationObjects[i].getShape().draggable(true);
+		}
+	}
+};
+
+/**
+ * Set the drawing canvas, in order to receive events from them.
+*/
+EventHandler.prototype.setSelectedEditMode= function(mode) {
+	this.canvas.selectedEditMode = mode;
+	console.log("["+this.myname+"] Edit mode selected: "+this.canvas.selectedEditMode);
 };
 
 /**
@@ -135,8 +167,8 @@ EventHandler.prototype.addAnnotation= function() {
 	
 };
 
-EventHandler.prototype.displayAnnotations = function(coordinates) {
+EventHandler.prototype.displayAnnotations = function(annotations) {
 	//Calll drawing tool to display annotation on image: ensure the correct controller is set.
 	this.setCurrentController(this.canvas.controllers[0]);
-	this.currentController.displayAnnotations(coordinates)
+	this.currentController.displayAnnotations(annotations)
 };

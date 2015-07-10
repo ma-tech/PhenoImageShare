@@ -12,7 +12,7 @@ function DBUtil(imageDimensions, roiData) {
  * Function to load all models data from DB using AJAX. 
 */
 
-DBUtil.prototype.getModelObjects = function(roiData) {
+DBUtil.prototype.createModelData = function(roiData) {
 	console.log("[Model Loader] Image dimension (width, height) = ("+ this.imageDimensions[0] + "," + this.imageDimensions[1] + ")");
 	
 	for(var i = 0; i < this.roiData.length; i++){
@@ -21,23 +21,28 @@ DBUtil.prototype.getModelObjects = function(roiData) {
 		var roi_height= this.imageDimensions[1] * (this.roiData[i].y_coordinates[1] / 100) - this.imageDimensions[1] * (this.roiData[i].y_coordinates[0] / 100);
 		var roi_dimension = roi_width + " x " + roi_height;
 	
-		var x0 = this.roiData[i].x_coordinates[0] * this.imageDimensions[0];
-		var y0 = this.roiData[i].y_coordinates[0] * this.imageDimensions[0]; 
-		var draggable = true;
+		var x0 = this.roiData[i].x_coordinates[0] * this.imageDimensions[0] / 100;
+		var y0 = this.roiData[i].y_coordinates[0] * this.imageDimensions[1] / 100; 
+		var draggable = false;
 		
-		obj = new Rectangle(x0, y0, draggable);
-
+		obj = roi_width == 20 ? new Point(x0, y0, draggable, i) : new Rectangle(x0, y0, draggable, i);
+	
 		obj.setX(x0);
 		obj.setY(y0);
 		obj.setWidth(roi_width);
 		obj.setHeight(roi_height);
+		obj.setStatus("existing");
+		obj.setImageId(this.roiData[i].associated_image);
 		
 		this.modelsData.push(obj);
 	}
-	
 	return this.modelsData;
 	
 };
+
+DBUtil.prototype.getModelObjects = function(roiData) {
+	return this.modelsData;
+}
 
 /**
  * Get image dimension.

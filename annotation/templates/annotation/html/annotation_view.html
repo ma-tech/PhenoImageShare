@@ -34,7 +34,6 @@
 -->
 			<br/>
 			<br/>
-			<br/>
       <!-- "Annotation tool options panel and canvas"
       ================================================== -->
 		{% block top %}
@@ -43,7 +42,7 @@
 		
         <div class="row">
 			
-			<div class="col-lg-2">
+			<div class="col-lg-1">
 			  {% block first %}
 				 
 				  {% include "annotation/html/components/tools_panel.html" %}
@@ -56,9 +55,9 @@
 				  {% endblock second %}
 			</div>
 			
-			<div class="col-lg-3">
+			<div class="col-lg-3 col-sm-pull-1">
 				{% block third %}
-					metatdata and annoation display here.metatdata and annoation display here.
+					{% include "annotation/html/components/metadata_panel.html" %}
 				{% endblock third %}
 			</div>
 

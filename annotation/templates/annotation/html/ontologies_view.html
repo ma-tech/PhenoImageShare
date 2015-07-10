@@ -1,0 +1,159 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+
+<!-- NCBO Ontology tree viewer 
+	<script type="text/javascript" charset="utf8" src="http://bioportal.bioontology.org/widgets/jquery.ncbo.tree-2.0.0.js"></script>
+-->
+
+<!-- NCBO Ontology viewer CSS -->
+<link rel="stylesheet" href="http://bioportal.bioontology.org/widgets/minified/jquery.ncbo.tree.min.css">
+
+<!-- NCBO Ontology viewer CSS2 
+<link rel="stylesheet" href="{% static 'annotation/css/ncbo.css' %}">
+-->
+
+<!-- NCBO Ontology tree viewer  -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/ncbo/jquery.ncbo.tree-2.0.0.js' %}"></script>
+
+<!-- NCBO Ontology Quick Jump -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/ncbo/quick_jump.js' %}"></script>
+
+<!-- NCBO Ontology Form complete -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/ncbo/form_complete.js' %}"></script>
+		
+
+<script type="text/javascript">
+    var BP_ontology_id = "NCIT,BIRNLEX";
+	var BP_include_definitions = true;
+	
+</script>
+	
+	
+<script>
+
+
+$(document).ready(
+	
+	function(){
+		var tree = $("#ontologies_tree").NCBOTree({
+		  apikey: "8bc6b232-04b9-4700-835a-dd4ea0c23260",
+		  ontology: "CMPO",
+			autoclose: true,
+		    afterSelect: function(event, classId, prefLabel, selectedNode){
+		      console.log(classId);
+		    }
+		});
+		
+	    $("#simplebutton").on('click', function(){
+			alert($("#ontologies_tree").selectClass("biological_process"));
+	    });
+		});
+
+
+
+</script>
+
+</head>
+
+
+  <body>
+	  
+	<div class="container"> 
+		<div id="bp_quick_jump"></div>
+		
+		<input id='search_box' class="bp_form_complete-NCIT-name" name="m" data-bp_objecttypes="class,property" data-bp_include_definitions="true" size='40' type='text'>
+		
+		<div id="ontologies_tree" ></div>
+	</div>
+	<button type="button" id="simplebutton" class="btn btn-primary">Load Tree</button>
+	
+	
+    <div id="events" style="margin-bottom: 1em; border: thin solid black; padding: 1em;">
+      <h2 style="margin: 0;">Event Log</h2>
+      <div id="event_list" style="max-height: 100px; overflow: scroll;">
+        <span id="no_events">No events</span>
+      </div>
+    </div>
+    <div id="classDetails" style="position: absolute; left: 400px; float: left;">
+
+    </div>
+    <div id="tree"></div>
+    <script>
+      var ontology = "EMAP";
+
+      function formatClass(cls) {
+        var container = $("<span>");
+        container.append($("<h2>").html("Class Details:"))
+        container.append($("<p>").html("<b>prefLabel:</b> " + cls.prefLabel));
+        container.append($("<p>").html("<b>id:</b> " + cls["@id"]));
+        container.append($("<p>").html("<b>synonyms:</b> " + cls.synonym.join(", ")));
+        container.append($("<p>").html("<b>definitions:</b> " + cls.definition.join(", ")));
+        return container.html();
+      };
+
+      function displayEvent(event, arguments) {
+        var events = $("#event_list");
+        $("#no_events").remove();
+        events.append("<b>" + event + "</b>, <b>arguments:</b> " + arguments + "<br/>");
+        events.scrollTop(events[0].scrollHeight);
+      };
+
+      var myTree;
+
+      $.ajax({
+        url: "site_config",
+        dataType: "json",
+        success: function(config){
+          myTree = $("#tree").NCBOTree({
+            apikey: config.apikey,
+            ontology: ontology,
+            ncboUIURL: config.ui_url,
+            ncboAPIURL: config.rest_url
+          });
+
+          myTree.on("afterSelect", function (e, classId, label, node) {
+            displayEvent("afterSelect", "classId: " + classId + ", prefLabel: " + label + ", selectedNode: " + node);
+            $.ajax({
+              url: config.rest_url + "/ontologies/" + ontology + "/classes/" + encodeURIComponent(classId),
+              dataType: "json",
+              data: {apikey: config.apikey},
+              crossDomain: true,
+              success: function (classDetails) {
+                $("#classDetails").html(formatClass(classDetails));
+              }
+            });
+          });
+
+          myTree.on("beforeExpand", function(e, expandedNode){
+            displayEvent("beforeExpand", "expandedNode: " + expandedNode);
+          });
+
+          myTree.on("afterExpand", function(e, expandedNode){
+            displayEvent("afterExpand", "expandedNode: " + expandedNode);
+          });
+
+          myTree.on("afterJumpToClass", function(e, classId){
+            displayEvent("afterJumpToClass", "classId: " + classId);
+
+            $.ajax({
+              url: config.rest_url + "/ontologies/" + ontology + "/classes/" + encodeURIComponent(classId),
+              dataType: "json",
+              data: {apikey: config.apikey},
+              crossDomain: true,
+              success: function(classDetails){
+                $("#classDetails").html(formatClass(classDetails));
+              }
+            });
+          });
+        }
+      });
+    </script>
+	  
+  </body>
+</html>

@@ -3,7 +3,14 @@
 <!-- FlatUI CSS -->
 <link rel="stylesheet" href="{% static 'annotation/css/ui.dynatree.css' %}">
 
+<!-- JSTree CSS -->
+<link rel="stylesheet" href="{% static 'annotation/css/jstree/themes/default/style.css' %}">
 
+<!-- NCBO Ontology viewer CSS -->
+<link rel="stylesheet" href="http://bioportal.bioontology.org/widgets/minified/jquery.ncbo.tree.min.css">
+
+<!-- Select2 CSS -->
+<link rel="stylesheet" href="{% static 'annotation/css/select2.css' %}">
 
 <style>
 #drawing-div {
@@ -12,8 +19,8 @@
 
 span.annotation {
     float: left;
-    width: 35px;
-    height: 40px;
+    width: 32px;
+    height: 30px;
 	padding-left:0px;
 	padding-right:0px;
 }
@@ -30,7 +37,7 @@ span.annotation {
     background: url({% static 'queries/img/screen77.png' %}) no-repeat left center;
   }
 .btn span.tool-point {
-    background: url({% static 'queries/img/bad7.png' %}) no-repeat left center;
+    background: url({% static 'queries/img/Location_pin_24.png' %}) no-repeat center;
   }
 .btn span.tool-rectangle {
 	    background: url({% static 'queries/img/screen77.png' %}) no-repeat left center;
