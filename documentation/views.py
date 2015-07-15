@@ -42,6 +42,14 @@ def license(request):
     response.write(t.render(c))
         
     return response
+
+def bib_ref(request):
+    response = HttpResponse(content_type='text/plain')
+    t = loader.get_template('documentation/html/pub_refs/phis_phenoday_15.bib')
+    c = Context({})
+    response.write(t.render(c))
+        
+    return response
     
 def searchHelpTooltip(request):
     source_url = ""

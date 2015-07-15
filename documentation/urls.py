@@ -11,5 +11,6 @@ urlpatterns = patterns('',
     url(r'^tools/$', views.release, name='tools'),
     url(r'^changes/$', views.release, name='changes'),
     url(r'^license/$', views.license, name='license'),
+    url(r'^bib/$', views.bib_ref, name='bib_ref'),
     url(r'^searchHelpTooltip/$', views.searchHelpTooltip, name='searchHelpTooltip'),
 )
