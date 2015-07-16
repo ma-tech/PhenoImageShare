@@ -6,6 +6,8 @@ import urllib
 from pis.settings import IQS as iqs
 from pis.settings import DZI_DIR
 from pis.settings import IMAGE_RESOURCE_BASE
+import smtplib
+from email.mime.text import MIMEText
 
 import re
 import os
@@ -21,6 +23,12 @@ except ImportError: BASE_URL="http://dev.phenoimageshare.org"
 
 try: from pis.settings import BASE_PORT
 except ImportError: BASE_PORT=80
+
+try: from pis.settings import EMAIL_DEST
+except ImportError: EMAIL_DEST = 'webmaster@phenoimageshare.org'
+
+try: from pis.settings import EMAIL_SOURCE
+except ImportError: EMAIL_SOURCE = 'gui@phenoimageshare.org'
 
 dev_api = iqs['URL']['HWU']
 beta_api = iqs['URL']['EBI']
@@ -368,8 +376,17 @@ def processQuery(request):
     url_data=urllib.urlencode(query)
     req = urllib2.Request(url, url_data)
     
-    response = urllib2.urlopen(req)
-    
+    try:
+        response = urllib2.urlopen(req)
+        
+    except urllib2.URLError:
+        message = {}
+        message['body'] = "Error connecting to middleware service (IQS, ISS)"
+        message['subject'] = "API Connectivity Error"
+        logger.debug(message)
+        sendMail(message)
+        response = '{"server_error": "Server Unreachable"}'
+        
     return response
     
 def getImages(request):
@@ -519,3 +536,21 @@ def getImageData(imageId):
 def getImageDimension(imageId):
     imagedata = getImageData(imageId)
     return  [imagedata[0]['width'], imagedata[0]['height']]
+    
+    
+def sendMail(message):
+    dest = EMAIL_DEST
+    source = EMAIL_SOURCE
+    msg = MIMEText(message['body'])
+    msg['Subject'] = message['subject']
+    msg['From'] = source
+    msg['To'] = dest
+    daemon = smtplib.SMTP('localhost')
+    
+    logger.debug("Sending message: "+ message['subject'])
+    daemon.sendmail(source, [dest], msg.as_string())
+    
+    exit_message = daemon.quit()
+    print exit_message
+    logger.debug(exit_message)
+    
