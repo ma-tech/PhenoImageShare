@@ -332,7 +332,18 @@ def processQuery(request):
         queryString = request.GET['q']
     elif 'term' in request.GET:
         queryString = request.GET['term']
-    
+    """" 
+    if 'emage_' in queryString:
+       
+        Routine for imageId
+        response = getImageData(queryString)
+        logger.debug("Query string = " + queryString)
+        logger.debug(response)
+        
+        response = '{"server_error": "Search by image Id not yet supported"}'
+    else:
+     """
+     
     if "MP:" in queryString:
         query[image_endpoints['phenotype']] = queryString  
     elif "MA:" in queryString:
@@ -343,7 +354,7 @@ def processQuery(request):
         query['version'] = iqs_version
     else:
         query[image_endpoints['term']] = queryString 
-    
+
     #assignment of query parameters from Ajax call from facets.
     if 'sampleType' in request.GET:
         query[image_endpoints['sampleType']] = request.GET['sampleType'] 
@@ -375,14 +386,14 @@ def processQuery(request):
         query[image_endpoints['term']] = queryString
 
     logger.debug("Query = " + simplejson.dumps(query))
-   
+
     url = api_url + image_acp
     url_data=urllib.urlencode(query)
     req = urllib2.Request(url, url_data)
-    
+
     try:
         response = urllib2.urlopen(req)
-        
+    
     except urllib2.URLError:
         message = {}
         message['body'] = MIDDLEWARE_CONNECTIVITY_ALERT
@@ -396,7 +407,7 @@ def processQuery(request):
 def getImages(request):
     json_response = processQuery(request)
     
-    #logger.debug(simplejson.loads(json_response))
+    logger.debug(json_response)
     
     return HttpResponse(json_response, mimetype='application/json')
     
@@ -522,7 +533,7 @@ def getChannel(channelId):
 
 #Utility functions/services
 def getImageURL(imageId):
-    imagedata = getImageData(imageId)
+    imagedata = simplejson.load(getImageData(imageId))['response']['docs']
     return  imagedata[0]['image_url']
 
 def getImageData(imageId):
@@ -536,14 +547,17 @@ def getImageData(imageId):
         req = urllib2.Request(url, url_data)
     
         response = urllib2.urlopen(req)
-        imagedata = simplejson.load(response)['response']['docs']
+        imagedata = response
+        
+        logger.debug("Query = " + simplejson.dumps(query))
+        
     except urllib2.HTTPError:
         imagedata = '{"server_error": "Server Unreachable"}'
     
     return imagedata
     
 def getImageDimension(imageId):
-    imagedata = getImageData(imageId)
+    imagedata = simplejson.load(getImageData(imageId))['response']['docs'] 
     return  [imagedata[0]['width'], imagedata[0]['height']]
     
     
