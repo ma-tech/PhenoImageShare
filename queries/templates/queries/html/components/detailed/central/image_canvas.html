@@ -4,15 +4,25 @@
  <!--<div class="panel panel-primary">
                   </div>-->
 
-		  <div id="imagecanvass" class="panel panel-primary">
-		    <a href="{{image.url}}"title="{{image.organism}}" class="lightbox"><img src="{{image.url}}" width="553" height="450" alt="Single Image"/></a>
-		    </div>
+		 	  
+			  {% if image.width < 550 %}
+			  
+ 		 		 <div id="imagecanvass" class="panel panel-primary" style="width:{{image.width}}px;height:{{image.height}}px">
+		   	 		 <a href="{{image.url}}"title="{{image.organism}}" class="lightbox"><img src="{{image.url}}" width="{{image.width}}" height="{{image.height}}" alt="Single Image"/></a>
+				</div>
+		       <a href="javascript: void(0)"><button type="button" id="drawingToolButton" class="btn btn-primary">Annotation Tool</button></a>
+			   
+			  {% else %}
+   	 			
+				 <a href="{{image.url}}"title="{{image.organism}}" class="lightbox"><img src="{{image.url}}" width="550" height="{% widthratio 550 image.width image.height %}}" alt="Single Image"/></a>
+  		      	 <a href="javascript: void(0)"><button type="button" id="drawingToolButton" class="btn btn-primary">Annotation Tool</button></a>
+			  
+			  {% endif %}
+			
 		      <!--For zooming functionality:
 		                <div id="openseadragon1" style="width: 800px; height: 600px;"></div>
 
 				  <a href="javascript: void(0)"><button type="button" id="highResButton" class="btn btn-primary">High Resolution View</button></a>
 				    <a href="javascript: void(0)"><button type="button" id="zoomableViewButton" class="btn btn-primary disabled">Zoomable View</button></a>
-				    
-				               <a href="javascript: void(0)"><button type="button" id="drawingToolButton" class="btn btn-primary">Annotation Tool</button></a>
-					     
--->
+-->				    
+				            

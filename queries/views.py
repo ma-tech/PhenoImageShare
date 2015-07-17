@@ -30,6 +30,10 @@ except ImportError: EMAIL_DEST = 'webmaster@phenoimageshare.org'
 try: from pis.settings import EMAIL_SOURCE
 except ImportError: EMAIL_SOURCE = 'gui@phenoimageshare.org'
 
+try: from pis.settings import MIDDLEWARE_CONNECTIVITY_ALERT
+except ImportError: MIDDLEWARE_CONNECTIVITY_ALERT = 'Error connecting to middleware service (IQS, ISS)'
+
+
 dev_api = iqs['URL']['HWU']
 beta_api = iqs['URL']['EBI']
 hgu_dev_api = iqs['URL']['HGU']
@@ -329,14 +333,16 @@ def processQuery(request):
     elif 'term' in request.GET:
         queryString = request.GET['term']
     
-    if "MP" in queryString:
+    if "MP:" in queryString:
         query[image_endpoints['phenotype']] = queryString  
-    elif "MA" in queryString:
+    elif "MA:" in queryString:
         query[image_endpoints['anatomy']] = request.GET['anatomy']
-    elif "MGI" in queryString:
+    elif "MGI:" in queryString:
         query[image_endpoints['gene']] = queryString
     elif queryString == "":
         query['version'] = iqs_version
+    if 'emage_' in request.GET:
+        query[image_details_endpoints['imageId']] = request.GET['imageId']
     else:
         query[image_endpoints['term']] = queryString 
     
@@ -369,9 +375,9 @@ def processQuery(request):
         logger.debug("Filter search value = " + request.GET['search[value]'])
         queryString = request.GET['search[value]']
         query[image_endpoints['term']] = queryString
-        
-    logger.debug(query)
-    
+
+    logger.debug("Query = " + simplejson.dumps(query))
+   
     url = api_url + image_acp
     url_data=urllib.urlencode(query)
     req = urllib2.Request(url, url_data)
@@ -381,7 +387,7 @@ def processQuery(request):
         
     except urllib2.URLError:
         message = {}
-        message['body'] = "Error connecting to middleware service (IQS, ISS)"
+        message['body'] = MIDDLEWARE_CONNECTIVITY_ALERT
         message['subject'] = "API Connectivity Error"
         logger.debug(message)
         sendMail(message)
@@ -446,8 +452,13 @@ def getROIs(imageId):
                     logger.debug("No attribute exists")
                     
     except urllib2.HTTPError:
+        message = {}
+        message['body'] = MIDDLEWARE_CONNECTIVITY_ALERT
+        message['subject'] = "API Connectivity Error"
+        logger.debug(message)
+        sendMail(message)
         responsedata = '{"server_error": "Server Unreachable"}'
-    
+        
     logger.debug("Response data for ROI: "+ str(responsedata))
      
     return responsedata
