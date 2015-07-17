@@ -341,8 +341,6 @@ def processQuery(request):
         query[image_endpoints['gene']] = queryString
     elif queryString == "":
         query['version'] = iqs_version
-    if 'emage_' in request.GET:
-        query[image_details_endpoints['imageId']] = request.GET['imageId']
     else:
         query[image_endpoints['term']] = queryString 
     
