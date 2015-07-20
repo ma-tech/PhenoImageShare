@@ -300,7 +300,7 @@ Processor.prototype.loadJSON = function(){
 					   for (key in queryParams){
 						   var re = new RegExp(queryParams[key],"gi");
 				  		 	descr = descr.replace(re, function replacer(match, offset, string) {
-						 							return "<b>"+match+"</b>";
+						 							return "<b><i>"+match+"</i></b>";
 											  }
 							);
 						  // descr = descr.replace(re, "<b><i>"+descr.match(re)+"</i></b>");
