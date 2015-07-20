@@ -282,6 +282,28 @@ Processor.prototype.loadJSON = function(){
 						   descr = descr + " | " ;
 					   }
 					   	
+					   if (searchString != ""){
+   						var re = new RegExp(searchString,"gi");
+						
+   						console.log(descr.match(re));
+						
+   					   //descr = descr.replace(searchString, "<b><i>"+searchString+"</i></b>");
+					   
+					   descr = descr.replace(re, function replacer(match, offset, string) {
+  						 							return "<b>"+match+"</b>";
+												  }
+											 );
+					   }
+					
+					   console.log(queryParams);
+					   
+					   for (key in queryParams){
+						   var re = new RegExp(queryParams[key],"gi");
+						   descr = descr.replace(re, "<b><i>"+descr.match(re)+"</i></b>");
+					   }
+					   
+					   
+					   
 				   descr = (descr != "" ? descr : "No annotations found" );
 					  
 				   tableData[i]=[image_with_hyperlink, descr, detail_url];
