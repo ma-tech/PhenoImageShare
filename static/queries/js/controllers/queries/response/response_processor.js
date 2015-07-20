@@ -283,13 +283,13 @@ Processor.prototype.loadJSON = function(){
 					   }
 					   	
 					   if (searchString != ""){
-   						var re = new RegExp(searchString,"gi");
+   							var re = new RegExp(searchString,"gi");
 						
-   						console.log(descr.match(re));
+   							console.log(descr.match(re));
 						
-   					   //descr = descr.replace(searchString, "<b><i>"+searchString+"</i></b>");
+   					 	   //descr = descr.replace(searchString, "<b><i>"+searchString+"</i></b>");
 					   
-					   descr = descr.replace(re, function replacer(match, offset, string) {
+					  		 descr = descr.replace(re, function replacer(match, offset, string) {
   						 							return "<b>"+match+"</b>";
 												  }
 											 );
@@ -299,7 +299,11 @@ Processor.prototype.loadJSON = function(){
 					   
 					   for (key in queryParams){
 						   var re = new RegExp(queryParams[key],"gi");
-						   descr = descr.replace(re, "<b><i>"+descr.match(re)+"</i></b>");
+				  		 	descr = descr.replace(re, function replacer(match, offset, string) {
+						 							return "<b>"+match+"</b>";
+											  }
+							);
+						  // descr = descr.replace(re, "<b><i>"+descr.match(re)+"</i></b>");
 					   }
 					   
 					   
