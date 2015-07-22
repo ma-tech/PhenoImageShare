@@ -15,6 +15,13 @@
 <!-- jQuery BlockUI blocker -->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/assets/blocker/jquery.blockUI.js' %}"></script>
 
+<!-- jQuery Cookie manager -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.cookie.js' %}"></script>
+
+<!-- Detail view feedback JS -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/utils/feedback.js' %}"></script>
+
+
 <script>
 
 $(document).ready(function(){
@@ -25,6 +32,7 @@ $(document).ready(function(){
 	
 		initialiseController();
 		//$("#annotation_accordion").trigger("position_tool");
+			
 });
 
 function initialiseController(){

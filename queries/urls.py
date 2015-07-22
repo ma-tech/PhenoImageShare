@@ -9,4 +9,5 @@ urlpatterns = patterns('',
     #URLs for ajax calls to the IQS.
     url(r'^getImages/$', views.getImages, name='getImages'),
     url(r'^getAutosuggest/$', views.getAutosuggest, name='getAutosuggest'),
+    url(r'^feedback/$', views.process_feedback, name='feedback'),
 )

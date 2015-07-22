@@ -3,7 +3,34 @@
 <div id="main-content">
 <a href="https://twitter.com/share" class="twitter-share-button" data-url="www.phenoimageshare.org/phis" data-text="Check out PhenoImageShare for sharing annotations for image resources! http://www.phenoimageshare.org/phis" data-count="none"></a>
 		  
-	  <h4>Search & Query the PhenoImageShare Repository</h4>
+		
+		  <h4>Faceting & Browsing through the database - langing page</h4>
+	  
+		  <p>You can browse the PhIS database using facets. The facets allow you to drill down to the desired results without having to type in the main search box. Exploring the database in this manner can commence from either the landing page or search page. From the index page, clicking on points on the charts makes you navigate to the search page where results are displayed for your selection. These charts are canned queries that present the visual summaries of the datasets within PhenoImageShare database.</p>
+	  
+		  <br />
+		  <h6>Browsing from landing page</h6>
+		  <p>Clicking on points on the charts takes you to the search page where the corresponding records are displayed based on applied filters (selected point on chart).</p>
+	  
+		  <p>The screenshot below shows a clicking-through of points corresponding to Mutants-Phenotype sample/image field types on charts on the index page.</p>
+	  
+		  <p><a href="{% static 'documentation/images/click_through_mutants_landing.png' %}" title="Searching the database by clicking through points on charts" class="lightbox"><img src="{% static 'documentation/images/click_through_mutants_landing.png' %}" width="900" height="280" alt="Clickthrough facility"/ ></a></p>
+	  
+		   <p>The screenshot below shows results of browsing the database by filtering based on Mutants phenotype selection on landing page.</p>
+		  <p><a href="{% static 'documentation/images/click_through_results_mutants.png' %}" title="Results of clickthrough search" class="lightbox"><img src="{% static 'documentation/images/click_through_results_mutants.png' %}" width="750" height="350" alt="Clickthrough search results"/ ></a></p>
+	  
+	  
+		  <br />
+		  <h6>Browsing using facets (checkboxes & freetext inputs)</h6>
+		  <p>PhIS database can be browsed and/or filtered using the facets provided on the search page. Facets and subfacets allow quick navigation to the records of interest by checking applicable facet boxes or making an ontology-based faceted search (e.g for Gene, Anatomy, or Phenotype using facets equivalents). Clicking on the top-level facets (such as Mutants, Wildtype, Imaging method, or Development stage) will open up subfilters (such as Expression or Phenotype subfacets of Mutants / Wiltype main facets). Checking or ticking a subfacet of interest will return and display a narrowed result set based on selected field values.</p>
+
+		  <p>The screenshot below shows returned records for Mutant-Phenotype selection followed by faceted search for <b><i>Fam73b</i></b> gene.</p>
+	  
+		  	  <p><a href="{% static 'documentation/images/faceting_checkboxes_inputfield.png' %}" title="Facets by checkboxes and input fields search" class="lightbox"><img src="{% static 'documentation/images/faceting_checkboxes_inputfield.png' %}" width="550" height="400" alt="Faceting by checkboxes and input boxes"/ ></a></p>
+		  <br/>
+		  
+		  
+	  <h4>Search & Browse the PhenoImageShare Repository - search page</h4>
 	  <p>PhenoImageShare (PhIS) allows freetext search through its database. It presently supports filtering of search results based on eight data types, namely Sample and Image types, Imaging method, Developmental stage, Anatomy, Gene and Phenotype. </p>
 	  <p>To begin, you can browse the PhIS repository using the filters or perform a freetext search or combine these. You can also combine these search facilities. Freetext could range from a gene or gene symbol, phenotype description or anatomy term. Facets have top and second levels, with the second level ones being the data filters. Each top level data type has 1 or more subfacets which allows for data filtering.</p>
 	  
@@ -25,30 +52,4 @@
   
   
 	  <hr />
-		
-	  <h4>Browsing through the database & faceting</h4>
-	  
-	  <p>You can browse the PhIS database using facets. The facets allow you to drill down to the desired results without having to type in the main search box. Exploring the database in this manner can commence from either the landing page or search page. From the index page, clicking on points on the charts makes you navigate to the search page where results are displayed for your selection. These charts are canned queries that present the visual summaries of the datasets within PhenoImageShare database.</p>
-	  
-	  <br />
-	  <h6>Browsing from landing page</h6>
-	  <p>Clicking on points on the charts takes you to the search page where the corresponding records are displayed based on applied filters (selected point on chart).</p>
-	  
-	  <p>The screenshot below shows a clicking-through of points corresponding to Mutants-Phenotype sample/image field types on charts on the index page.</p>
-	  
-	  <p><a href="{% static 'documentation/images/click_through_mutants_landing.png' %}" title="Searching the database by clicking through points on charts" class="lightbox"><img src="{% static 'documentation/images/click_through_mutants_landing.png' %}" width="900" height="280" alt="Clickthrough facility"/ ></a></p>
-	  
-	   <p>The screenshot below shows results of browsing the database by filtering based on Mutants phenotype selection on landing page.</p>
-	  <p><a href="{% static 'documentation/images/click_through_results_mutants.png' %}" title="Results of clickthrough search" class="lightbox"><img src="{% static 'documentation/images/click_through_results_mutants.png' %}" width="750" height="350" alt="Clickthrough search results"/ ></a></p>
-	  
-	  
-	  <br />
-	  <h6>Browsing using facets (checkboxes & freetext inputs)</h6>
-	  <p>PhIS database can be browsed and/or filtered using the facets provided on the search page. Facets and subfacets allow quick navigation to the records of interest by checking applicable facet boxes or making an ontology-based faceted search (e.g for Gene, Anatomy, or Phenotype using facets equivalents). Clicking on the top-level facets (such as Mutants, Wildtype, Imaging method, or Development stage) will open up subfilters (such as Expression or Phenotype subfacets of Mutants / Wiltype main facets). Checking or ticking a subfacet of interest will return and display a narrowed result set based on selected field values.</p>
-
-	  <p>The screenshot below shows returned records for Mutant-Phenotype selection followed by faceted search for <b><i>Fam73b</i></b> gene.</p>
-	  
-	  	  <p><a href="{% static 'documentation/images/faceting_checkboxes_inputfield.png' %}" title="Facets by checkboxes and input fields search" class="lightbox"><img src="{% static 'documentation/images/faceting_checkboxes_inputfield.png' %}" width="550" height="400" alt="Faceting by checkboxes and input boxes"/ ></a></p>
-	  <br/>
-	  
 </div>

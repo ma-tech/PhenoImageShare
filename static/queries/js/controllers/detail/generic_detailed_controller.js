@@ -13,7 +13,7 @@ DetailedController.prototype.initialiseElements= function() {
 	  }
   });
   */
-  
+	
   var service_status = this.status;
 	 
   if (this.status != "OK"){

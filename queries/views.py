@@ -562,8 +562,17 @@ def getImageDimension(imageId):
     
     
 def sendMail(message):
-    dest = EMAIL_DEST
-    source = EMAIL_SOURCE
+    
+    if 'to' in message:
+        dest = message['to']
+    else:
+        dest = EMAIL_DEST
+        
+    if 'from' in message:
+        source = message['from']
+    else:
+        source = EMAIL_SOURCE
+        
     msg = MIMEText(message['body'])
     msg['Subject'] = message['subject']
     msg['From'] = source
@@ -576,4 +585,27 @@ def sendMail(message):
     exit_message = daemon.quit()
     print exit_message
     logger.debug(exit_message)
+
+def process_feedback(request):
+    message = {}
+    if request.is_ajax():
+        feedback_data = request.POST
+        logger.debug(feedback_data)
+        message['body'] = request.POST['body']
+        message['subject'] = "User Feedback - received from " + request.POST['email'] + " concerning " + request.POST['imageid']
+        
+        sendMail(message)
+        
+        message['body'] = "Your feedback concerning " + request.POST['imageid'] + " has been received. We shall treat and revert to you as soon as possible - Thank you."
+        message['subject'] = "Your feedback has been received"
+        message['to'] = request.POST['email']
+        
+        sendMail(message)
+        
+        message = {}
+        response = {"message": "Your feedback concerning " + request.POST['imageid'] + " has been successfully received. Thank you."}
+        
+    else:   
+        response = "Request not processed - Probably not an Ajax call"
     
+    return HttpResponse(simplejson.dumps({'response' : response},ensure_ascii=False), mimetype='application/javascript')

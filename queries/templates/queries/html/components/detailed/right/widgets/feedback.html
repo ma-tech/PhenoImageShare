@@ -1,0 +1,21 @@
+<div id="feedback">
+	<div id="feedback-form" style='display:none;' class="col-xs-4 col-md-4 panel panel-default">
+		<form method="POST" action="{% url 'queries:feedback' %}" class="form panel-body" role="form">
+			
+			<div class="form-group">
+				<input class="form-control" name="imageid" disabled="disabled" placeholder="{{image.id}}" type="text" />
+			</div>
+			
+			<input class="form-control" name="imageid" value="{{image.id}}" placeholder="{{image.id}}" type="text" style="display:none;" />
+			
+			<div class="form-group">
+				<input class="form-control" name="email" autofocus placeholder="Your e-mail" type="email" />
+			</div>
+			<div class="form-group">
+				<textarea class="form-control" name="body" required placeholder="Please write your feedback here about image {{image.id}}" rows="5"></textarea>
+			</div>
+			<button class="btn btn-primary pull-right" type="submit">Send</button>
+		</form>
+	</div>
+	<div id="feedback-tab">feedback</div>
+</div>

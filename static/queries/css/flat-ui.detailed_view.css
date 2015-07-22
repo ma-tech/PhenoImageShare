@@ -1947,6 +1947,7 @@ fieldset[disabled] .input-group-btn .btn-default.active {
 }
 .twitter-typeahead {
   width: 100%;
+  
 }
 .twitter-typeahead .tt-query,
 .twitter-typeahead .tt-hint {
@@ -2039,14 +2040,13 @@ fieldset[disabled] .twitter-typeahead .tt-hint {
   padding: 5px 0;
   background-color: #ffffff;
   border-radius: 6px;
-  
 }
 .twitter-typeahead .tt-suggestion p {
   padding: 6px 14px;
   font-size: 14px;
   line-height: 1.429;
   margin: 0;
- 
+ z-index: 9999999; 
 }
 .twitter-typeahead .tt-suggestion:first-child p,
 .twitter-typeahead .tt-suggestion:last-child p {
