@@ -12,5 +12,7 @@ urlpatterns = patterns('',
     url(r'^changes/$', views.release, name='changes'),
     url(r'^license/$', views.license, name='license'),
     url(r'^bib/$', views.bib_ref, name='bib_ref'),
+    url(r'^apis/$', views.api_tests, name='api_tests'),
+    url(r'^apps/$', views.app_tests, name='app_tests'),
     url(r'^searchHelpTooltip/$', views.searchHelpTooltip, name='searchHelpTooltip'),
 )

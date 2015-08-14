@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     url(r'^documentation/', include('documentation.urls', namespace="documentation")),
     url(r'^pub_refs/', include('documentation.urls', namespace="pub_refs")),
     url(r'^release/', include('documentation.urls', namespace="release")),
+    url(r'^tests/', include('documentation.urls', namespace="tests")),
     url(r'^admin/', include(admin.site.urls)),
     
     # URL patters for the views of the Annotation application.

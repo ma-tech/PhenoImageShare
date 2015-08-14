@@ -62,3 +62,9 @@ def searchHelpTooltip(request):
         
     context = {"source_url": source_url}
     return render(request, 'documentation/html/widgets/searchHelpTooltip.html', context)
+    
+def api_tests(request):
+    return render(request, 'documentation/html/tests/apis.html', '')
+    
+def app_tests(request):
+    return render(request, 'documentation/html/tests/apps.html', '')

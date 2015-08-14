@@ -1,0 +1,18 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>API Unit Tests</title>
+  <link rel="stylesheet" href="//code.jquery.com/qunit/qunit-1.18.0.css">
+</head>
+<body>
+  <div id="qunit"></div>
+  <div id="qunit-fixture"></div>
+  <!-- jQuery -->
+  <script type="text/javascript" charset="utf8" src="{% static 'queries/assets/jquery/v1.10.2/jquery.min.js' %}"></script>
+  <script src="//code.jquery.com/qunit/qunit-1.18.0.js"></script>
+  <script type="text/javascript" charset="utf8" src="{% static 'documentation/js/tests/apis/hwu/iqs.js' %}"></script>
+</body>
+</html>
