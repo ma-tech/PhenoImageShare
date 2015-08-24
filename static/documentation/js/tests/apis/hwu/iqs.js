@@ -2,12 +2,12 @@ QUnit.config.reorder = false; //TODO: remove this line, not a good idea.
 
 QUnit.module( "IQS" );
 
-var hwu_base_url = "http://lxbisel.macs.hw.ac.uk:8080/ja/IQS";
-var hgu_base_url = "http://aberlour.hgu.mrc.ac.uk:9090//IQS";
+var hwu_base_url = "http://lxbisel.macs.hw.ac.uk:8080/IQS";
+var hgu_base_url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS";
 var hwu_base_annotation_url = "http://lxbisel.macs.hw.ac.uk:8080/ISS";
 var hgu_base_annotation_url = "http://aberlour.hgu.mrc.ac.uk:9090//ISS";
 
-var base_url = hgu_base_url;
+var base_url = hwu_base_url;
 var base_annotation_url = hwu_base_annotation_url;
 
 //getImage unit test
