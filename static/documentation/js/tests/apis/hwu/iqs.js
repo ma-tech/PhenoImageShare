@@ -2,8 +2,13 @@ QUnit.config.reorder = false; //TODO: remove this line, not a good idea.
 
 QUnit.module( "IQS" );
 
-var hwu_base_url = "http://lxbisel.macs.hw.ac.uk:8080/ja/IQS/";
-var hgu_base_url = "http://aberlour.hgu.mrc.ac.uk:9090//IQS/";
+var hwu_base_url = "http://lxbisel.macs.hw.ac.uk:8080/ja/IQS";
+var hgu_base_url = "http://aberlour.hgu.mrc.ac.uk:9090//IQS";
+var hwu_base_annotation_url = "http://lxbisel.macs.hw.ac.uk:8080/ISS";
+var hgu_base_annotation_url = "http://aberlour.hgu.mrc.ac.uk:9090//ISS";
+
+var base_url = hgu_base_url;
+var base_annotation_url = hwu_base_annotation_url;
 
 //getImage unit test
 //Unit test for image=emage_roi_EMAGE_2795.1, samplePreparation=living tissue endpoints
@@ -12,7 +17,7 @@ QUnit.test( "getImage (imageId=wtsi_komp2_112968)", function( assert ) {
 	var done = assert.async();
 	//var url = "http://lxbisel.macs.hw.ac.uk:8080/ja/IQS/getImage";
 	
-	var url = hwu_base_url + "/getImage";
+	var url = base_url + "/getImage";
 	var data = {"imageId":"wtsi_komp2_112968", "version":"007"};
 	
 	var iqs_request = $.ajax({
@@ -51,7 +56,7 @@ QUnit.test( "getImages (term=eye)", function( assert ) {
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getImages";
 	
-	var url = hwu_base_url + "/getImages";
+	var url = base_url + "/getImages";
 	
 	var data = {"term":"eye", "num": 1, "version":"007"};
 	var iqs_request = $.ajax({
@@ -87,7 +92,7 @@ QUnit.test( "getImages (term=eye, num=55)", function( assert ) {
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getImages";	
 	
-	var url = hwu_base_url + "/getImages";
+	var url = base_url + "/getImages";
 	
 	var data = {"term":"eye", "num": 55, "version":"007"};
 	
@@ -122,7 +127,7 @@ QUnit.test( "getImages (term=eye, start=24)", function( assert ) {
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getImages";
 	
-	var url = hwu_base_url + "/getImages";
+	var url = base_url + "/getImages";
 		
 	var data = {"term":"eye", "start": 24, "num":1, "version":"007"};
 	
@@ -158,7 +163,7 @@ QUnit.test( "getImages (phenotype=cornea)", function( assert ) {
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getImages";
 	
-	var url = hwu_base_url + "/getImages";
+	var url = base_url + "/getImages";
 		
 	var data = {"phenotype":"cornea", "num": 1, "version":"007"};
 	
@@ -191,7 +196,7 @@ QUnit.test( "getImages (anatomy=limb)", function( assert ) {
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getImages";
 	
-	var url = hwu_base_url + "/getImages";
+	var url = base_url + "/getImages";
 		
 	var data = {"anatomy":"limb", "num": 1, "version":"007"};
 	
@@ -224,7 +229,7 @@ QUnit.test( "getImages (mutantGene=spns2)", function( assert ) {
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getImages";
 	
-	var url = hwu_base_url + "/getImages";
+	var url = base_url + "/getImages";
 		
 	var data = {"mutantGene":"spns2", "num": 1, "version":"007"};
 	
@@ -256,7 +261,7 @@ QUnit.test( "getImages (expressedFeature=Sesn3)", function( assert ) {
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getImages";
 	
-	var url = hwu_base_url + "/getImages";
+	var url = base_url + "/getImages";
 	
 	var data = {"expressedFeature":"Sesn3", "num": 1, "version":"007"};
 	
@@ -288,7 +293,7 @@ QUnit.test( "getImages (sex=FEMALE, term=eye)", function( assert ) {
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getImages";
 
-	var url = hwu_base_url + "/getImages";
+	var url = base_url + "/getImages";
 	
 	var data = {"sex":"FEMALE","term":"eye", "num": 1, "version":"007"};
 	
@@ -324,7 +329,7 @@ QUnit.test( "getImages (sex=FEMALE, term=eye, taxon=Mus musculus)", function( as
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getImages";
 	
-	var url = hwu_base_url + "/getImages";
+	var url = base_url + "/getImages";
 	
 	var data = {"sex":"FEMALE","term":"eye", "taxon":"Mus musculus", "num": 1, "version":"007"};
 	
@@ -364,7 +369,7 @@ QUnit.test( "getImages (sex=FEMALE, term=neuroblast lineage, taxon=Drosophila me
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getImages";
 
-	var url = hwu_base_url + "/getImages";
+	var url = base_url + "/getImages";
 	
 	var data = {"sex":"FEMALE","term":"neuroblast lineage", "taxon":"Drosophila melanogaster", "num": 1, "version":"007"};
 	
@@ -402,7 +407,7 @@ QUnit.test( "getImages (term=heart, sampleType=WILD_TYPE)", function( assert ) {
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getImages";
 
-	var url = hwu_base_url + "/getImages";	
+	var url = base_url + "/getImages";	
 	
 	var data = {"term":"heart", "sampleType":"WILD_TYPE", "num": 1, "version":"007"};
 	
@@ -438,7 +443,7 @@ QUnit.test( "getImages (term=heart, imageType=EXPRESSION)", function( assert ) {
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getImages";
 
-	var url = hwu_base_url + "/getImages";
+	var url = base_url + "/getImages";
 	
 	var data = {"term":"heart", "imageType":"EXPRESSION", "num": 1, "version":"007"};
 	
@@ -477,7 +482,7 @@ QUnit.test( "getImages (term=head, stage=postnatal stage)", function( assert ) {
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getImages";
 	
-	var url = hwu_base_url + "/getImages";
+	var url = base_url + "/getImages";
 		
 	var data = {"term":"head", "stage":"postnatal stage", "num": 1, "version":"007"};
 	
@@ -516,7 +521,7 @@ QUnit.test( "getImages (term=head, samplePreparation=living tissue)", function( 
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getImages";
 	
-	var url = hwu_base_url + "/getImages";
+	var url = base_url + "/getImages";
 	
 	var data = {"term":"head", "samplePreparation":"living tissue", "num": 1, "version":"007"};
 	
@@ -557,7 +562,7 @@ QUnit.test( "getImages (term=head, imagingMethod=macroscopy)", function( assert 
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getImages";
 
-	var url = hwu_base_url + "/getImages";
+	var url = base_url + "/getImages";
 		
 	var data = {"term":"head", "imagingMethod":"macroscopy", "num": 1, "version":"007"};
 	
@@ -595,7 +600,7 @@ QUnit.test( "getROI (id=komp2_roi_112003_0)", function( assert ) {
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getRoi";
 	
-	var url = hwu_base_url + "/getRoi";
+	var url = base_url + "/getRoi";
 		
 	var data = {"id":"komp2_roi_112003_0", "version":"007"};
 	
@@ -637,7 +642,7 @@ QUnit.test( "getROI (id=emage_roi_EMAGE_2795.1)", function( assert ) {
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getRoi";
 
-	var url = hwu_base_url + "/getRoi";	
+	var url = base_url + "/getRoi";	
 
 	var data = {"id":"emage_roi_EMAGE_2795.1", "version":"007"};
 	
@@ -683,7 +688,7 @@ QUnit.test( "getROIs (imageId=wtsi_komp2_112003)", function( assert ) {
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getRois";
 	
-	var url = hwu_base_url + "/getRois";
+	var url = base_url + "/getRois";
 
 	var data = {"imageId":"wtsi_komp2_112003", "version":"007"};
 	
@@ -728,7 +733,7 @@ QUnit.test( "getChannel (id=wtsi_channel_komp2_channel_112003_0)", function( ass
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getChannel";
 	
-	var url = hwu_base_url + "/getChannel";
+	var url = base_url + "/getChannel";
 	
 	var data = {"id":"wtsi_channel_komp2_channel_112003_0", "version":"007"};
 	
@@ -774,7 +779,7 @@ QUnit.test( "getChannels(imageId=wtsi_komp2_112003)", function( assert ) {
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getChannels";
 	
-	var url = hwu_base_url + "/getChannels";
+	var url = base_url + "/getChannels";
 	
 	var data = {"imageId":"wtsi_komp2_112003", "version":"007"};
 	
@@ -820,7 +825,7 @@ QUnit.test( "getAutosuggest(term=abn)", function( assert ) {
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getAutosuggest";
 	
-	var url = hwu_base_url + "/getAutosuggest";
+	var url = base_url + "/getAutosuggest";
 	var term = 'abn';
 	var data = {"term":term, "version":"007"};
 	
@@ -866,7 +871,7 @@ QUnit.test( "getAutosuggest(term=ab, asType=GENE)", function( assert ) {
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getAutosuggest";
 	
-	var url = hwu_base_url + "/getAutosuggest";
+	var url = base_url + "/getAutosuggest";
 	
 	var term = 'ab';
 	var asType = "GENE";
@@ -920,7 +925,7 @@ QUnit.test( "getAutosuggest(term=ab, asType=ANATOMY)", function( assert ) {
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getAutosuggest";
 	
-	var url = hwu_base_url + "/getAutosuggest";
+	var url = base_url + "/getAutosuggest";
 	
 	var term = 'ab';
 	var asType = "ANATOMY";
@@ -973,7 +978,7 @@ QUnit.test( "getAutosuggest(term=ab, asType=PHENOTYPE)", function( assert ) {
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getAutosuggest";
 	
-	var url = hwu_base_url + "/getAutosuggest";
+	var url = base_url + "/getAutosuggest";
 	
 	var term = 'ab';
 	var asType = "PHENOTYPE";
@@ -1045,7 +1050,7 @@ QUnit.test( "getAutosuggest(term=abn, stage=postnatal stage)", function( assert 
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getAutosuggest";
 	
-	var url = hwu_base_url + "/getAutosuggest";
+	var url = base_url + "/getAutosuggest";
 	
 	var stage = 'postnatal stage';
 	var term = "abn"
@@ -1101,7 +1106,7 @@ QUnit.test( "getAutosuggest(term=abn, imagingMethod=X-ray illumination)", functi
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getAutosuggest";
 	
-	var url = hwu_base_url + "/getAutosuggest";
+	var url = base_url + "/getAutosuggest";
 	
 	var imagingMethod = 'X-ray illumination';
 	var term = "abn";
@@ -1154,7 +1159,7 @@ QUnit.test( "getAutosuggest(term=abn, taxon=Mus musculus)", function( assert ) {
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getAutosuggest";
 	
-	var url = hwu_base_url + "/getAutosuggest";
+	var url = base_url + "/getAutosuggest";
 	
 	var taxon = 'Mus musculus';
 	var term = "abn";
@@ -1207,7 +1212,7 @@ QUnit.test( "getAutosuggest(term=abn, sampleType=MUTANT)", function( assert ) {
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getAutosuggest";
 	
-	var url = hwu_base_url + "/getAutosuggest";
+	var url = base_url + "/getAutosuggest";
 	
 	var sampleType = 'MUTANT';
 	var term = "abn";
@@ -1261,7 +1266,7 @@ QUnit.test( "getAutosuggest(term=abn, imageGeneratedBy=WTSI)", function( assert 
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getAutosuggest";
 	
-	var url = hwu_base_url + "/getAutosuggest";
+	var url = base_url + "/getAutosuggest";
 	
 	var imageGeneratedBy = 'WTSI';
 	var term = "abn";
@@ -1313,7 +1318,7 @@ QUnit.test( "getAutosuggest(term=abn, num=20)", function( assert ) {
 	var done = assert.async();
 	//var url = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getAutosuggest";
 	
-	var url = hwu_base_url + "/getAutosuggest";
+	var url = base_url + "/getAutosuggest";
 	
 	var num = '20';
 	var term = "abn";
@@ -1366,8 +1371,10 @@ QUnit.module( "ISS" );
 QUnit.test( "Add annotation (action=create,creatorid=solomon,phisid=roi_ua_test,imageid=emage_EMAGE_1218.1)", function( assert ) {
 	
 	var done = assert.async();
-	var url = "http://lxbisel.macs.hw.ac.uk:8080/ja/ISS/Annotation";
-
+	//var url = "http://lxbisel.macs.hw.ac.uk:8080/ja/ISS/Annotation";
+	
+	var url = base_annotation_url + "/Annotation";
+	
 	var action = "create";
 	var version = "007";
 	var resultNo = 1;
@@ -1417,8 +1424,10 @@ QUnit.test( "Add annotation (action=create,creatorid=solomon,phisid=roi_ua_test,
 QUnit.test( "Update annotation - dpt_anatomyid, dpt_anatomy_term and dpt_anatomy_text endpoints (action=edit,creatorid=solomon,phisid=roi_ua_test,imageid=emage_EMAGE_1218.1)", function( assert ) {
 	
 	var done = assert.async();
-	var url = "http://lxbisel.macs.hw.ac.uk:8080/ja/ISS/Annotation";
+	//var url = "http://lxbisel.macs.hw.ac.uk:8080/ja/ISS/Annotation";
 
+	var url = base_annotation_url + "/Annotation";
+	
 	var action = "edit";
 	var version = "007";
 	var resultNo = 1;
@@ -1473,8 +1482,10 @@ QUnit.test( "Update annotation - testing phenotypeid, phenotype_text & phenotype
 	function( assert ) {
 	
 	var done = assert.async();
-	var url = "http://lxbisel.macs.hw.ac.uk:8080/ja/ISS/Annotation";
+	//var url = "http://lxbisel.macs.hw.ac.uk:8080/ja/ISS/Annotation";
 
+	var url = base_annotation_url + "/Annotation";
+	
 	var action = "edit";
 	var version = "007";
 	var resultNo = 1;
@@ -1521,8 +1532,10 @@ QUnit.test( "Update annotation - testing phenotypeid, phenotype_text & phenotype
 QUnit.test( "Update annotation - testing ge_anatomyid, ge_anatomy_term & ge_anatomy_text (action=edit,creatorid=solomon,phisid=roi_ua_test,imageid=emage_EMAGE_1218.1,ge_anatomyid = (EMAP:51447, EMAP:514456), ge_anatomy_term = (test GE term, test GE term), ge_anatomy_text = (test GE term text, test GE term text 2))", function( assert ) {
 	
 	var done = assert.async();
-	var url = "http://lxbisel.macs.hw.ac.uk:8080/ja/ISS/Annotation";
+	//var url = "http://lxbisel.macs.hw.ac.uk:8080/ja/ISS/Annotation";
 
+	var url = base_annotation_url + "/Annotation";
+	
 	var action = "edit";
 	var version = "007";
 	var resultNo = 1;
@@ -1572,8 +1585,10 @@ QUnit.test( "Update annotation - testing abn_anatomyid, abn_anatomy_term & abn_a
 	function( assert ) {
 	
 	var done = assert.async();
-	var url = "http://lxbisel.macs.hw.ac.uk:8080/ja/ISS/Annotation";
+	//var url = "http://lxbisel.macs.hw.ac.uk:8080/ja/ISS/Annotation";
 
+	var url = base_annotation_url + "/Annotation";
+	
 	var action = "edit";
 	var version = "007";
 	var resultNo = 1;
@@ -1623,8 +1638,10 @@ QUnit.test( "Update annotation - testing abn_anatomyid, abn_anatomy_term & abn_a
 QUnit.test( "Delete annotation (action=delete,creatorid=solomon,phisid=roi_ua_test,imageid=emage_EMAGE_1218.1)", function( assert ) {
 	
 	var done = assert.async();
-	var url = "http://lxbisel.macs.hw.ac.uk:8080/ja/ISS/Annotation";
+	//var url = "http://lxbisel.macs.hw.ac.uk:8080/ja/ISS/Annotation";
 
+	var url = base_annotation_url + "/Annotation";
+	
 	var action = "delete";
 	var version = "007";
 	var resultNo = 1;
