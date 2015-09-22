@@ -33,12 +33,7 @@ except ImportError: EMAIL_SOURCE = 'gui@phenoimageshare.org'
 try: from pis.settings import MIDDLEWARE_CONNECTIVITY_ALERT
 except ImportError: MIDDLEWARE_CONNECTIVITY_ALERT = 'Error connecting to middleware service (IQS, ISS)'
 
-
-dev_api = iqs['URL']['HWU']
-beta_api = iqs['URL']['EBI']
-hgu_dev_api = iqs['URL']['HGU']
-
-api_url = hgu_dev_api
+api_url = iqs['URL']['LOCAL']
 
 access_points = iqs['ACP']
 image_acp = access_points['getimages']['name']
