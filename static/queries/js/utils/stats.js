@@ -477,7 +477,7 @@ Stats.prototype.imagingMethodPlot = function() {
 		plotData.push(data_point);
 	}
 	
-	console.log(plotData);
+	//console.log(plotData);
 	
 	//construct sample type chart
 	var imagingSharechart = new Highcharts.Chart({
