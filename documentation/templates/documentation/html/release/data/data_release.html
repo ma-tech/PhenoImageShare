@@ -1,0 +1,80 @@
+{% extends "phis/generic.html" %}
+
+  <head>
+	  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+ 	
+     <title>{% block title %}PhenoImageShare: Documentation View {% endblock title %}</title>
+   
+	<!-- Detailed-specific styles-->
+	{% block styles %}
+		{{block.super}}
+		{% include "documentation/html/release/data/data_release_styles.html" %}
+	{% endblock styles %}
+	
+	<!-- Detailed-specific JS-->
+    {% block javascripts %}
+		{% include "documentation/html/release/data/data_release_scripts.html" %}
+	{% endblock javascripts %}
+	
+ </head>
+ 
+ <body onload="prettyPrint()" class="index-page">
+	 
+	  	{% block content %}
+
+		<!-- Site header-->
+		{% block header %}
+			{% include "phis/generic_header.html" %}
+		{% endblock header %}
+
+		
+<div class="container-fluid">
+
+	
+ 		{% block top %}
+			<div class="page-header" id="banner">
+
+			</div>
+ 		{% endblock top %}
+		
+		
+		<div class="wrapper">
+			
+				  <div class="col-lg-8">			  
+				 	  {% block first %}
+							{% include "documentation/html/release/data/release_versions.html" %}
+	    			  {% endblock first %}
+				  </div>
+						
+				<div class="col-lg-8">
+					{% block second %}
+						
+					{% endblock second %}
+				</div>
+					  				  
+				<div class="col-lg-3">
+					{% block third %}
+					
+					{% endblock third %}
+				</div>
+						  
+		</div>
+		
+		<!-- Site Logos-->
+		{% block logos %}
+			{% include "phis/logos.html" %}
+		{% endblock logos %}
+	
+					
+</div>
+	
+	{% endblock content %}
+	
+	 <!-- Site footer-->
+	{% block footer %}
+  	  	{{block.super}}
+	{% endblock footer %}
+	
+</body>

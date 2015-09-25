@@ -26,8 +26,11 @@ def detail(request):
 
 def events(request):
     return render(request, 'documentation/html/events.html', '')
+
+def release_data(request):
+    return render(request, 'documentation/html/release/data/data_release.html', '')
     
-def release(request):
+def release_changes(request):
     response = HttpResponse(content_type='text/plain')
     t = loader.get_template('documentation/html/release/changelog')
     c = Context({})

@@ -246,7 +246,10 @@ Processor.prototype.loadJSON = function(){
 				   descr = (json.response.docs[i].expression_in_label_bag ? "<b> Expression: </b>" + json.response.docs[i].expression_in_label_bag : "") + 
 				   		   (json.response.docs[i].anatomy_term || json.response.docs[i].depicted_anatomy_term_bag  ? "<br/> <b> Anatomy: </b>" + 
 				   			(json.response.docs[i].anatomy_term ? json.response.docs[i].anatomy_term : "") + (json.response.docs[i].depicted_anatomy_term_bag ? json.response.docs[i].depicted_anatomy_term_bag : "") : "") +
-				   		   (json.response.docs[i].phenotype_label_bag ? "<br/> <b> Phenotype: </b>" + json.response.docs[i].phenotype_label_bag: "");
+				   		   (json.response.docs[i].phenotype_label_bag ? "<br/> <b> Phenotype: </b>" + json.response.docs[i].phenotype_label_bag: "") + 
+				  	 	   (json.response.docs[i].stage_facet ? "<br/> <b> Stage: </b>" + json.response.docs[i].stage_facet + "" + (json.response.docs[i].stage ? " (" + json.response.docs[i].stage + ")" : "") : "");
+						   
+						   //+ "(" + (json.response.docs[i].stage ? "(<b>" + json.response.docs[i].stage) + "</b>)" : "") 
 				  
 			 	   if (json.response.docs[i].gene_symbol != undefined){
 				   		   descr = descr + "<br/> <b> Genotype: </b> | " + json.response.docs[i].gene_symbol;
