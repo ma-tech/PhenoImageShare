@@ -18,8 +18,8 @@ PhenoImageShare web application can be accessed at http://beta.phenoimageshare.o
 
 Backend Services & APIs
 -----------------------
-Data Access APIs can be accessed at http://beta.phenoimageshare.org/data.
-Middleware APIs can be accessed at http://beta.phenoimageshare.org/middleware/IQS.
+Data Access APIs can be accessed at http://www.phenoimageshare.org/data
+Middleware APIs can be accessed at http://www.phenoimageshare.org/middleware/IQS
 
 
 License & Releases
@@ -28,6 +28,36 @@ PhIS is released under Apache Version 2.0. Please see at http://beta.phenoimages
 The following sections provide the change logs for the PhIS GUI beta releases. 
 Please see data release notes at http://beta.phenoimageshare.org/release/data
 
+============ Release 1.0 =============
+
+Release status
+--------------
+28 September 2015 release
+
+Details of Change
+-----------------
+
+New features
+	1. Upgraded to EBI API v1.0.0 & ISS/IQS API v100
+	2. Added data release page
+
+Bug fixes
+	1.)
+	
+Other changes
+	1.) Included stage_facet in results display on search page
+
+
+Known Issues
+	1. Facets: Search text disappears from a facet search box when another facet search box is activated (clicked)
+	2. Adding copyright information for dataset / images on production pages
+	4. Number of records displayed on table does not correspond to selection - Search page - PHIS-106
+	5. Persistent URL / RESTful implementation, allowing users to go back to search URL history.
+	6. Add whitespace between phenotype annotations on search page - PHIS-185
+	7. Include license/copyright information in all files.
+	8. Implement a more robust content management system (Wordpress ?)
+	9. Addition of error pages
+	
 ============ Beta Release 1.4 =============
 
 Release status
