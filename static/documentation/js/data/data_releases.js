@@ -1,11 +1,11 @@
 $(function() {
-	var dataURL = "http://aberlour.hgu.mrc.ac.uk:9090/IQS/getDataReleases?";
-	var data = {"version":"100"}
+	var dataURL = "/search/getDataReleases?";
+	//var data = {"version":"100"}
 	
 	var request = $.ajax({
 		  						method: "GET",
 	  							url: dataURL,
-		  						data: data,
+		  						//data: data,
 								crossdomain: true,
 								dataType:'json',
 								//traditional:true

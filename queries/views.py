@@ -54,6 +54,10 @@ channel_endpoints = access_points['getchannel']['options']
 autosuggest_acp = access_points['getautosuggest']['name']
 autosuggest_endpoints = access_points['getautosuggest']['options']
 
+getDataRelease_acp = access_points['getDataReleases']['name']
+getDataRelease_endpoints = access_points['getDataReleases']['options']
+
+
 #iqs_version = '007'
 iqs_version = '100'
 
@@ -605,3 +609,28 @@ def process_feedback(request):
         response = "Request not processed - Probably not an Ajax call"
     
     return HttpResponse(simplejson.dumps({'response' : response},ensure_ascii=False), mimetype='application/javascript')
+
+def getDataReleases(request):
+    query={}
+    query['version'] = iqs_version
+    
+    try:
+        url = api_url + getDataRelease_acp
+        url_data=urllib.urlencode(query)
+        req = urllib2.Request(url, url_data)
+    
+        response = urllib2.urlopen(req)
+        responsedata = simplejson.load(response)
+        
+        logger.debug("Query = " + simplejson.dumps(query))
+        logger.debug("==========Response============")
+        logger.debug(responsedata)
+       
+        releasedata = simplejson.dumps(responsedata)
+        
+    except urllib2.HTTPError:
+        releasedata = '{"server_error": "Server Unreachable"}'
+  
+    return HttpResponse(releasedata, mimetype='application/json')
+  
+    

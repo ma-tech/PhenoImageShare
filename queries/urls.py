@@ -10,4 +10,5 @@ urlpatterns = patterns('',
     url(r'^getImages/$', views.getImages, name='getImages'),
     url(r'^getAutosuggest/$', views.getAutosuggest, name='getAutosuggest'),
     url(r'^feedback/$', views.process_feedback, name='feedback'),
+    url(r'^getDataReleases/$', views.getDataReleases, name='data_release'),
 )
