@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from django.template import loader, Context
 import logging
+from queries.views import getDataReleases_data
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +29,10 @@ def events(request):
     return render(request, 'documentation/html/events.html', '')
 
 def release_data(request):
-    return render(request, 'documentation/html/release/data/data_release.html', '')
+    data = getDataReleases_data(request)
+    context = {"release_data":data}
+    
+    return render(request, 'documentation/html/release/data/data_release.html', context)
     
 def release_changes(request):
     response = HttpResponse(content_type='text/plain')

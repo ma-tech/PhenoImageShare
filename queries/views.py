@@ -610,7 +610,7 @@ def process_feedback(request):
     
     return HttpResponse(simplejson.dumps({'response' : response},ensure_ascii=False), mimetype='application/javascript')
 
-def getDataReleases(request):
+def getDataReleases_data(request):
     query={}
     query['version'] = iqs_version
     
@@ -630,8 +630,14 @@ def getDataReleases(request):
         
     except urllib2.HTTPError:
         releasedata = '{"server_error": "Server Unreachable"}'
-  
-    return HttpResponse(releasedata, mimetype='application/json')
+        
+    return releasedata
+    
+def getDataReleases_view(request):
+   
+    data = getDataReleases_data(request)
+    
+    return HttpResponse(data, mimetype='application/json')
   
 def phis_404_view(request):
     request_url = {"url" : request.path, "home": BASE_URL}

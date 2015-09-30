@@ -22,16 +22,13 @@ $(function() {
 			species = releases[0][i].species[0];
 			ontologies = releases[0][i].ontologies[0];
 			
-			console.log(releases[0][i]['VERSION']);
-			
 			var sources_data = [];
 			var species_data = [];
 			var ontologies_data = [];
 			var version = releases[0][i]['VERSION'].split('.').join("");
+			
 			$('#sources_'+ version + "_metadata").html("<b> Genes: </b> " + releases[0][i]['GENES_NUMBER'] +" | <b> Number of Images: </b>" +
 			releases[0][i]['IMAGES_NUMBER'] + " | <b> Number of ROIs: </b>" + releases[0][i]['ROIS_NUMBER']  );
-			
-			console.log(releases[0][i]);
 			
 			for (source in sources){
 				sources_data.push(Object.keys(sources[source]).map(function(k) { return sources[source][k] }));
