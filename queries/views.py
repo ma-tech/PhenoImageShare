@@ -633,4 +633,10 @@ def getDataReleases(request):
   
     return HttpResponse(releasedata, mimetype='application/json')
   
+def phis_404_view(request):
+    request_url = {"url" : request.path, "home": BASE_URL}
+    return render(request, 'queries/html/404.html', request_url)
     
+def phis_505_view(request):
+    request_url = {"url" : request.path, "home": BASE_URL}
+    return render(request, 'queries/html/505.html', request_url)

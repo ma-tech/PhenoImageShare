@@ -1,0 +1,85 @@
+{% extends "phis/generic.html" %}
+  <head>
+     <title>{% block title %}PhenoImageShare: Resource Unavailable {% endblock title %}</title>
+   
+	<!-- Search-specific styles-->
+	{% block styles %}
+		{{block.super}}
+	{% endblock styles %}
+	
+	<!-- Search-specific JS-->
+    {% block javascripts %}
+		{{block.super}}
+	{% endblock javascripts %}
+	
+  </head>
+ 
+ {% block content %}
+ 
+	 {% block header %}
+		{{block.super}}
+	 {% endblock header %}
+
+    <div class="container">
+			
+			<div class="row">
+				<br/>
+				<br/>
+				<br/>
+				  {% block first %}
+  	  			  {% endblock first %}
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+					{% block top %}
+					<div class="col-lg-3">
+					</div>
+				<div class="col-lg-8">
+			        <p style="font-size: 25px;margin: 0px">
+						505. Sorry, something went wrong.
+					</p>
+					<a href="{{home}}" class="btn btn-large btn-primary">Return to home page</a>
+				 </div>
+					{% endblock top %}
+
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	<br/>
+	
+				  {% block third %}
+				  {% endblock third %}
+		
+			</div>
+			<div class="row">
+				<br/>
+			</div>
+			
+			  {% block second %}
+			  
+			  
+			  {% endblock second %}
+
+			<div class="row">
+				<br/>
+				<br/>
+			</div>
+			
+	  <!-- Load the logos from the generic view-->
+	  {% block logos %}
+			{{block.super}}
+	  {% endblock logos %}
+		
+		
+    </div><!-- Container ending-->
+	 
+	{% endblock content %}
+	  
+	  <!-- Load the footer from the generic view-->
+	  {% block footer %}
+	  	{{block.super}}
+	  {% endblock footer %}

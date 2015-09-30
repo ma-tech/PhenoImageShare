@@ -11,12 +11,16 @@
  		 		 <div id="imagecanvass" class="panel panel-primary" style="width:{{image.width}}px;height:{{image.height}}px">
 		   	 		 <a href="{{image.url}}"title="{{image.organism}}" class="lightbox"><img src="{{image.url}}" width="{{image.width}}" height="{{image.height}}" alt="Single Image"/></a>
 				</div>
+				<!--
 		       <a href="javascript: void(0)"><button type="button" id="drawingToolButton" class="btn btn-primary">Annotation Tool</button></a>
+					-->
 			   
 			  {% else %}
    	 			
 				 <a href="{{image.url}}"title="{{image.organism}}" class="lightbox"><img src="{{image.url}}" width="550" height="{% widthratio 550 image.width image.height %}}" alt="Single Image"/></a>
+				 <!--
   		      	 <a href="javascript: void(0)"><button type="button" id="drawingToolButton" class="btn btn-primary">Annotation Tool</button></a>
+					 -->
 			  
 			  {% endif %}
 			

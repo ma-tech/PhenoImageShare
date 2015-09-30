@@ -5,6 +5,9 @@ from queries import views as qviews
 
 admin.autodiscover()
 
+handler404 = 'queries.views.phis_404_view'
+handler505 = 'queries.views.phis_505_view'
+
 # URL design and patterns for PhIS application modules.
 urlpatterns = patterns('',
     # Index view for PhIS web applications.

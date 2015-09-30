@@ -32,7 +32,7 @@ Please see data release notes at http://beta.phenoimageshare.org/release/data
 
 Release status
 --------------
-28 September 2015 release
+30 September 2015 release
 
 Details of Change
 -----------------
@@ -46,6 +46,7 @@ Bug fixes
 	
 Other changes
 	1.) Included stage_facet in results display on search page
+	2.) Added 404 / 505 error handling pages
 
 
 Known Issues
