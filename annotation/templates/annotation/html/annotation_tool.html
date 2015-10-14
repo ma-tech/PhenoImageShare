@@ -1,0 +1,420 @@
+{% load staticfiles %}
+
+<!DOCTYPE html>
+<html>
+<head>
+<title>Canvas tiles example</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8">	
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" href="{% static 'queries/css/bootstrap.css' %}" media="screen">
+
+<!--
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+-->
+
+<!-- FlatUI CSS -->
+<link rel="stylesheet" href="{% static 'annotation/css/flat-ui.annotation_view.css' %}">
+
+<!-- Bootstrap-Switch CSS -->
+<link rel="stylesheet" href="{% static 'annotation/css/bootstrap-switch.css' %}">
+
+<!-- Select2 CSS -->
+<link rel="stylesheet" href="{% static 'annotation/css/select2-4.0.0.css' %}">
+
+<!-- JSTree CSS -->
+<link rel="stylesheet" href="{% static 'annotation/css/jstree/themes/default/style.css' %}">
+
+
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/jquery/v1.10.2/jquery.min.js' %}"></script>
+
+<!-- Bootstrap -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/bootstrap.min.js' %}"></script>
+
+<!-- Bootstrap-Switch JS Library-->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/bootstrap-switch/bootstrap-switch.js' %}"></script>
+
+<!-- Openseadragon JS -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/openseadragon/v2.0.0/openseadragon.min.js' %}"></script>
+
+<!-- Annotation Tool (as Seadragon Plugin) JS -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/controllers/annotation_controller.js' %}"></script>
+
+<!-- Toolbox for Annotation Tool -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/controllers/toolbox.js' %}"></script>
+
+<!-- Ontologies for Annotation Tool -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/controllers/ontologies.js' %}"></script>
+
+<!-- Fabric JS -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/fabric/v1.5.0/fabric.js' %}"></script>
+
+<!-- jQuery Cookie manager -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.cookie.js' %}"></script>
+
+<!-- JSTree  -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/jstree/jstree.js' %}"></script>
+
+<!-- JSTree  Context Menu -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/jstree/jstree.contextmenu.js' %}"></script>
+
+<!-- Select2 JS -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/select2/select2.full.js?v4.0.0' %}"></script>
+
+</head>
+
+<body class="container-fluid">
+
+	  
+<div class="row">
+</div>
+
+<div class="row">
+	
+	<div id="view-draw" class="col-lg-1">
+		<!--<input type="checkbox" id="tool-mode" class="switch" data-toggle="switch" on-label="Edit" off-label="View"/>-->
+		<input type="checkbox" id="tool-mode" name="mode-toggle" />
+		
+	</div>
+	  
+	<div id="toolbox"  class="col-lg-5">
+		<div class="panel panel-primary">
+  		  <div class="panel-heading">
+   			<h3 id="toolbox-header" class="panel-title">
+				<a data-toggle="collapse" data-parent="#toolbox">Toolbox</a>
+			</h3>
+			
+		  </div>
+			<div class="list-group">
+					<ul class="list-group">
+					<li class="list-group-item-annotation">
+						<b>Objects:</b>
+						<button id="rectangle-button" type="button" class="btn btn-xss btn-default"> 
+							<span class="annotation tool-rectangle" data-title="Draw Rectangle"></span>
+						</button>
+						
+						<button id="point-button" type="button" class="btn btn-xss btn-default"> 
+							<span class="annotation tool-point"></span>
+						</button>
+
+						<button id="polyline-button" type="button" class="btn btn-xss btn-default"> 
+							<span class="annotation tool-polyline"></span>
+						</button>
+						
+						<button id="free-button" type="button" class="btn btn-xss btn-default"> 
+							<span class="annotation tool-free"></span>
+						</button>
+						
+					</li>
+	
+					<li class="list-group-item-annotation">
+						<b>Actions:</b>
+						<button id="save-button" type="button" class="btn btn-xss btn-default"> 
+							<span class="annotation tool-save"></span>
+						</button>
+						<button id="undo-button" type="button" class="btn btn-xss btn-default"> 
+							<span class="annotation tool-undo"></span>
+						</button>
+						<button id="redo-button" type="button" class="btn btn-xss btn-default"> 
+							<span class="annotation tool-redo"></span>
+						</button>
+						<button id="edit-button" type="button" class="btn btn-xss btn-default"> 
+							<span class="annotation tool-edit"></span>
+						</button>
+						<button id="delete-button" type="button" class="btn btn-xss btn-default"> 
+							<span class="annotation tool-delete"></span>
+						</button>
+					
+					</li>
+	
+				</ul>
+			</div>
+			
+		  </div>
+
+		  
+	</div>
+	
+</div>
+
+<div class="row">
+	
+	<div class="col-lg-1">
+		<div id="panel-control" class="panel panel-primary">
+  		  <div class="panel-heading">
+   			<h3 id="panels-header" class="panel-title">
+				<a data-toggle="collapse" data-parent="#panels">Panels</a>
+			</h3>
+		  </div>
+		  
+			  <button type="button">Hide All</button>
+			  <button type="button">Show All</button>
+			  <button type="button">Default</button> 
+			  
+		  </div>
+		  
+  		<div id="navigation-control" class="panel panel-primary">
+    		  <div class="panel-heading">
+     			<h3 id="panels-header" class="panel-title">
+  				<a data-toggle="collapse" data-parent="#panels">Navigator</a>
+  			</h3>
+  		  </div>
+		  
+  			Navigation
+			  
+  		  </div>
+		  
+	</div>
+	
+	<div class="col-lg-8">
+		<div  id="drawingarea" style="border:1px solid red; height:{{image.dimension.1}}px;width:{{image.dimension.0}}px;">
+			
+			<div id="drawingpanel" class="fabric" style="position:absolute;border:1px solid green;top:0px;height:{{image.dimension.1}}px;width:{{image.dimension.0}}px;">
+				<canvas id="drawingcanvas" height={{image.dimension.1}} width={{image.dimension.0}}  style=";"></canvas>
+			</div>
+			
+			<div id="zoomviewer" class="" style="position:absolute;border:1px solid blue;top:0px;height:{{image.dimension.1}}px;width:{{image.dimension.0}}px;">
+			</div>
+			
+			<div id="imagepanel" class="" style="position:absolute;border:1px solid green;top:0px;height:{{image.dimension.1}}px;width:{{image.dimension.0}}px;">
+				 <img src={{image.url}} alt="img" />
+			</div>
+			
+		</div>
+	</div>
+	
+	<div class="col-lg-3">
+		<div id="ontology-panel" class="panel panel-primary" style=";">
+  		  
+		  <div class="panel-heading">
+   				<h3 id="ontology-header" class="panel-title">
+					<a data-toggle="collapse" data-parent="#toolbox">Ontologies & Freetext</a>
+				</h3>
+		  </div>
+			   		<div id="tab-panel" role="tabpanel">
+
+			   		  <!-- Nav tabs -->
+			   		  <ul class="nav nav-tabs" role="tablist">
+			   		    <li role="presentation" class="active"><a href="#standard" aria-controls="home" role="tab" data-toggle="tab">Standard</a></li>
+			   		    <li role="presentation"><a href="#controlled" aria-controls="rois" role="tab" data-toggle="tab">Controlled</a></li>
+						
+			   		  </ul>
+
+			   		  <!-- Tab panes -->
+			   		  <div class="tab-content">
+			   		    <div role="tabpanel" class="tab-pane active" id="standard">
+						
+							<h3 id="" class="panel-title" style="margin-top: 10px;padding: 0px;">
+								<a data-toggle="collapse" data-parent="#accordion" href="#anatomyterms" >Standard</a>
+							</h3>
+		
+							<div class="panel panel-primary" style="margin-bottom: 0px;padding: 0px;">
+							</div>
+						
+							<select id="ontology-input" name="ontologies" value="Select All" class="select-block ontology-input" multiple="multiple" style="width: 75%; height=10"> 
+								
+							</select>
+						
+							<!--<button type="button" id="load-ontology-button" class="btn btn-primary"; style="display:hidden">Load</button>-->
+							<button type="button" id="clear-ontology-button" class="btn btn-primary">Clear</button>
+							
+							<!--		
+							<select name="ontologies" value="Select All" class="select-block ontology-selector" multiple="multiple" style="width: 80%; height=10"> </select> <button type="button" id="" class="btn btn-primary">Load</button>
+							-->
+						
+							<div id="tree-wrapper" style="overflow:auto;height: 500px; border-style: solid; border-color:#1ABC9C #1ABC9C;">
+								<div id="tree-holder">
+									<div id="ontologies-div">
+									</div>
+								</div>
+							</div>
+						
+							<button type="button" id="add-ontology-term" class="btn btn-primary">Add terms</button>
+						
+			   		    </div>
+			   		    <div role="tabpanel" class="tab-pane" id="controlled">Controlled
+						
+						</div>
+			   		  </div>
+
+			   		</div>
+					
+		  </div>
+		  
+  		<div id="metadata" class="panel panel-primary">
+    		  <div class="panel-heading">
+     			<h3 id="toolbox-header" class="panel-title">
+  				<a data-toggle="collapse" data-parent="#toolbox">Metadata</a>
+  			</h3>
+			
+  		  </div>
+  			  3 tabs here: 
+  		  </div>
+		  
+	</div>
+	
+			
+</div>
+
+<div class="row">
+	<div class="col-lg-1" style="height:10px;width:1100px">
+	</div>
+	
+</div>
+
+<div class="row">
+	
+	<div class="col-lg-1">
+	</div>
+	
+	<div class="col-lg-9">
+		<div id="similar_images" class="" style="border:1px solid green; height:100px;width:1000px">
+		</div>		  
+	</div>
+
+</div>
+
+
+</body>
+
+<style>
+
+span.annotation {
+    float: left;
+    width: 32px;
+    height: 30px;
+	padding-left:0px;
+	padding-right:0px;
+}
+.btn span.tool-drawer {
+    background: url({% static 'queries/img/black124.png' %}) no-repeat left center;
+}
+.btn span.tool-selector {
+    background: url({% static 'queries/img/selection7.png' %}) no-repeat left center;
+ }
+.btn span.tool-viewport-drag {
+    background: url({% static 'queries/img/four9.png' %}) no-repeat left center;
+  }
+.btn span.tool-rectangle {
+    background: url({% static 'queries/img/chat58.png' %}) no-repeat center;
+  }
+.btn span.tool-point {
+    background: url({% static 'queries/img/Location_pin_24.png' %}) no-repeat center;
+  }
+.btn span.tool-polyline{
+	    background: url({% static 'queries/img/polygonal75.png' %}) no-repeat left center;
+  }
+.btn span.tool-undo {
+	    background: url({% static 'queries/img/undo8.png' %}) no-repeat center;
+  }
+.btn span.tool-redo {
+   background: url({% static 'queries/img/redo10.png' %}) no-repeat left center;
+ }	  
+.btn span.tool-save {
+		    background: url({% static 'queries/img/save31.png' %}) no-repeat center;
+  }
+  .btn span.tool-edit {
+  	   background: url({% static 'queries/img/edit26.png' %}) no-repeat center;
+  }
+.btn span.tool-delete {
+	   background: url({% static 'queries/img/delete96.png' %}) no-repeat center;
+}
+.btn span.tool-copy {
+	   background: url({% static 'queries/img/copy9.png' %}) no-repeat left center;
+}
+.btn span.tool-cut {
+	    background: url({% static 'queries/img/cutting.png' %}) no-repeat left center;
+  }
+.btn span.tool-paste {
+   background: url({% static 'queries/img/paste2.png' %}) no-repeat left center;
+ }	
+ 
+</style>
+	
+<script>
+
+var navigationImages = "{% static 'annotation/images/openseadragon/' %}";
+var dziName = "{{image.dziName | safe}}";
+var imageURL= "{{image.url | safe}}"; //"{% static 'utils/images/sources/M00042804_00006962_download_tn_large.jpg' %}";
+var imageDimensions = JSON.parse("{{image.dimension | safe}}");
+var roiData = JSON.parse('{{roiData | safe}}');
+var imageId = roiData[0].associated_image;
+
+var tileSource = {
+    Image: {
+        xmlns: "http://schemas.microsoft.com/deepzoom/2008",
+        Url: "http://openseadragon.github.io/example-images/highsmith/highsmith_files/",
+        Format: "jpg",
+        Overlap: "2",
+        TileSize: "256",
+        Size: {
+            Height: "9221",
+            Width:  "7026"
+        }
+    }
+};
+
+var viewer =  OpenSeadragon({
+    id:            "zoomviewer",
+    prefixUrl:     navigationImages,
+    tileSources: [{
+        tileSource: "{% static 'utils/images/dzifiles/' %}" + dziName,
+        width: 2,
+        y: 0.5,
+        x: 0.5
+    }],
+});
+
+$(document).ready(
+	
+	function() {
+		
+	var annotationTool = viewer.annotationTool({
+		"navigator": "navigator",
+		"toolbox":"toolbox",
+		"viewer": viewer,
+		"toggler":"tool-mode",
+		//"annotation_url" : "http://aberlour.hgu.mrc.ac.uk:9090/ISS",
+		"annotation_url" : "http://lxbisel.macs.hw.ac.uk:8080/ISS/Annotation?",
+		"image_url" : imageURL,
+		"imageId": imageId,
+		"rois" : roiData,
+		"dimensions": imageDimensions
+	});
+	
+
+	//initialise toolbox from annotation tool.
+	var toolbox = annotationTool.toolbox({
+		rect:"rectangle-button",
+		circle:"circle-button",
+		line:"polyline-button",
+		free:"free-button",
+		save:"save-button",
+		edit:"edit-button",
+		"delete": "delete-button"
+	});
+	
+	var ontologies = annotationTool.ontologies({
+		main: "ontologies-panel",
+		tabs: "tabs-panel",
+		ontology_input: "ontology-input",
+		load_ontology_button:"load-ontology-button",
+		clear_ontology_button:"clear-ontology-button",
+		tree_wrapper:"tree-wrapper",
+		tree_holder:"tree-holder",
+		ontologies_div:"ontologies-div",
+		add_ontology_term:"add-ontology-term",
+		local_data: false
+	});
+	
+   annotationTool.triggerEvent('toggleButton','switchChange.bootstrapSwitch');
+   annotationTool.triggerEvent('rectangle-button','click');
+   annotationTool.createGraphicalObjects(roiData);
+   
+});
+
+
+</script>
+  
+</html>

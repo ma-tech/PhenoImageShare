@@ -639,7 +639,7 @@ AnnotationTool.prototype = {
 		
 		annotation_request.done(function( response ) {
    		 	console.log(response);
-  		})
+  		});
 		
 		annotation_request.fail(function( jqXHR, textStatus ) {
   		  console.log(textStatus );

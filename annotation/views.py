@@ -73,6 +73,24 @@ def drawing_view(request):
         
     return render(request, 'annotation/html/annotation_view.html', context)
 
+
+def drawing_zoomable(request):
+    context = {}
+    
+    if 'imageId' in request.GET:
+        imageId = request.GET['imageId']
+        dziName =  imageId + '.dzi'
+        
+        roiData = getRoiData(imageId)
+        url = getImageURL(imageId)
+        dimension = getImageDimension(imageId)
+        
+        imageData = {"Id":imageId,"dziName": dziName, "url": url, "dimension": dimension}
+        context = {"roiData":roiData, "image":imageData}
+        
+    return render(request, 'annotation/html/drawing_zoomable.html', context)
+
+
 def drawing_view_old(request):
     context = {}
     
@@ -217,3 +235,25 @@ def site_config(request):
     response_dict = {}
     response_dict.update({'children': tree })
     return HttpResponse(response_dict, mimetype='application/javascript')
+
+def mvc(request):
+    return render(request, 'annotation/html/mvc.html', {})
+
+def annotation_tool(request):
+    context = {}
+    
+    if 'imageId' in request.GET:
+        imageId = request.GET['imageId']
+        dziName =  imageId + '.dzi'
+        
+        roiData = getRoiData(imageId)
+        url = getImageURL(imageId)
+        dimension = getImageDimension(imageId)
+        
+        imageData = {"Id":imageId,"dziName": dziName, "url": url, "dimension": dimension}
+        context = {"roiData":roiData, "image":imageData}
+        
+        logger.debug(str(context))
+    
+    return render(request, 'annotation/html/annotation_tool.html', context)
+    
