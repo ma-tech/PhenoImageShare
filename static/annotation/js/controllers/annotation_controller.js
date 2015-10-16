@@ -1128,7 +1128,7 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
   	             rect.set('width', width );
   	             rect.set('height', heigth); 
 				 if (currentModel[4].startsWith('wtsi') || currentModel[4].startsWith('tracr'))
-					 rect.set('strokeDashArray',[5, 5]);
+					 rect.set('strokeDashArray',[5, 15]);
   				 rect.saveState();
   				 rect.setCoords();
 				 rect.on("selected", function(){

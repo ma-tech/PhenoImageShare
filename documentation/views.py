@@ -25,6 +25,9 @@ def search(request):
 def detail(request):
     return render(request, 'documentation/html/detail.html', '')
 
+def annotation(request):
+    return render(request, 'documentation/html/annotation.html', '')
+    
 def events(request):
     return render(request, 'documentation/html/events.html', '')
 
@@ -72,6 +75,9 @@ def searchHelpTooltip(request):
     
 def api_tests(request):
     return render(request, 'documentation/html/tests/apis.html', '')
+
+def api_tests_v100(request):
+    return render(request, 'documentation/html/tests/apis_v100.html', '')
     
 def app_tests(request):
     return render(request, 'documentation/html/tests/apps.html', '')

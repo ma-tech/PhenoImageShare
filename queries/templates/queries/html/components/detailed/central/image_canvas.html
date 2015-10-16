@@ -11,6 +11,9 @@
  		 		 <div id="imagecanvass" class="panel panel-primary" style="width:{{image.width}}px;height:{{image.height}}px">
 		   	 		 <a href="{{image.url}}"title="{{image.organism}}" class="lightbox"><img src="{{image.url}}" width="{{image.width}}" height="{{image.height}}" alt="Single Image"/></a>
 				</div>
+				
+			   	<a href="{% url 'annotation:tool' %}?imageId={{image.id}}"><button type="button" id="detail_view_link" class="btn btn-primary">Annotation tool</button></a>
+				
 				<!--
 		       <a href="javascript: void(0)"><button type="button" id="drawingToolButton" class="btn btn-primary">Annotation Tool</button></a>
 					-->
@@ -21,6 +24,9 @@
 				 <!--
   		      	 <a href="javascript: void(0)"><button type="button" id="drawingToolButton" class="btn btn-primary">Annotation Tool</button></a>
 					 -->
+			  
+	  	   		  <a href="{% url 'annotation:tool' %}?imageId={{image.id}}"><button type="button" id="detail_view_link" class="btn btn-primary">Annotation tool</button></a>
+			  
 			  
 			  {% endif %}
 			

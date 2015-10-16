@@ -183,7 +183,8 @@
 			<div id="drawingpanel" class="fabric" style="position:absolute;border:1px solid green;top:0px;height:{{image.dimension.1}}px;width:{{image.dimension.0}}px;">
 				<canvas id="drawingcanvas" height={{image.dimension.1}} width={{image.dimension.0}}  style=";"></canvas>
 			</div>
-			
+ 	       
+		   	
 			<div id="zoomviewer" class="" style="position:absolute;border:1px solid blue;top:0px;height:{{image.dimension.1}}px;width:{{image.dimension.0}}px;">
 			</div>
 			
@@ -191,11 +192,15 @@
 				 <img src={{image.url}} alt="img" />
 			</div>
 			
+	       
+			
 		</div>
+	   	<a href="{% url 'queries:detail_view' %}?imageId={{image.Id}}"><button type="button" id="detail_view_link" class="btn btn-primary">Navigate to detail view</button></a>
+		
 	</div>
 	
 	<div class="col-lg-3">
-		<div id="ontology-panel" class="panel panel-primary" style=";">
+		<div id="ontology-panel" class="panel panel-primary" style="z-index:1000;">
   		  
 		  <div class="panel-heading">
    				<h3 id="ontology-header" class="panel-title">

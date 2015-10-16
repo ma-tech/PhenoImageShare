@@ -1,0 +1,207 @@
+{% load staticfiles %}
+
+<div id="main-content">
+<a href="https://twitter.com/phenoimageshare" class="twitter-share-button" data-url="www.phenoimageshare.org" data-text="Check out PhenoImageShare for sharing annotations of image resources! http://www.phenoimageshare.org/" data-count="none"></a>
+		  
+		
+		  <h4>Annotation Guide</h4>
+	  
+		  <p>Users can now view, edit and add new annotations - regions of interests and texts - to their images of interest online. The following sections describe the steps for adding, deleting, 
+			  editing and viewing annotations using the PhenoImageShare annotation tool.</p>
+	   	   
+		   <br/>
+		  <h6>Tool main feature and widgets (dev release)</h6>
+		 	<ul>
+		 		<li>
+					Widgets on the annotation interface - version 001 (development)
+					<ul>
+						<li>
+							Annotation tool box
+						</li>
+						<li>
+							Viewing / drawing panel
+						</li>
+						<li>
+							Ontologies panel
+						</li>
+						<li>
+							Toggle mode button
+						</li>
+						<li>
+							Metadata panel ?
+						</li>
+					</ul>
+				</li>
+		 	</ul>
+		  
+		   <p>The screenshot below shows the detail view with the "Annotation tool" button.</p>
+		  <p><a href="{% static 'documentation/images/detail_view_annotation_button.png' %}" title="Detail View Annotation Button" class="lightbox"><img src="{% static 'documentation/images/detail_view_annotation_button.png' %}" width="750" height="300" alt="Clickthrough search results"/ ></a></p>
+		 
+		 <br/>  
+		  <h6>Navigating to the tool</h6>
+			<ul>
+		 		<li>
+					Click on "Annotation Tool" button on the detail view launches the tool. Tool's default mode is view mode.
+				</li>
+				<li>
+					Enable drawing mode by clicking on the <b>"View"</b> button on the top left corner of the annotation tool. Please note that annotations not created by current user are marked up with dashed lines
+				</li>
+				<li>
+					Hovering annotaitons - hovered annotations are marked in blue.
+				</li>
+		 	</ul>
+			
+		  <p>The screenshot below shows the annotation interface.</p>
+	  
+		  <p><a href="{% static 'documentation/images/annotation_tool_landing_page.png' %}" title="Searching the database by clicking through points on charts" class="lightbox"><img src="{% static 'documentation/images/annotation_tool_landing_page.png' %}" width="900" height="480" alt="Annotation tool landing page"/ ></a></p>
+	  
+		  <br />
+		  <h6>Drawing a region of interest</h6>
+		  <p>Drawing a region of interest is straight forward. Follow the steps below to draw a region of interest (ROI) on image.</p>
+
+				<ul>
+			 		<li>
+						Ensure that drawing mode is enabled.
+					</li>
+					<li>
+						Select object to draw from toolbox. Only rectangle is presently supported in v0.0.1 (development).
+					</li>
+					<li>
+						Draw selected object - draw a box (ROI) by holding and dragging mouse pointer in the drawing area containing the image.
+					</li>
+			 	</ul>
+		
+		  <p>The screenshot below shows a region of interest drawn by a user.</p>
+	  
+		  	  <p><a href="{% static 'documentation/images/drawing_roi.png' %}" title="Drawing Region of Interest on an Image" class="lightbox"><img src="{% static 'documentation/images/drawing_roi.png' %}" width="750" height="300" alt="Drawing Region of Interest on an Image"/ ></a></p>
+		 
+		  <br/>
+		  <p>Next section describes addition of textual annotations to the drawn region of interest. </p>
+		  
+		   <br/>
+	  <h6>Adding textual annotations</h6>
+	  <p>Textual annotations can be added to the graphical objects with the following steps.</p>
+	
+		<ul>
+	 		<li>
+				Search ontologies (e.g. ICO). Multiple ontologies can be searched and selected from dropdown list.
+			</li>
+			<li>
+				Select ontology of interest from list or search performed above. Ontology selected is automagically added to the selection input box as well as the panel below selection box. Multiple ontologies can be added to input box.
+			</li>
+			<li>
+				From the drawing area (on image), select a graphical object (markup) to annotate.
+			</li>
+	 		<li>
+				Navigate to term of interest on ontology trees produced from steps 1 and 2.
+			</li>
+			<li>
+				Tick checkbox against term (s) of interest. Select/check as many terms as you want on the ontology trees.
+			</li>
+			<li>
+				When done selecting terms, right click anywhere on the tree. Context menu appears.
+			</li>
+	 		<li>
+				Highlight (not select) "Add term" menu - which would produce submenus of various types of annotation terms.
+			</li>
+			<li>
+				Following submenus are available in the context menu.
+				
+				<ul>
+					<li>
+						As Depicted Anatomy
+					</li>
+					<li>
+						As Expression Anatomy
+					</li>
+					<li>
+						As Abnormal Anatomy
+					</li>
+					<li>
+						As Phenotype
+					</li>
+				</ul>
+			</li>
+			<li>
+				Click on submenu to add selected / ticked terms as.
+			</li>
+			<li>
+				Repeat steps 1-9 as many times as desired
+			</li>
+	 	</ul>
+		
+		<p><b>Note:</b> Development release supports ontologies from bioportal only</p>
+		
+	  <p>The figure below shows the procedure described above.</p>
+		
+		 <p><a href="{% static 'documentation/images/adding_textual_annotations.png' %}" title="Adding textual annotations" class="lightbox"><img src="{% static 'documentation/images/adding_textual_annotations.png' %}" width="750" height="300" alt="Adding textual annotations"/ ></a></p>
+		
+	  <br/>
+	  <h6>Saving annotations</h6>
+	  <p> It should also be noted that annotations are not saved automatically. Annotations (graphical and textual) can be saved by clicking on the "save" button in the toolbox. Ensure that "edit" / "draw" mode is enabled, as the toolbox buttons are disabled in "view" mode. Please see section "Possible annotations error messages" below for possible errors that could result from saving annotations.
+</p>
+	  
+	  <p>The figure below shows saving of annotations to PhenoImageShare annotation data store.</p>
+	  
+	  <p><a href="{% static 'documentation/images/saving_annotations.png' %}" title="Saving annotations" class="lightbox"><img src="{% static 'documentation/images/saving_annotations.png' %}" width="750" height="300" alt="Saving annotations"/ ></a></p>
+	  
+	  <br/>
+	  <h6>Alerts and Notifications</h6>
+	  <p>Notifications to users are triggered based on following actions on annotation tool;</p>
+	  
+		<ul>
+	 		<li>
+				Saving annotations to data store
+			</li>
+			<li>
+				Adding textual annotations / terms to graphical objects
+			</li>
+			<li>
+				Switching between annotation modes - view or draw.
+			</li>
+	 	</ul>
+	
+  	  <p> Figure below shows annotation user notifications.</p>
+	  
+	  <p><a href="{% static 'documentation/images/notifications_alerts.png' %}" title="Notifications and Alerts" class="lightbox"><img src="{% static 'documentation/images/notifications_alerts.png' %}" width="750" height="300" alt="Single Image" alt="Notifications and Alerts" / ></a></p>
+  
+   <br/>
+   <h6>Notes</h6>
+   
+   <ul>
+		<li>
+			ROIs for images not created by current user are marked up with dashed lines. This feature will not be fully supported until user management is implemented. However, an error is triggered if user attempts to edit / delete annotations not created by them, i.e. some of the annotations from image sources. Please see likely error messages in section "Possible annotations error messages".
+		</li>
+		<li>
+			Tool presently supports addition of multiple ontology terms to multiple graphical objects (markups).
+		</li>
+		<li>
+			Tool presently does not support moving multiple graphical objects (ROIs) around on image and saving group objects.
+		</li>
+		<li>
+			Users can navigate to the detail view to see newly added annotations.
+		</li>
+	</ul>
+	
+	 <br/>
+    <h6>Possible annotations error messages</h6>
+	1.) Some of the x values are outwith bounds
+	2.) At least 1 annotation is required to create a ROI. Please provide some observation, phenotype, expression or anatomy information. 
+	3.) User provided does not match the user of the annotation. Annotation was not deleted.
+	
+	
+    <ul>
+ 		<li>
+ 			[HWU] Some of the x values are outwith bounds. Thrown when a user tries to edit whole image annotation.
+ 		</li>
+ 		<li>
+ 			[EBI] At least 1 annotation is required to create a ROI. Please provide some observation, phenotype, expression or anatomy information. Thrown when no textual annotations are associated with new graphical objects and user attempts to save only graphical objects.
+ 		</li>
+ 		<li>
+ 			[EBI] User provided does not match the user of the annotation. Annotation was not deleted. Triggered when current user edits and attempts to save annotation not created by them.
+ 		</li>
+ 	</ul>
+	
+	
+	  <hr />
+</div>

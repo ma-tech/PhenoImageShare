@@ -264,6 +264,16 @@
 		var selected_items = tree_ref.get_selected(true);
 		var textual_annotations = this.prepareAnnotationData(selected_items);	
 		
+		if(textual_annotations.size == 0){
+			alert ("No ontology term(s) selected. Please select terms to add");
+			return null;
+		}
+		
+		if(selectedObjects == undefined){
+			alert ("No markup selected. Please select graphical object to add terms to");
+			return null;
+		}
+		
 		return [selectedObjects, textual_annotations];
 		
 	   },
@@ -271,7 +281,10 @@
 	   addSelectedAbnAnatomy: function(node){
 
 			var annotations =  this.addSelectedTerms(node);
-	
+			
+			if (annotations == null)
+				return;
+			
 			if (annotations[0]._objects !=undefined){
 				for (var i = 0 ; i < annotations[0]._objects.length ; i++) {
 					this.annotationsJob(annotations[0]._objects[i], annotations[1], "abn_anatomy");
@@ -286,7 +299,10 @@
 	   addSelectedGEAnatomy: function(node){	
 
 			var annotations =  this.addSelectedTerms(node);
-		
+			
+			if (annotations == null)
+				return;
+			
 			if (annotations[0]._objects !=undefined){
 				for (var i = 0 ; i < annotations[0]._objects.length ; i++) {
 					this.annotationsJob(annotations[0]._objects[i], annotations[1], "ge_anatomy");
@@ -301,6 +317,9 @@
 		  
 			var annotations =  this.addSelectedTerms(node);
 			
+			if (annotations == null)
+				return;
+			
 			if (annotations[0]._objects !=undefined){
 				for (var i = 0 ; i < annotations[0]._objects.length ; i++) {
 					this.annotationsJob(annotations[0]._objects[i], annotations[1], "dpt_anatomy");
@@ -314,7 +333,10 @@
 	   
 	   addSelectedPhenotype: function(node){
 			var annotations =  this.addSelectedTerms(node);
-		
+			
+			if (annotations == null)
+				return;
+			
 			if (annotations[0]._objects !=undefined){
 				for (var i = 0 ; i < annotations[0]._objects.length ; i++) {
 					this.annotationsJob(annotations[0]._objects[i], annotations[1], "phenotype");

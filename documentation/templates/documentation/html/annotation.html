@@ -1,0 +1,78 @@
+{% extends "phis/generic.html" %}
+
+  <head>
+	  
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+ 	
+     <title>{% block title %}PhenoImageShare: User Guide - Annotation tool {% endblock title %}</title>
+   
+	<!-- Detailed-specific styles-->
+	{% block styles %}
+		{{block.super}}
+		{% include "documentation/html/doc_styles.html" %}
+	{% endblock styles %}
+	
+	<!-- Detailed-specific JS-->
+    {% block javascripts %}
+		{{block.super}}
+		{% include "documentation/html/doc_scripts.html" %}
+	{% endblock javascripts %}
+	
+ </head>
+ 
+ <body onload="prettyPrint()" class="index-page">
+	 
+	  	{% block content %}
+
+		<!-- Site header-->
+		{% block header %}
+			{% include "phis/generic_header.html" %}
+		{% endblock header %}
+
+		
+<div class="container">
+
+	
+ 		{% block top %}
+			<div class="page-header" id="banner">
+
+			</div>
+ 		{% endblock top %}
+		
+        <div class="row">
+		
+		<div class="wrapper">
+			
+				   <div class="col-lg-3">			  
+				 	  {% block first %}
+							{% include "documentation/html/widgets/annotation_links_panel.html" %}
+	    			  {% endblock first %}
+				  </div>
+						
+				 <div class="col-lg-9">
+					{% block second %}
+						{% include "documentation/html/widgets/annotation_contents_panel.html" %}
+					{% endblock second %}
+				</div>
+						  
+		</div>
+        
+		</div>
+		
+		<!-- Site Logos-->
+		{% block logos %}
+			{% include "phis/logos.html" %}
+		{% endblock logos %}
+	
+					
+</div>
+	
+	{% endblock content %}
+	
+	 <!-- Site footer-->
+	{% block footer %}
+  	  	{{block.super}}
+	{% endblock footer %}
+	
+</body>
