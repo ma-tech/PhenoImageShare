@@ -53,11 +53,16 @@
 			<div class="col-lg-6">
 				  {% block first %}
 						{% include "queries/html/components/detailed/right/metadata_genotype.html" %}
-						{% include "queries/html/components/detailed/right/annotations.html" %}
 						{% include "queries/html/components/detailed/right/widgets/feedback.html" %}
 					{% endblock first %}
 			</div>
 						  
+		</div>
+		
+		<div class="row">
+		  {% block third %}
+				{% include "queries/html/components/detailed/right/annotations.html" %}
+			{% endblock third %}
 		</div>
         
 		<!-- Site Logos-->

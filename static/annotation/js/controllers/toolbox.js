@@ -10,7 +10,8 @@
              options.annotationTool = this;
              this.toolboxInstance = new $.Toolbox(options);
          } else {
-             this.toolboxInstance.refresh(options);
+             //this.toolboxInstance.refresh(options);
+			 return this.toolboxInstance;
          }
 		 
 		 return this.toolboxInstance;
@@ -62,6 +63,30 @@
    $.Toolbox.prototype = {
    	
 	   init: function(){
+		   
+		   this.disableButtons();
+		   
+		   console.log("["+this.myname + "]  Initialisation completed.");
+		   return;
+	   },
+	   
+	   disableDrawingMode: function(disable){
+		   
+		   if (disable){
+			   this.disableButtons();
+			   jQuery("#"+ this.rectangle_button).attr("disabled","disabled");	
+		   }else{
+			   	jQuery("#"+ this.rectangle_button).removeAttr("disabled");	
+		   	 	jQuery("#"+ this.save_button).removeAttr("disabled");	
+				jQuery("#"+ this.delete_button).removeAttr("disabled");		
+				
+		   }
+		   
+		   return "something";
+	   
+	   },
+	   
+	   disableButtons: function(){
 		   //disable un-used shape buttons
 		   jQuery("#"+ this.point_button).attr("disabled","disabled");
 		   jQuery("#"+ this.line_button).attr("disabled","disabled");
@@ -69,15 +94,12 @@
 		   jQuery("#"+ this.free_button).attr("disabled","disabled");
 		   
 		    //disable un-used action buttons
-		   //jQuery("#"+ this.save_button).attr("disabled","disabled");
+		   jQuery("#"+ this.save_button).attr("disabled","disabled");
 		   jQuery("#"+ this.undo_button).attr("disabled","disabled");
 		   jQuery("#"+ this.redo_button).attr("disabled","disabled");
 		   jQuery("#"+ this.edit_button).attr("disabled","disabled");
 		   jQuery("#"+ this.pin_button).attr("disabled","disabled");
-		   
-		   
-		   console.log("["+this.myname + "]  Initialisation completed.");
-		   return;
+		   jQuery("#"+ this.delete_button).attr("disabled","disabled");
 	   },
 	   
 	   setupEventHandlers: function (){

@@ -33,7 +33,7 @@
 	this.tree_wrapperId = options.tree_wrapper || "tree-wrapper";
 	this.tree_holderId = options.tree_holder || "tree-holder";
 	this.ontologies_div = options.ontologies_div || "ontologies-div";
-	this.add_ontology_term = options.add_ontology_term || "add-ontology-div";
+	//this.add_ontology_term = options.add_ontology_term || "add-ontology-div";
 	this.local_data = options.local_data || false;
 	
 	this.tree_wrapper = jQuery("#" + this.tree_wrapperId);
@@ -90,7 +90,7 @@
 		   //jQuery("#"+ this.load_ontology_button).on("click", jQuery.proxy(this.loadOntologies, this));
 		   jQuery("#"+ this.clear_ontology_button).on("click", jQuery.proxy(this.clearOntologies, this));
 		   
-		   jQuery("#"+ this.add_ontology_term).on("click", jQuery.proxy(this.addSelectedTerms, this));
+		   //jQuery("#"+ this.add_ontology_term).on("click", jQuery.proxy(this.addSelectedTerms, this));
 	   },
 	   
 	   setupOntologyInput: function(){
@@ -269,22 +269,92 @@
 	   },
 	   
 	   addSelectedAbnAnatomy: function(node){
-		   var annotations =  this.addSelectedTerms(node);
-			var markups = this.annotationTool.addTextAnnotations(annotations[0], annotations[1], "abn_anatomy");
+
+			var annotations =  this.addSelectedTerms(node);
+	
+			if (annotations[0]._objects !=undefined){
+				for (var i = 0 ; i < annotations[0]._objects.length ; i++) {
+					this.annotationsJob(annotations[0]._objects[i], annotations[1], "abn_anatomy");
+				}
+		
+			}else{
+				this.annotationsJob(annotations[0], annotations[1], "abn_anatomy");
+			}
+			
 	   },
-	   addSelectedGEAnatomy: function(node){		
-		    var annotations =  this.addSelectedTerms(node);
-			var markups = this.annotationTool.addTextAnnotations(annotations[0], annotations[1], "ge_anatomy");
+	   
+	   addSelectedGEAnatomy: function(node){	
+
+			var annotations =  this.addSelectedTerms(node);
+		
+			if (annotations[0]._objects !=undefined){
+				for (var i = 0 ; i < annotations[0]._objects.length ; i++) {
+					this.annotationsJob(annotations[0]._objects[i], annotations[1], "ge_anatomy");
+				}
+			
+			}else{
+				this.annotationsJob(annotations[0], annotations[1], "get_anatomy");
+			}
 	   		
 	   },
-	   addSelectedDptAnatomy: function(node){		   
-		    var annotations =  this.addSelectedTerms(node);
-			var markups = this.annotationTool.addTextAnnotations(annotations[0], annotations[1], "dpt_anatomy");
+	   addSelectedDptAnatomy: function(node){		
+		  
+			var annotations =  this.addSelectedTerms(node);
+			
+			if (annotations[0]._objects !=undefined){
+				for (var i = 0 ; i < annotations[0]._objects.length ; i++) {
+					this.annotationsJob(annotations[0]._objects[i], annotations[1], "dpt_anatomy");
+				}
+				
+			}else{
+				this.annotationsJob(annotations[0], annotations[1], "dpt_anatomy");
+			}
+			
 	 	},
 	   
 	   addSelectedPhenotype: function(node){
-		   var annotations =  this.addSelectedTerms(node);
-    	   var markups = this.annotationTool.addTextAnnotations(annotations[0], annotations[1], "phenotype");
+			var annotations =  this.addSelectedTerms(node);
+		
+			if (annotations[0]._objects !=undefined){
+				for (var i = 0 ; i < annotations[0]._objects.length ; i++) {
+					this.annotationsJob(annotations[0]._objects[i], annotations[1], "phenotype");
+				}
+			
+			}else{
+				this.annotationsJob(annotations[0], annotations[1], "phenotype");
+			}
+		
+	   },
+	   
+	   annotationsJob: function(graphicalObject, ontologyTerms, type){
+	       var initial_count = 0;
+	       var final_count;
+	   	
+		   var map = {"dpt_anatomy": "depicted anatomy", "ge_anatomy": "expression anatomy", "abn_anatomy": "abnormal anatomy", "phenotype": "phenotype"};
+		   
+			if (this.annotationTool.getAnnotations().get(graphicalObject)[type] != undefined){
+				initial_count = this.annotationTool.getAnnotations().get(graphicalObject)[type].size;
+			}
+
+			var markups = this.annotationTool.addTextAnnotations(graphicalObject, ontologyTerms, type);
+
+			final_count = markups.get(graphicalObject)[type].size;
+
+			if (final_count > initial_count){
+				//create success alert
+				console.log("added terms successfully - initial: " + initial_count + "; final - " + final_count);
+				var alrt = {};
+				alrt.annotationId = markups.get(graphicalObject).params.get("phisid");
+				alrt.message = "  " + (final_count - initial_count) + " " + map[type] + " term(s) added successfully";
+				alrt.status = "success";
+				alrt.time = new Date(Date.now()).toLocaleString();
+				
+				createAlert(alrt);
+	
+			}else{
+				//create failure alert
+		}
+		
 	   },
 	   
 	   prepareAnnotationData: function(selection){

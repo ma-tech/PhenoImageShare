@@ -103,18 +103,29 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 	this.x0 = undefined;
 	this.roi_height = undefined;
 	this.roi_width = undefined;
+	this.currentAnnotationId = undefined;
 	
   };
 
-  AnnotationTool.setCurrentAnnotationCoord= function(x,y,w,h){
+  AnnotationTool.setCurrentAnnotationModel = function(x,y,w,h,id){
 	  this.x0 = x;
 	  this.y0 = y;
 	  this.roi_height = h;
 	  this.roi_width = w;
+	  this.currentAnnotationId = id;
   };
   
-  AnnotationTool.getCurrentAnnotationCoord= function(){
-	  return [this.x0, this.y0, this.roi_width, this.roi_height];
+  AnnotationTool.getCurrentAnnotationModel = function(){
+	  return [this.x0, this.y0, this.roi_width, this.roi_height, this.currentAnnotationId];
+  };
+  
+  AnnotationTool.disableDrawing = function(){
+	  //this.tearDownCanvasEventtHandlers();
+	  //this.toolbox();
+  };
+  
+  AnnotationTool.enableDrawing = function(){
+	 
   };
   
    $.AnnotationTool.prototype = {
@@ -153,7 +164,7 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 	   },
 	   
 	   setupCanvasEventHandler: function (shape){
-	  
+		   
 	  	   var self = this;
 
 		   if (shape == "rectangle"){
@@ -195,7 +206,32 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 		   var self  = this;
 		   
 		   //map toggleButton switchChange events handler
-		   jQuery('#' + this.toggler).on('switchChange.bootstrapSwitch', self.toggleButtonSwitchHandler);
+		   jQuery('#' + this.toggler).on('switchChange.bootstrapSwitch', function(){
+			   var buttonState = jQuery(this).bootstrapSwitch('state');
+  				var alrt = {};
+  				alrt.annotationId = "None selected";
+				
+			   if (buttonState){
+				   console.log(self.toolbox().disableDrawingMode(true));
+				   self.tearDownCanvasEventtHandlers();
+				  	alrt.message =  "Switched to view mode";
+					alrt.status = "none";
+	   				alrt.time = new Date(Date.now()).toLocaleString();
+	   				createAlert(alrt);
+					
+			   }else{
+					console.log(self.toolbox().disableDrawingMode(false));
+				  	alrt.message =  "Switched to draw mode";
+					alrt.status = "success";
+	   				alrt.time = new Date(Date.now()).toLocaleString();
+	   				createAlert(alrt);
+			   }
+		   
+		  	   jQuery('#imagepanel').css('z-index', 10);
+		  	   jQuery('#drawingpanel').css('z-index', 100);
+		   
+		   
+		   }); //self.toggleButtonSwitchHandler);
 		   
 	   },
 	   
@@ -228,11 +264,17 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 		   return this.selected_shape;
 	   },
 	   
-	   highlightShape: function(options){
-		   if (options.target != undefined && options.target._objects != undefined){
-			   this.highlighted_shapes = options.target._objects;
-		   }else if (options.target != undefined){
-		   	   this.highlighted_shapes.push(options.target);
+	   highlightShape: function(event){
+		   
+		   if (event.target != undefined && event.target._objects != undefined){
+			   for (var i = 0 ; i < event.target._objects.length ; i++){	
+			   		event.target._objects[i].set('borderColor','blue');
+			   }
+			   //this.highlighted_shapes = options.target._objects;
+			   
+		   }else if (event.target != undefined){
+		   	   //this.highlighted_shapes.push(options.target);
+			    event.target.set('borderColor','blue');
 		   }
 		   
 	   },
@@ -286,12 +328,14 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 		  console.log(ann.params.get("phisid"));
 		  
 		  event.target.set('stroke','blue');
+		  //event.target.set('strokeDashArray',[5, 5]);
+		  
 	      this.canvas.renderAll();
 	   },
 	   
 	   mouseOut: function(event){
 	      event.target.set('stroke','red');
-	      this.canvas.renderAll();
+		  this.canvas.renderAll();
 	   },
 	   
 	   updateStatus: function(event){
@@ -346,6 +390,9 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 		
 		   this.phenotypeids = undefined;
 		   this.phenotype_terms = undefined;
+		   
+		   //clear phis id
+		   this.currentAnnotationId = undefined;
 		   
 		   //object location on canvas
 		   this.roi_width = undefined;
@@ -402,8 +449,8 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 	
 	   	   		modelsData.push([this.x0, this.y0]);
 				
-				console.log([this.x0, this.y0,  this.roi_width, this.roi_height,this.currentAnnotationId, this.currentImageId]);
-				AnnotationTool.setCurrentAnnotationCoord(this.x0, this.y0, this.roi_width, this.roi_height);
+				//console.log([this.x0, this.y0,  this.roi_width, this.roi_height,this.currentAnnotationId, this.currentImageId]);
+				AnnotationTool.setCurrentAnnotationModel(this.x0, this.y0, this.roi_width, this.roi_height, this.currentAnnotationId);
 				
 				this.triggerEvent('canvas','mouse:down');
 				this.triggerEvent('canvas','mouse:move');
@@ -894,10 +941,10 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 
 			var iqs_response =  iqs_request.done(function( response ) {
 				console.log(response);
+				var message = response.status;
+				var anns = self.getAnnotations();
 				
-				if(response.status == "success"){
-					var anns = self.getAnnotations();
-					
+				if(message == "success"){
 					if (anns.has(key)){
 						var text_anns = anns.get(key);
 					
@@ -911,7 +958,15 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 					}else{
 						console.log("Annotation does not exist in map");
 					}
+				}else if(message == "fail"){
+					if (anns.has(key)){
+						var text_anns = anns.get(key);
+						text_anns.params.set("status", "unchanged");
+						anns.set(key, text_anns);
+					}
 				}
+				
+				createAlert(response);
 				
 				return true;
 			});
@@ -953,19 +1008,22 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 	   },
 	   
 	   toggleButtonSwitchHandler: function(event, state) {
-		   jQuery(this).bootstrapSwitch('toggleState', true);
+		   //jQuery(this).bootstrapSwitch('toggleState', true);
 		   
 		   var buttonState = jQuery(this).bootstrapSwitch('state');
 		   
-		   /*
 		   if (buttonState){
-	  		   jQuery('#zoomviewer').css('z-index', 100);
-	  	 	   jQuery('#drawingpanel').css('z-index', 10);
+			   AnnotationTool.enableDrawing();
 		   }else{
-			  	jQuery('#zoomviewer').css('z-index', 10);
-			  	jQuery('#drawingpanel').css('z-index', 100);
+			   AnnotationTool.disableDrawing();
 		   }
-		   */
+		   
+	  	   jQuery('#imagepanel').css('z-index', 10);
+	  	   jQuery('#drawingpanel').css('z-index', 100);
+		   
+		   
+		   //tearDownCanvasEventtHandlers
+		  /* 
 		   if (buttonState){
 	  		   jQuery('#imagepanel').css('z-index', 100);
 	  	 	   jQuery('#drawingpanel').css('z-index', 10);
@@ -973,7 +1031,7 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 			  	jQuery('#imagepanel').css('z-index', 10);
 			  	jQuery('#drawingpanel').css('z-index', 100);
 		   }
-  		   
+  		   */
 	   },
 	   
 	   isToggleButtonClicked: function(){
@@ -1037,9 +1095,9 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
   			 	 startX = ( options.e != undefined && options.e.layerX != undefined ? options.e.layerX : 100 );
 			 */
 			  
-			   var currentModel = AnnotationTool.getCurrentAnnotationCoord();
+			   var currentModel = AnnotationTool.getCurrentAnnotationModel();
 			   
-			   console.log(currentModel);
+			   //console.log(currentModel);
 			   
 			   var startY = ( options.e != undefined && options.e.layerY != undefined ? options.e.layerY : ( currentModel != undefined && currentModel[1] != undefined ? currentModel[1]: 100 ) ),
   			 	startX = ( options.e != undefined && options.e.layerX != undefined ? options.e.layerX : ( currentModel != undefined && currentModel[0] != undefined ? currentModel[0] : 100 ) );
@@ -1069,6 +1127,8 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 				 				 
   	             rect.set('width', width );
   	             rect.set('height', heigth); 
+				 if (currentModel[4].startsWith('wtsi') || currentModel[4].startsWith('tracr'))
+					 rect.set('strokeDashArray',[5, 5]);
   				 rect.saveState();
   				 rect.setCoords();
 				 rect.on("selected", function(){

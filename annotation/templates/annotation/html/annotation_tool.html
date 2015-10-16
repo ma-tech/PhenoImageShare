@@ -26,6 +26,8 @@
 <!-- JSTree CSS -->
 <link rel="stylesheet" href="{% static 'annotation/css/jstree/themes/default/style.css' %}">
 
+<!-- jQuery qTip styles -->
+<link rel="stylesheet" href="{% static 'queries/css/jquery.qtip.css' %}">
 
 <script type="text/javascript" charset="utf8" src="{% static 'queries/assets/jquery/v1.10.2/jquery.min.js' %}"></script>
 
@@ -61,6 +63,9 @@
 
 <!-- Select2 JS -->
 <script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/select2/select2.full.js?v4.0.0' %}"></script>
+
+<!-- qTip help jquery script -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/qTip/jquery.qtip.min.js' %}"></script>
 
 </head>
 
@@ -141,6 +146,8 @@
 <div class="row">
 	
 	<div class="col-lg-1">
+		
+	<!-- disabled panel and navigation panels in dev release 0.0.1 - to be re-enabled
 		<div id="panel-control" class="panel panel-primary">
   		  <div class="panel-heading">
    			<h3 id="panels-header" class="panel-title">
@@ -153,7 +160,8 @@
 			  <button type="button">Default</button> 
 			  
 		  </div>
-		  
+		
+			
   		<div id="navigation-control" class="panel panel-primary">
     		  <div class="panel-heading">
      			<h3 id="panels-header" class="panel-title">
@@ -164,7 +172,9 @@
   			Navigation
 			  
   		  </div>
-		  
+		    
+		-->
+			
 	</div>
 	
 	<div class="col-lg-8">
@@ -229,8 +239,10 @@
 									</div>
 								</div>
 							</div>
-						
+							
+							<!--
 							<button type="button" id="add-ontology-term" class="btn btn-primary">Add terms</button>
+							-->
 						
 			   		    </div>
 			   		    <div role="tabpanel" class="tab-pane" id="controlled">Controlled
@@ -249,7 +261,7 @@
   			</h3>
 			
   		  </div>
-  			  3 tabs here: 
+  			  : 
   		  </div>
 		  
 	</div>
@@ -268,14 +280,17 @@
 	<div class="col-lg-1">
 	</div>
 	
+	<!--
 	<div class="col-lg-9">
 		<div id="similar_images" class="" style="border:1px solid green; height:100px;width:1000px">
 		</div>		  
 	</div>
+	-->
 
 </div>
 
-
+<div id="qtip-growl-container"></div>
+	
 </body>
 
 <style>
@@ -329,6 +344,22 @@ span.annotation {
 .btn span.tool-paste {
    background: url({% static 'queries/img/paste2.png' %}) no-repeat left center;
  }	
+ 
+ body{
+     padding: 5px;
+ }
+
+#qtip-growl-container{
+     position: fixed;
+     top: 10px; right: 10px;
+}
+#qtip-growl-container .qtip{
+         position: static;
+         min-height: 0;
+         overflow: hidden;
+         margin: 0 0 5px 0;
+}
+ 
  
 </style>
 	
@@ -404,7 +435,7 @@ $(document).ready(
 		tree_wrapper:"tree-wrapper",
 		tree_holder:"tree-holder",
 		ontologies_div:"ontologies-div",
-		add_ontology_term:"add-ontology-term",
+		//add_ontology_term:"add-ontology-term",
 		local_data: false
 	});
 	
@@ -412,8 +443,71 @@ $(document).ready(
    annotationTool.triggerEvent('rectangle-button','click');
    annotationTool.createGraphicalObjects(roiData);
    
+   //set default mode to viewing mode
+   annotationTool.tearDownCanvasEventtHandlers();
+   //console.log(annotationTool.toolbox().disableDrawingMode(false));
 });
 
+//defintion of response alerts to user
+var styles_map = {"success":"qtip-green","fail":"qtip-red", "none":""}
+var titles_map = {"success":"Success","fail":"Failure", "none": "Success"};
+
+window.createAlert = function(response) {
+ var target = jQuery('.qtip.jgrowl:visible:last');
+ 
+   jQuery('<div/>').qtip({
+       content: {
+           text:  "<b>Message:</b>" + response.message + "<br/><b>Annotation:</b> " + response.annotationId,
+           title: {
+               text: titles_map[response.status] + '!' + "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&"+
+			   "nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&"+
+			   "nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" +response.time + "",
+               button: true
+           }
+       },
+       position: {
+           target: [0,0],
+           container: jQuery('#qtip-growl-container')
+       },
+       show: {
+           event: false,
+           ready: true,
+           effect: function() {
+               jQuery(this).stop(0, 1).animate({ height: 'toggle' }, 400, 'swing');
+           },
+           delay: 0,
+           persistent: undefined
+       },
+       hide: {
+           event: false,
+           effect: function(api) {
+               jQuery(this).stop(0, 1).animate({ height: 'toggle' }, 400, 'swing');
+           }
+       },
+       style: {
+           width: 250,
+           classes: 'jgrowl ' + styles_map[response.status],
+           tip: false
+       },
+       events: {
+           render: function(event, api) {
+               if(!api.options.show.persistent) {
+                   jQuery(self).bind('mouseover mouseout', function(e) {
+                       var lifespan = 5000;
+
+                       clearTimeout(api.timer);
+                       if (e.type !== 'mouseover') {
+                           api.timer = setTimeout(function() { api.hide(e) }, lifespan);
+                       }
+                   })
+                   .triggerHandler('mouseout');
+               }
+           }
+       }
+   });
+   
+   
+}
 
 </script>
   

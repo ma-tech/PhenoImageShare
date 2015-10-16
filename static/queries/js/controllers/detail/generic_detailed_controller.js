@@ -132,6 +132,7 @@ DetailedController.prototype.displayROIs= function() {
 	var roi_display_data = [];
 	var roi_annotation_data = [];
 	var roi_channels_data = [];
+	var annotations_type_map = {"dpt_anatomy":"Depicted Anatomy", "ge_anatomy": "Expression Anatomy", "abnormality":"Abnormal Anatomy", "phenotype":"Phenotype"};
 		
 	var swfURL = this.swfURL;
 	var rois = this.ROIs;
@@ -143,22 +144,53 @@ DetailedController.prototype.displayROIs= function() {
 		var roi_dimension = roi_width + " x " + roi_height;
 		var annotations = "";
 		var channels = "";
-		var annotation_data = {};
+		var annotation_data = [];
 		var channels_data = {};
 		
 		if (this.ROIs[i].expressed_in_anatomy_term != undefined){
-			annotation_data.anatomy = this.ROIs[i].expressed_in_anatomy_term;
-			annotations = annotations +  "Anatomy: "+this.ROIs[i].expressed_in_anatomy_term +"<br/>";
+			for (var j = 0; j < this.ROIs[i].expressed_in_anatomy_term.length ; j++){
+				var data = {};
+				data.term = this.ROIs[i].expressed_in_anatomy_term[j];
+				data.type = 'ge_anatomy';
+				annotation_data.push(data);
+			}
+			
+			annotations = annotations +  "<b>Anatomy (Expression): </b>"+this.ROIs[i].expressed_in_anatomy_term +"<br/>";
+		}
+		
+		if (this.ROIs[i].depicted_anatomy_term != undefined){
+			
+			for (var j = 0; j < this.ROIs[i].depicted_anatomy_term.length ; j++){
+				var data = {};
+				data.term = this.ROIs[i].depicted_anatomy_term[j];
+				data.type = 'dpt_anatomy';
+				annotation_data.push(data);
+			}
+			
+			annotations = annotations +  "<b>Anatomy (Depicted): </b>"+this.ROIs[i].depicted_anatomy_term +"<br/>";
 		}
 		
 		if (this.ROIs[i].phenotype_term != undefined) {
-			annotation_data.phenotype = this.ROIs[i].phenotype_term;
+
+			for (var j = 0; j < this.ROIs[i].phenotype_term.length ; j++){
+				var data = {};
+				data.term = this.ROIs[i].phenotype_term[j];
+				data.type = 'phenotype';
+				annotation_data.push(data);
+			}
 			annotations = annotations +  "<b>Phenotypes:</b> "+this.ROIs[i].phenotype_term +"<br/>";
 		}
 		
-		if (this.ROIs[i].abnormality_in_anatomical_structure != undefined) {
-			annotation_data.abnormality = this.ROIs[i].abnormality_in_anatomical_structure;
-			annotations = annotations +  "<b>Abnormality:</b> "+this.ROIs[i].abnormality_in_anatomical_structure +"<br/>";
+		if (this.ROIs[i].abnormality_anatomy_term != undefined) {
+			
+			for (var j = 0; j < this.ROIs[i].abnormality_anatomy_term.length ; j++){
+				var data = {};
+				data.term = this.ROIs[i].abnormality_anatomy_term[j];
+				data.type = 'abnormality';
+				annotation_data.push(data);
+			}
+			
+			annotations = annotations +  "<b>Abnormality:</b> "+this.ROIs[i].abnormality_anatomy_term +"<br/>";
 		}
 		
 		if (this.ROIs[i].channels != undefined) {
@@ -222,16 +254,12 @@ DetailedController.prototype.displayROIs= function() {
 											 //build table for annotations
 											 var annotations = roi_annotation_data[rowIdx];
 											 
-											 console.log(annotations);
-											 
 											 var annotations_template = '<caption><i>Annotations</i></caption><thead><tr><th>ID</th><th>Term</th><th>Type</th>'+
 											 							 '<th>Curator</th><th>Created</th><th>Edit/Delete</th></tr></thead><tbody>';
-											 var annotations_count = 0;
 											 
-											 for (key in annotations){
-											 	annotations_template = annotations_template + '<td>'+ annotations_count +'</td> '+ '<td>' + annotations[key] +'</td>' +
-												 						'<td>' + key +'</td>' + '<td>User</td>'+ '<td>Created</td>'+ '<td>Edit/Delete</td></tr><tr>'
-												 annotations_count = annotations_count + 1;
+											 for (var i = 0 ; i < annotations.length; i++){
+												annotations_template = annotations_template + '<td>'+ i +'</td> '+ '<td>' + annotations[i].term +'</td>' +
+												 						'<td>' + annotations_type_map[annotations[i].type] +'</td>' + '<td>User</td>'+ '<td>Created</td>'+ '<td>Edit/Delete</td></tr><tr>'
 											 }
 											 
 											 annotations_template = annotations_template + '</tbody>'
