@@ -309,7 +309,7 @@
 				}
 			
 			}else{
-				this.annotationsJob(annotations[0], annotations[1], "get_anatomy");
+				this.annotationsJob(annotations[0], annotations[1], "ge_anatomy");
 			}
 	   		
 	   },

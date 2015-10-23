@@ -163,6 +163,9 @@ DetailedController.prototype.displayROIs= function() {
 			for (var j = 0; j < this.ROIs[i].depicted_anatomy_term.length ; j++){
 				var data = {};
 				data.term = this.ROIs[i].depicted_anatomy_term[j];
+				
+				//alert(data.term);
+				
 				data.type = 'dpt_anatomy';
 				annotation_data.push(data);
 			}

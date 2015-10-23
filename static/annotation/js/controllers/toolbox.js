@@ -82,8 +82,6 @@
 				
 		   }
 		   
-		   return "something";
-	   
 	   },
 	   
 	   disableButtons: function(){

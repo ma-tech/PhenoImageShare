@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-<title>Canvas tiles example</title>
+<title>PhenoImageShare: Annotation tool</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">	
@@ -29,6 +29,26 @@
 <!-- jQuery qTip styles -->
 <link rel="stylesheet" href="{% static 'queries/css/jquery.qtip.css' %}">
 
+<!-- Owl stylesheet -->
+<link rel="stylesheet" href="{% static 'annotation/css/owl.carousel.css' %}">
+ 
+<!-- Owl theme stylesheet -->
+<link rel="stylesheet" href="{% static 'annotation/css/owl.theme.css' %}">
+ 
+ <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.5.8/slick.css"/>
+
+ <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.5.8/slick-theme.css"/>
+ 
+ <!-- Datatables CSS -->
+ <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.5/css/jquery.dataTables.css">
+ 
+ <!-- Tabletools datatables CSS -->
+ <link rel="stylesheet" type="text/css" href="{% static 'queries/css/dataTables.tableTools.css' %}">
+
+ <!-- Responsive datatables CSS -->
+ <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/1.0.4/css/dataTables.responsive.css">
+ 
+ 
 <script type="text/javascript" charset="utf8" src="{% static 'queries/assets/jquery/v1.10.2/jquery.min.js' %}"></script>
 
 <!-- Bootstrap -->
@@ -49,6 +69,9 @@
 <!-- Ontologies for Annotation Tool -->
 <script type="text/javascript" charset="utf8" src="{% static 'annotation/js/controllers/ontologies.js' %}"></script>
 
+<!-- Metadata Panel for Annotation Tool -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/controllers/metadata.js' %}"></script>
+
 <!-- Fabric JS -->
 <script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/fabric/v1.5.0/fabric.js' %}"></script>
 
@@ -66,6 +89,21 @@
 
 <!-- qTip help jquery script -->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/assets/qTip/jquery.qtip.min.js' %}"></script>
+
+<!-- Caseroul  -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/carousel/owl.carousel.js' %}"></script>
+
+<script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.5.8/slick.min.js"></script>
+
+<!-- Datatables JQuery JS -->
+<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
+
+<!-- Tabletools datatables extension JS -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/datatables/extensions/tabletools/dataTables.tableTools.js' %}"></script>
+
+<!-- Responsive datatables JS -->
+<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/responsive/1.0.4/js/dataTables.responsive.min.js"></script>
+
 
 </head>
 
@@ -177,7 +215,7 @@
 			
 	</div>
 	
-	<div class="col-lg-8">
+	<div class="col-lg-5">
 		<div  id="drawingarea" style="border:1px solid red; height:{{image.dimension.1}}px;width:{{image.dimension.0}}px;">
 			
 			<div id="drawingpanel" class="fabric" style="position:absolute;border:1px solid green;top:0px;height:{{image.dimension.1}}px;width:{{image.dimension.0}}px;">
@@ -192,13 +230,10 @@
 				 <img src={{image.url}} alt="img" />
 			</div>
 			
-	       
-			
 		</div>
 	   	<a href="{% url 'queries:detail_view' %}?imageId={{image.Id}}"><button type="button" id="detail_view_link" class="btn btn-primary">Navigate to detail view</button></a>
-		
 	</div>
-	
+
 	<div class="col-lg-3">
 		<div id="ontology-panel" class="panel panel-primary" style="z-index:1000;">
   		  
@@ -215,13 +250,14 @@
 			   		    <li role="presentation"><a href="#controlled" aria-controls="rois" role="tab" data-toggle="tab">Controlled</a></li>
 						
 			   		  </ul>
-
+				  </div>
+				  
 			   		  <!-- Tab panes -->
 			   		  <div class="tab-content">
 			   		    <div role="tabpanel" class="tab-pane active" id="standard">
 						
 							<h3 id="" class="panel-title" style="margin-top: 10px;padding: 0px;">
-								<a data-toggle="collapse" data-parent="#accordion" href="#anatomyterms" >Standard</a>
+								<a data-toggle="collapse" data-parent="#accordion" href="#standard" >Standard</a>
 							</h3>
 		
 							<div class="panel panel-primary" style="margin-bottom: 0px;padding: 0px;">
@@ -231,12 +267,7 @@
 								
 							</select>
 						
-							<!--<button type="button" id="load-ontology-button" class="btn btn-primary"; style="display:hidden">Load</button>-->
 							<button type="button" id="clear-ontology-button" class="btn btn-primary">Clear</button>
-							
-							<!--		
-							<select name="ontologies" value="Select All" class="select-block ontology-selector" multiple="multiple" style="width: 80%; height=10"> </select> <button type="button" id="" class="btn btn-primary">Load</button>
-							-->
 						
 							<div id="tree-wrapper" style="overflow:auto;height: 500px; border-style: solid; border-color:#1ABC9C #1ABC9C;">
 								<div id="tree-holder">
@@ -244,56 +275,121 @@
 									</div>
 								</div>
 							</div>
+						
+						</div>
+			   		    <div role="tabpanel" class="tab-pane" id="controlled">
 							
-							<!--
-							<button type="button" id="add-ontology-term" class="btn btn-primary">Add terms</button>
-							-->
-						
-			   		    </div>
-			   		    <div role="tabpanel" class="tab-pane" id="controlled">Controlled
-						
+							<h3 id="" class="panel-title" style="margin-top: 10px;padding: 0px;">
+								<a data-toggle="collapse" data-parent="#accordion" href="#controlled" >Controlled Vocabulary</a>
+							</h3>
+							<div class="panel panel-primary" style="margin-bottom: 0px;padding: 0px;">
+							</div>
+							
 						</div>
 			   		  </div>
 
 			   		</div>
-					
 		  </div>
 		  
-  		<div id="metadata" class="panel panel-primary">
-    		  <div class="panel-heading">
-     			<h3 id="toolbox-header" class="panel-title">
-  				<a data-toggle="collapse" data-parent="#toolbox">Metadata</a>
-  			</h3>
+	  	<div class="col-lg-3">
+	  		<div id="metadata" class="panel panel-primary">
+	    		  <div class="panel-heading">
+	     				<h3 id="toolbox-header" class="panel-title">
+	  							<a data-toggle="collapse" data-parent="#toolbox">Metadata</a>
+	  				 	</h3>
+	  		  	  </div>
+  			  		
+  			   		<div id="tab-panel" role="tabpanel">
+
+  			   		  <!-- Nav tabs -->
+  			   		  <ul class="nav nav-tabs" role="tablist">
+  			   		    <li role="presentation" class="active"><a href="#rois" aria-controls="rois" role="tab" data-toggle="tab">ROIs</a></li>
+  			   		    <li role="presentation"><a href="#texts" aria-controls="texts" role="tab" data-toggle="tab">Annotations</a></li>
+		   		    	<li role="presentation"><a href="#image_info" aria-controls="image_info" role="tab" data-toggle="tab">Image info</a></li>
+					  </ul>
+  				  </div>
+				  
+		   		  <div class="tab-content">
+				   		    <div role="tabpanel" class="tab-pane active" id="rois">
+				  
+				  		   	<h3 id="" class="panel-title">
+				  				<a data-toggle="collapse" data-parent="#accordion" href="#anatomyterms">Regions of Interest</a>
+				  			</h3>
+		
+				  			<div class="panel panel-primary" style="margin-bottom: 0px;padding: 0px;">
+				  			</div>
 			
-  		  </div>
-  			  : 
-  		  </div>
+				  			<div id="roitablediv" width="100%">
+					  			 <table id="roitable" class="display compact responsive nowrap" cellspacing="0" width="100%" style="font-size:10px">
+					  	          <thead>
+					  	            <tr>
+					  				  <th></th>
+					  				  <th>Annotations</th>
+					  				  <th>Channels</th>
+					  	              <th>Curator</th>
+					  				  <th>Created</th>
+					  				  <th class="none">Updated</th>	
+					  				  <th>Modify</th>		
+					  	            </tr>
+					  	          </thead>
+          
+					  			  <tbody>
+					  	          </tbody>
+					  			  <tr>
+					  			  </tr>
+								</table>
+				  			</div>
+						 </div>
+			
+				   	 	 <div role="tabpanel" class="tab-pane active" id="texts">
+			  	  		 	   <h3 id="" class="panel-title">
+				  					<a data-toggle="collapse" data-parent="#accordion" href="#texts">Textual Annotations</a>
+				  				</h3>
+	
+				  				<div class="panel panel-primary" style="margin-bottom: 0px;padding: 0px;">
+				  				</div>
+							</div>
+			
+				   	  	<div role="tabpanel" class="tab-pane active" id="image_info">
+			  	  		   	<h3 id="" class="panel-title">
+				  				<a data-toggle="collapse" data-parent="#accordion" href="#image_info">Image metainfo</a>
+				  			</h3>
+			    
+				  			<div class="panel panel-primary" style="margin-bottom: 0px;padding: 0px;">
+				  			</div>
+						</div>
+			</div>
 		  
-	</div>
-	
-			
+		</div>
+	  </div>
+	</div>	
+		
 </div>
 
-<div class="row">
-	<div class="col-lg-1" style="height:10px;width:1100px">
-	</div>
-	
-</div>
-
+<!--
 <div class="row">
 	
 	<div class="col-lg-1">
 	</div>
 	
-	<!--
+	
 	<div class="col-lg-9">
-		<div id="similar_images" class="" style="border:1px solid green; height:100px;width:1000px">
-		</div>		  
+		<div id="similar_images_container" class="">
+			<div id="similar_images" class="owl-carousel" style="border:1px solid green; height:100px;width:1000px">
+			</div>		
+		</div>  
 	</div>
-	-->
-
+	
 </div>
 
+<div class="row">
+	<div class="col-lg-9">
+			<div id="similar_images2" class="carousel" style="border:1px solid green; height:100px;width:1000px">
+				
+			</div>		 
+	</div>
+</div>
+	-->
 <div id="qtip-growl-container"></div>
 	
 </body>
@@ -365,7 +461,19 @@ span.annotation {
          margin: 0 0 5px 0;
 }
  
- 
+#similar_images .item{
+  margin: 2px;
+}
+#similar_images .item img{
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.slick-prev:before, .slick-next:before { 
+    color:red !important;
+}
+
 </style>
 	
 <script>
@@ -376,6 +484,7 @@ var imageURL= "{{image.url | safe}}"; //"{% static 'utils/images/sources/M000428
 var imageDimensions = JSON.parse("{{image.dimension | safe}}");
 var roiData = JSON.parse('{{roiData | safe}}');
 var imageId = roiData[0].associated_image;
+var swfURL = "{% static 'queries/swf/copy_csv_xls_pdf.swf' %}";
 
 var tileSource = {
     Image: {
@@ -405,7 +514,7 @@ var viewer =  OpenSeadragon({
 $(document).ready(
 	
 	function() {
-		
+
 	var annotationTool = viewer.annotationTool({
 		"navigator": "navigator",
 		"toolbox":"toolbox",
@@ -443,6 +552,15 @@ $(document).ready(
 		//add_ontology_term:"add-ontology-term",
 		local_data: false
 	});
+
+	var metadata = annotationTool.metadata({
+		roi_table_id: "roitable",
+		panel_id: "metadata",
+		add_button_id: "",
+		roi_data: roiData,
+	});
+	
+	console.log(metadata);
 	
    annotationTool.triggerEvent('toggleButton','switchChange.bootstrapSwitch');
    annotationTool.triggerEvent('rectangle-button','click');
@@ -451,10 +569,67 @@ $(document).ready(
    //set default mode to viewing mode
    annotationTool.tearDownCanvasEventtHandlers();
    //console.log(annotationTool.toolbox().disableDrawingMode(false));
+   
+	var data = {"version":"100", "num":10};
+   	var url  = "{% url 'queries:getImages' %}";
+
+	console.log(url);
+
+	var iqs_request = jQuery.ajax({
+		  						method: "GET",
+	  							url: url,
+		  						data: data,
+								//crossdomain: true,
+								dataType:'json',
+								//traditional:true
+							});
+
+	var iqs_response =  iqs_request.done(function( response ) {
+		var docs = response.response.docs;
+		
+		for (doc in docs){
+			console.log(docs[doc].image_url);
+			if(docs[doc].image_url != undefined)
+				$("#similar_images").append($('<div/>').attr('class','item').append($('<img/>').attr('src',docs[doc].image_url).attr('style','width:100%;')));
+			$("#similar_images2").append($('<div/>').attr('class','item').append($('<img/>').attr('src',docs[doc].image_url).attr('style','width:100%;')));
+			
+			console.log($('<img/>').attr('src',docs[doc].image_url).attr('class', 'item'));
+		}
+		
+		//"<a href="+encodeURI(detail_url)+" data-toggle=\"tooltip\" title="+ id +">";
+		
+		//start similar images plugin
+		/*
+		$("#similar_images").owlCarousel({
+  		  autoPlay: 3000, //Set AutoPlay to 3 seconds
+      	  items : 6,
+		  lazyLoad : true,
+      	  itemsDesktop : [1199,6],
+      	  itemsDesktopSmall : [979,4],
+		  navigation : true
+		}
+		);
+		*/
+		
+		console.log($("#similar_images"));
+		$('.carousel').slick({
+			infinite: true,
+			slidesToShow: 3,
+			slidesToScroll: 3
+		});
+	});
+
+	iqs_request.fail(function( jqXHR, textStatus ) {
+	  console.log(textStatus );
+	  return false;
+  });
+	
+  
+  
 });
 
 //defintion of response alerts to user
-var styles_map = {"success":"qtip-green","fail":"qtip-red", "none":""}
+var styles_map = {"success":"qtip-green","fail":"qtip-red", "none":""};
 var titles_map = {"success":"Success","fail":"Failure", "none": "Success"};
 
 window.createAlert = function(response) {
