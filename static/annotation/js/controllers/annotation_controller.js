@@ -132,6 +132,8 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
    	
 	   init: function(){
 		  var self = this;
+		  
+		  /*
 		  var toggler_state = this.toggler_state;
 		  
 		   //Initialise mode selector: using bootstrap-switch
@@ -143,10 +145,11 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 			   	offText:"Draw",
 				state:toggler_state
 		   });
-		   
+		   */
+		  
 		   //Initialise canvas
-		   this.canvas = new fabric.Canvas(this.canvasId);
-		 
+		   this.canvas = new fabric.Canvas(this.canvasId, {isDrawingMode: false});
+		   
 		   /*fabric.Image.fromURL(this.imageURL, function(oImg) {
 		     self.canvas.add(oImg);
 		   });
@@ -206,6 +209,7 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 		   var self  = this;
 		   
 		   //map toggleButton switchChange events handler
+		   /*
 		   jQuery('#' + this.toggler).on('switchChange.bootstrapSwitch', function(){
 			   var buttonState = jQuery(this).bootstrapSwitch('state');
   				var alrt = {};
@@ -226,12 +230,15 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 	   				alrt.time = new Date(Date.now()).toLocaleString();
 	   				createAlert(alrt);
 			   }
-		   
+		   	*/
+		   	   this.toolbox().disableButtons();
+		   	   this.toolbox().disableDrawingMode(false);
+			   
 		  	   jQuery('#imagepanel').css('z-index', 10);
 		  	   jQuery('#drawingpanel').css('z-index', 100);
 		   
 		   
-		   }); //self.toggleButtonSwitchHandler);
+			   //}); //self.toggleButtonSwitchHandler);
 		   
 	   },
 	   
@@ -1127,10 +1134,13 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 				 				 
   	             rect.set('width', width );
   	             rect.set('height', heigth); 
+				 
 				 if (currentModel[4].startsWith('wtsi') || currentModel[4].startsWith('tracr'))
 					 rect.set('strokeDashArray',[5, 15]);
+				 
   				 rect.saveState();
   				 rect.setCoords();
+				 //rect.selectable = false;
 				 rect.on("selected", function(){
 					 //console.log("im selected");
 				 });

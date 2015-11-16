@@ -156,7 +156,19 @@
 		        "bLengthChange": false,
 		   		paginate: false,
 		   	    "ordering": false,
-		           dom: 'TC<"clear">lfrtip',
+		           sDom: 'T<"clear">lfrtip',
+		        "oTableTools": {
+					 "sSwfPath": swfURL,
+		            "aButtons": [
+		               // "copy",
+		                //"print",
+		                {
+		                    "sExtends":    "collection",
+		                    "sButtonText": "Download",
+		                    "aButtons":    [ "csv", "xls", "pdf", "copy","print" ]
+		                }
+		            ]
+		        },
 		   	    "fnCreatedRow": function( nRow, aData, iDataIndex ) {
 		   	         // meant to set the id to one that links to server, but not working.
 		   	        //$(nRow).attr('id',"myi"+iDataIndex);
@@ -229,13 +241,13 @@
 		   		order: [ 1, 'asc' ]	
 		   	});
 	
-		   	var tt = new jQuery.fn.dataTable.TableTools(this.table, {
+		   /*	var tt = new jQuery.fn.dataTable.TableTools(this.table, {
 		              "sSwfPath": swfURL,
 		   			"sRowSelect": "single"
 		   	});
-	
-		   	jQuery(tt.fnContainer()).insertBefore('div.roitablediv');
-	
+		  */
+			 
+		   	//jQuery(tt.fnContainer()).insertBefore('div.roitablediv');
 	
 		   	var _template = {
 		   		table: '<table></table>',

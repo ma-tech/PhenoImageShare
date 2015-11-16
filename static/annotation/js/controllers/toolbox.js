@@ -71,7 +71,6 @@
 	   },
 	   
 	   disableDrawingMode: function(disable){
-		   
 		   if (disable){
 			   this.disableButtons();
 			   jQuery("#"+ this.rectangle_button).attr("disabled","disabled");	
@@ -79,7 +78,6 @@
 			   	jQuery("#"+ this.rectangle_button).removeAttr("disabled");	
 		   	 	jQuery("#"+ this.save_button).removeAttr("disabled");	
 				jQuery("#"+ this.delete_button).removeAttr("disabled");		
-				
 		   }
 		   
 	   },
