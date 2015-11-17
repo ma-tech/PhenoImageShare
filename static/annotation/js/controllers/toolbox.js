@@ -64,10 +64,22 @@
    	
 	   init: function(){
 		   
+		   this.initTooltips();
 		   this.disableButtons();
 		   
 		   console.log("["+this.myname + "]  Initialisation completed.");
 		   return;
+	   },
+	   
+	   initTooltips: function(){
+	   	jQuery('#'+ this.rectangle_button).tooltip();
+		jQuery('#'+ this.point_button).tooltip();
+	   	jQuery('#'+ this.free_button).tooltip();
+		jQuery('#'+ this.save_button).tooltip();
+	   	jQuery('#'+ this.undo_button).tooltip();
+		jQuery('#'+ this.redo_button).tooltip();
+	   	jQuery('#'+ this.edit_button).tooltip();
+		jQuery('#'+ this.delete_button).tooltip();
 	   },
 	   
 	   disableDrawingMode: function(disable){
@@ -86,14 +98,13 @@
 		   //disable un-used shape buttons
 		   jQuery("#"+ this.point_button).attr("disabled","disabled");
 		   jQuery("#"+ this.line_button).attr("disabled","disabled");
-		   jQuery("#"+ this.line_button).attr("disabled","disabled");
 		   jQuery("#"+ this.free_button).attr("disabled","disabled");
 		   
 		    //disable un-used action buttons
 		   jQuery("#"+ this.save_button).attr("disabled","disabled");
 		   jQuery("#"+ this.undo_button).attr("disabled","disabled");
 		   jQuery("#"+ this.redo_button).attr("disabled","disabled");
-		   jQuery("#"+ this.edit_button).attr("disabled","disabled");
+		   //jQuery("#"+ this.edit_button).attr("disabled","disabled");
 		   jQuery("#"+ this.pin_button).attr("disabled","disabled");
 		   jQuery("#"+ this.delete_button).attr("disabled","disabled");
 	   },

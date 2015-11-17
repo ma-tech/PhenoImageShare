@@ -14,6 +14,9 @@ except ImportError: BASE_PORT=80
 
 def index(request):
     return render(request, 'documentation/html/documentation_index.html', '')
+ 
+def news(request):
+    return render(request, 'documentation/html/documentation_news.html', '')
     
 def about(request):
     logger.debug("Path = " + request.path)

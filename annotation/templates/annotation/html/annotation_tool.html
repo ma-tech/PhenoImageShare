@@ -118,8 +118,6 @@
 <!--	
 	<div id="view-draw" class="col-lg-1">
 		<input type="checkbox" id="tool-mode" name="mode-toggle" />
-		
-	</div>
 -->
 	  
 	<div id="toolbox"  class="col-lg-5">
@@ -134,39 +132,42 @@
 					<ul class="list-group">
 					<li class="list-group-item-annotation">
 						<b>Toolbox:</b>
-						<button id="rectangle-button" type="button" class="btn btn-xss btn-default"> 
+						<button id="rectangle-button" type="button" class="btn btn-xss btn-default" data-toggle="tooltip" data-placement="bottom" data-original-title="Select to draw rectangle"> 
 							<span class="annotation tool-rectangle" data-title="Draw Rectangle"></span>
 						</button>
-						
-						<button id="point-button" type="button" class="btn btn-xss btn-default"> 
+						<!--
+						<button id="point-button" type="button" class="btn btn-xss btn-default" data-toggle="tooltip" data-placement="bottom" data-original-title="Select to draw point"> 
 							<span class="annotation tool-point"></span>
 						</button>
 
-						<button id="polyline-button" type="button" class="btn btn-xss btn-default"> 
+						<button id="polyline-button" type="button" class="btn btn-xss btn-default" data-toggle="tooltip" data-placement="bottom" data-original-title="Select to draw polyline"> 
 							<span class="annotation tool-polyline"></span>
 						</button>
 						
-						<button id="free-button" type="button" class="btn btn-xss btn-default"> 
+						<button id="free-button" type="button" class="btn btn-xss btn-default" data-toggle="tooltip" data-placement="bottom" data-original-title="Select for free drawing"> 
 							<span class="annotation tool-free"></span>
 						</button>
-						
+						-->
 					</li>
 	
 					<li class="list-group-item-annotation">
 						<b>Actions:</b>
-						<button id="save-button" type="button" class="btn btn-xss btn-default"> 
+						<button id="save-button" type="button" class="btn btn-xss btn-default" data-toggle="tooltip" data-placement="bottom" data-original-title="Save annotation(s)"> 
 							<span class="annotation tool-save"></span>
 						</button>
-						<button id="undo-button" type="button" class="btn btn-xss btn-default"> 
+						<!--
+						<button id="undo-button" type="button" class="btn btn-xss btn-default" data-toggle="tooltip" data-placement="bottom" data-original-title="Undo last action"> 
 							<span class="annotation tool-undo"></span>
 						</button>
-						<button id="redo-button" type="button" class="btn btn-xss btn-default"> 
+						<button id="redo-button" type="button" class="btn btn-xss btn-default" data-toggle="tooltip" data-placement="bottom" data-original-title="Redo last action"> 
 							<span class="annotation tool-redo"></span>
 						</button>
-						<button id="edit-button" type="button" class="btn btn-xss btn-default"> 
+						<button id="edit-button" type="button" class="btn btn-xss btn-default" data-toggle="tooltip" data-placement="bottom" data-original-title="Edit annotation(s)"> 
 							<span class="annotation tool-edit"></span>
 						</button>
-						<button id="delete-button" type="button" class="btn btn-xss btn-default"> 
+							-->
+							
+						<button id="delete-button" type="button" class="btn btn-xss btn-default" data-toggle="tooltip" data-placement="bottom" data-original-title="Delete annotation(s)"> 
 							<span class="annotation tool-delete"></span>
 						</button>
 					
@@ -552,7 +553,7 @@ var viewer =  OpenSeadragon({
 $(document).ready(
 	
 	function() {
-
+		
 	var annotationTool = viewer.annotationTool({
 		"navigator": "navigator",
 		"toolbox":"toolbox",
@@ -598,20 +599,18 @@ $(document).ready(
 		roi_data: roiData,
 	});
 	
-	console.log(metadata);
+	//console.log(metadata);
 	
    //annotationTool.triggerEvent('toggleButton','switchChange.bootstrapSwitch');
    annotationTool.triggerEvent('rectangle-button','click');
    annotationTool.createGraphicalObjects(roiData);
    
    //set default mode to viewing mode
-   annotationTool.tearDownCanvasEventtHandlers();
+   //annotationTool.tearDownCanvasEventtHandlers();
    //console.log(annotationTool.toolbox().disableDrawingMode(false));
    
 	var data = {"version":"100", "num":10};
    	var url  = "{% url 'queries:getImages' %}";
-
-	console.log(url);
 
 	var iqs_request = jQuery.ajax({
 		  						method: "GET",
@@ -626,12 +625,12 @@ $(document).ready(
 		var docs = response.response.docs;
 		
 		for (doc in docs){
-			console.log(docs[doc].image_url);
+			//console.log(docs[doc].image_url);
 			if(docs[doc].image_url != undefined)
 				$("#similar_images").append($('<div/>').attr('class','item').append($('<img/>').attr('src',docs[doc].image_url).attr('style','width:100%;')));
 			$("#similar_images2").append($('<div/>').attr('class','item').append($('<img/>').attr('src',docs[doc].image_url).attr('style','width:100%;')));
 			
-			console.log($('<img/>').attr('src',docs[doc].image_url).attr('class', 'item'));
+			$('<img/>').attr('src',docs[doc].image_url).attr('class', 'item');
 		}
 		
 		//"<a href="+encodeURI(detail_url)+" data-toggle=\"tooltip\" title="+ id +">";

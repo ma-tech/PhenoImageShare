@@ -2517,7 +2517,7 @@ input[type="button"].btn-block {
 
 .glyphicon {
   position: relative;
-  top: 1px;
+  top: 0px;
   display: inline-block;
   font-family: 'Glyphicons Halflings';
   -webkit-font-smoothing: antialiased;
@@ -7547,3 +7547,12 @@ input[type="color"]:focus,
 /* add padding  */
 .left-addon input  { padding-left:  30px; }
 .right-addon input { padding-right: 30px; }
+
+
+@media (min-width: 992px) and (max-width: 1199px) {
+	#drawingpanel {
+	      position: absolute;
+	      text-align: center;
+
+	  }
+}

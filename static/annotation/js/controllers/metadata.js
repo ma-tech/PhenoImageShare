@@ -139,17 +139,7 @@
 		   
 		   var table_data = data;
 	   	   var texts_map = {"dpt_anatomy":"Depicted Anatomy", "ge_anatomy": "Expression Anatomy", "abnormality":"Abnormal Anatomy", "phenotype":"Phenotype"};
-		   
-		   
-		   console.log("===annotation data===");
-		   console.log(table_data[0]);
-		
-		   console.log("===channels data===");
-		   console.log(table_data[1]);
-		
-		   console.log("===display data===");
-		   console.log(table_data[2]);
-		   
+
 		   	this.table = jQuery('#roitable').DataTable({
 		   		"data": table_data[2],
 		   		"bFilter": false,

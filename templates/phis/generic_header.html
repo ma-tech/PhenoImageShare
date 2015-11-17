@@ -10,14 +10,12 @@
     </div>
     <div class="navbar-collapse collapse" id="navbar-main">
       <ul class="nav navbar-nav">
-      	<li>
+      <!-- 
+	  	<li>
           <a id="searchMenuItem" href="{% url 'queries:query_view' %}">Search</a>
         </li>
-
-		<li>
-        <!--  <a id="submissionMenuItem" href="#" class="disabled-links">Submission</a>-->
-        </li>
-
+	  -->
+	
         <li class="dropdown">
           <!--<a href="{% url 'documentation:index' %}" class="dropdown-toggle" data-toggle="dropdown">Documentation <b class="caret"></b></a>-->
 		  <a href="{% url 'documentation:index' %}">Documentation</b></a>
@@ -28,17 +26,54 @@
 		<li>
           <a id="aboutpage" href="{% url 'documentation:about' %}">About</a>
         </li>
-
+		
+		<li>
+         <a id="news" href="{% url 'documentation:news' %}" >News</a>
+        </li>
+		
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
        <!--  <li data-toggle="tooltip" data-placement="bottom" title="Register for an account"><a id="registerButton" href="#" target="_blank">Register</a></li>-->
       </ul>
 
+<!--
       <ul class="nav navbar-nav navbar-right">
-        <!-- <li><a id="loginButton" href="#" target="_blank" data-toggle="tooltip" data-placement="bottom" title="Login with your account">Login</a></li>-->
+        <li><a id="loginButton" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Login<span class="caret"></span></a>
+			
+			<div class="dropdown-menu">
+				
+		   		<div id="login-tab-panel" role="tabpanel">
+					<ul class="nav nav-tabs">
+				 	    <li role="presentation" class="active"><a href="#login">Login</a></li>
+				 	    <li role="presentation"><a href="#register">Register</a></li>
+				  		<li role="presentation"><a href="#">Reset</a></li>
+					</ul>
+				</div>
+					
+		   		    <div role="tabpanel" class="tab-pane active" id="login">
+					   <form style="margin: 0px" accept-charset="UTF-8" action="/sessions" method="post" class="navbar-form navbar-left" >
+							   <div style="margin:0;padding:0;display:inline">
+								   <input name="utf8" type="hidden" value="&#x2713;" />
+								   <input name="authenticity_token" type="hidden" value="4L/A2ZMYkhTD3IiNDMTuB/fhPRvyCNGEsaZocUUpw40=" /></div>
+								   
+			                   <fieldset class='textbox' style="padding:10px">
+			                 	   <input style="margin-top: 8px" type="text" placeholder="Username" class="form-control"/>
+			                  	   <input style="margin-top: 8px" type="password" placeholder="Passsword" class="form-control" />
+			                   	   <button type="submit" name="login" class="btn btn-primary">Login</button>
+			                 </fieldset>
+			               </form>
+					</div>
+					
+		   		    <div role="tabpanel" class="tab-pane active" id="register">
+						Registers form
+					</div>
+						   
+			</div>
+						 
+		</li>
       </ul>
-
+-->
     </div>
   </div>
 </div>

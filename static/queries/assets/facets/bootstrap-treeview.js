@@ -724,7 +724,7 @@
 			textField: '<input type="text" class="form-control col-lg-8 autosuggest" id="anatomyField" placeholder="">',
 			inputGroupButton: '<span class="input-group-btn"></scan>',
 			inputGroup: '<div class="input-group"></div>',
-			facetButton: '<button type="button" id="facetsearchButton" class="btn btn-lg">Go!</button>',
+			facetButton: '<button type="button" id="facetsearchButton" class="btn btn btn-lg-phis-search glyphicon glyphicon-search"></button>',
 			inputGroupAddOn: '<span class="input-group-addon">:</span>'
 		},
 

@@ -3,6 +3,7 @@ from documentation import views
 
 urlpatterns = patterns('',
     url(r'^$', views.index, name='index'),
+    url(r'^news/$', views.news, name='news'),
     url(r'^about/$', views.about, name='about'),
     url(r'^search/$', views.search, name='search'),
     url(r'^detail/$', views.detail, name='detail'),

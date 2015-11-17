@@ -364,7 +364,7 @@
 
 			if (final_count > initial_count){
 				//create success alert
-				console.log("added terms successfully - initial: " + initial_count + "; final - " + final_count);
+				//console.log("added terms successfully - initial: " + initial_count + "; final - " + final_count);
 				var alrt = {};
 				alrt.annotationId = markups.get(graphicalObject).params.get("phisid");
 				alrt.message = "  " + (final_count - initial_count) + " " + map[type] + " term(s) added successfully";
@@ -436,7 +436,7 @@
 		
 			for (var i = 0; i < displayed_trees.length; i++){
 				jstree_refs.push(jQuery('#' + displayed_trees[i].id).jstree(true));
-				console.log(displayed_trees[i]);
+				//console.log(displayed_trees[i]);
 			}
 			
 			return jstree_refs;

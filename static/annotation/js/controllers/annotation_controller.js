@@ -332,7 +332,7 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 	   mouseOver: function(event){
 		  var ann = this.getAnnotations().get(event.target);
 		  
-		  console.log(ann.params.get("phisid"));
+		  //console.log(ann.params.get("phisid"));
 		  
 		  event.target.set('stroke','blue');
 		  //event.target.set('strokeDashArray',[5, 5]);
@@ -454,7 +454,7 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 				
 	   	   		this.roi_dimension = this.roi_width + " x " + this.roi_height;
 	
-	   	   		modelsData.push([this.x0, this.y0]);
+	   	   		modelsData.push([this.x0, this.y0, this.roi_width, this.roi_height, this.currentAnnotationId]);
 				
 				//console.log([this.x0, this.y0,  this.roi_width, this.roi_height,this.currentAnnotationId, this.currentImageId]);
 				AnnotationTool.setCurrentAnnotationModel(this.x0, this.y0, this.roi_width, this.roi_height, this.currentAnnotationId);
@@ -869,7 +869,7 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 			var createdData = data;
 			createdData.action = "create";
 			var postData = jQuery.param(createdData, true);
-			console.log(postData);
+			//console.log(postData);
 			
 			//make ajax call below
 			
@@ -895,7 +895,7 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 		   
 			var postData = jQuery.param(createdData, true);
 		
-			console.log(postData);
+			//console.log(postData);
 		
 			//make ajax call below
 			
@@ -922,7 +922,7 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 		   
 	   		var postData = jQuery.param(createdData, true);
 		
-	   		console.log(postData);
+	   		//console.log(postData);
 			console.log("Deleting annotation data:");
 			
 			if (this.postAnnotations(postData, key, createdData.action)){
@@ -947,7 +947,7 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 									});
 
 			var iqs_response =  iqs_request.done(function( response ) {
-				console.log(response);
+				//console.log(response);
 				var message = response.status;
 				var anns = self.getAnnotations();
 				
