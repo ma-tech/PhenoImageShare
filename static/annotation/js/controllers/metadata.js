@@ -187,7 +187,7 @@
 											 
 		   											 var annotations_template = '<caption><i>Annotations</i></caption><thead><tr><th>ID</th><th>Term</th><th>Type</th>'+
 		   											 							 '<th>Curator</th><th>Created</th><th>Edit/Delete</th></tr></thead><tbody>';
-											 
+											 		
 		   											 for (var i = 0 ; i < annotations.length; i++){
 		   												annotations_template = annotations_template + '<td>'+ i +'</td> '+ '<td>' + annotations[i].term +'</td>' +
 		   												 						'<td>' + texts_map[annotations[i].type] +'</td>' + '<td>User</td>'+ '<td>Created</td>'+ '<td>Edit/Delete</td></tr><tr>'

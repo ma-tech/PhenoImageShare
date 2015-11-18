@@ -113,7 +113,15 @@
 	         },
 			 width: 300,
 	       },
-
+		   
+	       {
+	         target: 'facetsTab',
+	         title: 'Detailed filters',
+	         content: 'A more comprehensive range of filters that allow you to reduce the set of images in your results panel.',
+			 placement: 'right',
+			 width: 300
+	       },
+		   
 	       {
 	         target: 'imgtable',
 	         title: 'Results panel',
@@ -126,13 +134,13 @@
 	       {
 	         target: 'imgtable',
 	         title: 'Quick filter',
-	         content: 'Quickly filter the results, e.g., enter \'Gtf3c5\' to see images related to the gene Gtf3c5.',
+	         content: 'Quick text-based filter for results. Try any term you can think of or gene "Gtf3c5" as an example.',
 			 placement: 'left',
 			 width: 300,
 		     yOffset: -70,
 			 xOffset: 600,
 	       },
-
+		   
 	       {
 	         target: 'tour-placeholder',
 	         title: 'Browsing results',
@@ -140,14 +148,6 @@
 			 placement: 'left',
 		     yOffset: -70,
 			 xOffset: 200,
-	       },
-		   
-	       {
-	         target: 'facetsTab',
-	         title: 'Detailed filters',
-	         content: 'A more comprehensive range of filters that allow you to reduce the set of images in your results panel.',
-			 placement: 'right',
-			 width: 300
 	       },
 
 	       {
@@ -194,24 +194,74 @@
 	       {
 	         target: 'imagerois',
 	         title: 'ROIs Annotations',
-	         content: 'Table listing the image\'s annotations; click on a row for more detailed information.',
-			 placement: 'left',
+	         content: 'Table listing the image\'s annotations; click on a row for detailed information. Download annotations using buttons.',
+			 placement: 'top',
 			 width: 300,
 			 yOffset: 50,
-			/* multipage: true,
+			 multipage: true,
 	         onNext: function() {
-	           window.location = "/annotation/?q=&img=komp2_112968"
-	         },*/
+	           window.location = "/annotation/tool?imageId=wtsi_komp2_112968"
+	         },
 	       },
 		   
-	      /* {
-	         target: 'viewer',
-	         title: 'Image viewer',
-	         content: 'Image viewer',
-			 placement: 'left',
-			 width: 300
+	       {
+	         target: 'toolbox',
+	         title: 'Toolbox',
+	         content: 'Tools & actions buttons.',
+			 placement: 'right',
+			 width: 300,
+	   	     yOffset: 0,
+			 xOffset: -10,
 	       },
-		   */
+		   
+	       {
+	         target: 'imagepanel',
+	         title: 'Drawing panel',
+	         content: 'Displays the image with associated ROIs and Annotations.',
+			 placement: 'right',
+			 width: 300,
+	   	     yOffset: -12,
+	       },
+		   
+	       {
+	         target: 'ontology-panel',
+	         title: 'Ontologies tab',
+	         content: 'Presents ontologies for annotation - bioportal, user-defined, etc.',
+			 placement: 'top',
+			 width: 300,
+	   	     yOffset: 20,
+			 xOffset: 10,
+	       },
+		   
+	       {
+	         target: 'ontology-panel',
+	         title: 'Ontologies inputs',
+	         content: 'Enter symbol or word from ontology of interest (auto-suggest enabled).',
+			 placement: 'bottom',
+			 width: 300,
+	   	     yOffset: -500,
+			 xOffset: 20,
+	       },
+		   
+	       {
+	         target: 'ontology-panel',
+	         title: 'Ontologies trees',
+	         content: 'Ontologies trees get displayed here.',
+			 placement: 'bottom',
+			 width: 300,
+	   	     yOffset: -300,
+			 xOffset: 20,
+	       },
+		   
+	       {
+	         target: 'ontology-panel',
+	         title: 'Metadata tab',
+	         content: 'Displays ROIs and Annotations.',
+			 placement: 'top',
+			 width: 300,
+	   	     yOffset: 20,
+			 xOffset: 100,
+	       },
 		   
 	     ],
 	     showPrevButton: true,
@@ -285,6 +335,9 @@
    	       hopscotch.startTour(tour_home_page);
    	     }
 		 else if (state === 'phis-tour-home:8') {
+			    hopscotch.startTour(tour_home_page);
+		 }
+		 else if (state === 'phis-tour-home:11') {
 			    hopscotch.startTour(tour_home_page);
 		 }
 		/* else if (state === 'phis-tour-home:11') {
