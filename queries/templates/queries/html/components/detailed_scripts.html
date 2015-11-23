@@ -15,14 +15,21 @@
 <!-- jQuery BlockUI blocker -->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/assets/blocker/jquery.blockUI.js' %}"></script>
 
+<!-- Autosuggest Plugin for PhIS -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.typeahead-bundle.js' %}"></script>
+
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.bloodhound.js' %}"></script>
+
 <!-- jQuery Cookie manager -->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.cookie.js' %}"></script>
 
 <!-- Detail view feedback JS -->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/js/utils/feedback.js' %}"></script>
 
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/controllers/queries/search/search_script.js' %}"></script>
 
 <script>
+
 
 $(document).ready(function(){
         $(".lightbox").lightbox({
@@ -31,9 +38,31 @@ $(document).ready(function(){
         });
 	
 		initialiseController();
-		//$("#annotation_accordion").trigger("position_tool");
+		
+		search = new Search();
+		search.init();
 			
 });
+
+var base_query_url = "{% url 'queries:query_view' %}";
+var echarts_base_url = "{% static 'queries/assets/echarts' %}";
+var loading_waiter_url = "{% static 'queries/img/data_loader_waiter2.gif' %}";
+
+var detail_url = "{% url 'queries:detail_view' %}";
+var query_url = "{% url 'queries:query_view' %}";
+var autosuggest_acp = "getAutosuggest?term=";
+
+
+function loadSearchPage(){
+	var searchString = $("#searchInput").val();
+	url = base_query_url + "?q="+searchString;
+	window.location.href = url;
+}
+
+var detail_url = "{% url 'queries:detail_view' %}";
+var query_url = "{% url 'queries:query_view' %}";
+var autosuggest_acp = "getAutosuggest?term=";
+
 
 function initialiseController(){
 	var params = new Object();

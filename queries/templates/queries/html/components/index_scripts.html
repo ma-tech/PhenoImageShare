@@ -33,6 +33,7 @@
 
 <!-- Bootstrap Application for Switch & Selection -->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/js/application.js' %}"></script>
+
 <script>
 
 var base_query_url = "{% url 'queries:query_view' %}";
@@ -110,6 +111,11 @@ $(document).ready(function() {
 	    source: terms.ttAdapter()
 	});
 	
+	var selectionHandler = function (eventObject, suggestionObject, suggestionDataset) {
+		loadSearchPage();
+	};
+	
+	$('#indexInput').on('typeahead:selected', selectionHandler);
 	
 	//keypress event handler
 	$('#indexInput').keypress( function(e){

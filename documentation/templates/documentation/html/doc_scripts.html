@@ -2,3 +2,54 @@
 <!-- Qunit JS -->
 <script type="text/javascript" charset="utf8" src="{% static 'documentation/js/qunit/v1.18/qunit.js' %}"></script>
 
+<!-- jQuery BlockUI blocker -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/blocker/jquery.blockUI.js' %}"></script>
+
+<!-- Autosuggest Plugin for PhIS -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.typeahead-bundle.js' %}"></script>
+
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.bloodhound.js' %}"></script>
+
+<!-- Bootstrap Switch -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/bootstrap-switch.js' %}"></script>
+
+<!-- Bootstrap Placeholder -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.placeholder.js' %}"></script>
+
+<!-- Bootstrap Tags Input -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.tagsinput.js' %}"></script>
+
+<!-- Bootstrap Application for Switch & Selection -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/application.js' %}"></script>
+
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/controllers/queries/search/search_script.js' %}"></script>
+
+
+<script>
+
+var base_query_url = "{% url 'queries:query_view' %}";
+var echarts_base_url = "{% static 'queries/assets/echarts' %}";
+var loading_waiter_url = "{% static 'queries/img/data_loader_waiter2.gif' %}";
+
+var detail_url = "{% url 'queries:detail_view' %}";
+var query_url = "{% url 'queries:query_view' %}";
+var autosuggest_acp = "getAutosuggest?term=";
+
+
+function loadSearchPage(){
+	var searchString = $("#searchInput").val();
+	url = base_query_url + "?q="+searchString;
+	window.location.href = url;
+}
+
+var detail_url = "{% url 'queries:detail_view' %}";
+var query_url = "{% url 'queries:query_view' %}";
+var autosuggest_acp = "getAutosuggest?term=";
+
+$(document).ready(function() {
+	search = new Search();
+	search.init();
+
+});
+
+</script>

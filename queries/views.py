@@ -62,7 +62,11 @@ getDataRelease_endpoints = access_points['getDataReleases']['options']
 iqs_version = '100'
 
 def index(request):
-    return render(request, 'queries/html/phis_index.html', '')
+    
+    #Used to control display of the search box in menu
+    context = {"page" : "langing"}
+    
+    return render(request, 'queries/html/phis_index.html', context)
 
 def query_view(request):
     queryString = ""

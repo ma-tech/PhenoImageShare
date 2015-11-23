@@ -59,6 +59,13 @@ Interaction.prototype.initialise = function() {
 		limit: 10
 	}
 	);
+
+	var selectionHandler = function (eventObject, suggestionObject, suggestionDataset) {
+		loadJSON();
+	};
+	
+	$('#searchInput').on('typeahead:selected', selectionHandler);
+	
 	
 	//initialise configuration buttons
 	var gridButton = "#gridButton";

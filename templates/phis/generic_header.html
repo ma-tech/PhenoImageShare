@@ -33,6 +33,41 @@
 		
       </ul>
 
+	  {% if not page %}
+
+		<div class="input-group" id="autosuggestdiv" style="margin-top:10px; left:150px; width:40%; margin-bottom:0px;">
+		  <!--<span class="input-group-addon">Enter freetext:</span>
+		  <input type="text" id="searchInput" onkeydown=autosuggest() class="form-control col-lg-8 autosuggest" value="{{query}}" placeholder="e.g. corneal opacity">-->
+		  <input type="text" id="searchInput" class="form-control col-lg-8" value="{{query.term}}" placeholder="search..." style="background-color:#34495E;border-radius: 4px; color: #ffffff;">
+		  	 <span class="input-group-btn">
+		    	  <button type="button" id="searchButton" class="btn btn-lg-phis-search glyphicon glyphicon-search" onClick=searchClickEventHandler()></button>
+		 	 </span>
+		</div>
+
+		<div class="input-group" style="margin-top:0px; left:150px; font-size: 10px; color:#ffffff;">
+			 Examples: 
+	
+			<a id="index_query1" href="{{source_url}}/search/?term=cornea ulcer" style="text-decoration: underline;">cornea ulcer</a>, &nbsp
+			<div class="tooltiptext" style="display:none">
+				Search for specific phenotype - <i><b>cornea ulcer</b></i>.
+			</div>
+	
+			<a id="index_query2" href="{{source_url}}/search/?term=eye&sampleType=MUTANT&imageType=PHENOTYPE_ANATOMY" style="text-decoration: underline;">eye</a>, &nbsp
+			<div class="tooltiptext" style="display:none">
+				Search for phenotype images associated with an anatomical structure of interest - <i><b>eye</b></i>.
+			</div>
+	
+			<a id="index_query3" href="{{source_url}}/search/?term=Sesn3&sampleType=MUTANT&imageType=PHENOTYPE_ANATOMY" style="text-decoration: underline;">Sesn3 </a>
+	
+			<div class="tooltiptext" style="display:none">
+				Search for phenotype images of mutations in a specific gene - <i><b>Sesn3</b></i>.
+			</div>
+	
+			<!--<b><a rel="{{source_url}}{% url 'documentation:searchHelpTooltip' %}" style="text-decoration: underline;cursor:pointer; position:relative; left:40px">View sample query</a></b>-->
+		</div>
+		
+	   {% endif %}
+	   
       <ul class="nav navbar-nav navbar-right">
        <!--  <li data-toggle="tooltip" data-placement="bottom" title="Register for an account"><a id="registerButton" href="#" target="_blank">Register</a></li>-->
       </ul>
