@@ -93,7 +93,7 @@ Processor.prototype.loadJSON = function(){
 	
 	if ($("#searchInput").val() != undefined && $("#searchInput").val() != ""){
 		this.searchString = $("#searchInput").val();
-		searchString = this.searchString;
+		searchString = this.searchString.trim();
 	}
 
 	//var searchString = (this.defaultQuery != undefined && this.defaultQuery.term != undefined ? this.defaultQuery.term [0]	: this.searchString);
