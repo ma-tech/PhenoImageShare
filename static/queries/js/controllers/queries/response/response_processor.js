@@ -181,6 +181,9 @@ Processor.prototype.loadJSON = function(){
 	   	        } 
 	   	    });  
 			
+			console.log("=============Data/Error received from server===============");
+			console.log(data);
+			
 			return ;
 			
 		   }
