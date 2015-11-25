@@ -37,9 +37,6 @@
 <!-- Bootstrap Switch -->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/js/bootstrap-switch.js' %}"></script>
 
-<!-- Bootstrap Switch -->
-<script type="text/javascript" charset="utf8" src="{% static 'queries/js/bootstrap-switch.js' %}"></script>
-
 <!-- Bootstrap Placeholder -->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.placeholder.js' %}"></script>
 
@@ -69,7 +66,7 @@ var query_url = "{% url 'queries:query_view' %}";
 var autosuggest_url = query_url + "getAutosuggest";
 var source_url = "{{source_url | safe}}";
 var loading_waiter_url = "{% static 'queries/img/data_loader_waiter2.gif' %}";
-
+var swfURL = "{% static 'queries/swf/copy_csv_xls_pdf.swf' %}";
 var query = JSON.parse('{{query | safe}}');
 var interactionEngine = new Interaction(query_url, detail_url, autosuggest_url, source_url, loading_waiter_url, query);
 

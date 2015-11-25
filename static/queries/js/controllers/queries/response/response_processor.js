@@ -198,6 +198,22 @@ Processor.prototype.loadJSON = function(){
    		$("#imgtable").dataTable().fnDestroy();
    		
 		$('#imgtable').DataTable({
+			sDom: 'T<"clear">lfrtip',
+	        "oTableTools": {
+				"sSwfPath": swfURL,
+	            "aButtons": [
+	               "copy",
+	               "print",
+					"csv",
+					"pdf",
+					"xls",
+	              /*  {
+	                    "sExtends":    "collection",
+	                    "sButtonText": "Download",
+	                    "aButtons":    [ "csv", "xls", "pdf", "copy","print" ]
+	                }*/
+	            ]
+	        },
 			"fnDrawCallback": function () {
 				
 			},
@@ -336,7 +352,7 @@ Processor.prototype.loadJSON = function(){
  		    },
 			"columnDefs": [
 		    { "width": "20%", "targets": 0},
-               {"targets": [ 2 ],"visible": false}
+               {"targets": [ 2 ],"visible": false},
 	      ],
 		  order: [ 1, 'asc' ],
 		  //scrollY: 900,					

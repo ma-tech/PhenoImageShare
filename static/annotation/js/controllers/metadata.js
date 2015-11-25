@@ -146,7 +146,7 @@
 		        "bLengthChange": false,
 		   		paginate: false,
 		   	    "ordering": false,
-		           sDom: 'T<"clear">lfrtip',
+		         sDom: 'T<"clear">lfrtip',
 		        "oTableTools": {
 					 "sSwfPath": swfURL,
 		            "aButtons": [
