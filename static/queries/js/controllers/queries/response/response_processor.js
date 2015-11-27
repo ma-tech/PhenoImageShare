@@ -80,7 +80,11 @@ Processor.prototype.buildIQSQuery = function(query) {
 		iQSQuery.taxon = query.taxon.value
 	if(query.Phenotype.value)
 		iQSQuery.phenotype = query.Phenotype.value
-		
+	if (query.source.value)
+		iQSQuery.source = query.source.value
+	if (query.host.value)
+		iQSQuery.host = query.host.value
+	
 	return iQSQuery;
 };
 
@@ -127,6 +131,8 @@ Processor.prototype.loadJSON = function(){
 						"expressedFeature":(this.defaultQuery != undefined && this.defaultQuery.expressedFeature != undefined? this.defaultQuery.expressedFeature[0]: ""), 
 						"sex":(this.defaultQuery != undefined && this.defaultQuery.sex != undefined? this.defaultQuery.sex[0]: ""), 
 						"taxon":{"expanded": false, "value":(this.defaultQuery != undefined && this.defaultQuery.taxon != undefined? this.defaultQuery.taxon[0]: "")},
+						"source":{"expanded": false, "value":(this.defaultQuery != undefined && this.defaultQuery.source != undefined? this.defaultQuery.source[0]: "")},
+						"host":{"expanded": false, "value":(this.defaultQuery != undefined && this.defaultQuery.host != undefined? this.defaultQuery.host[0]: "")},
 						"samplePreparation":(this.defaultQuery != undefined && this.defaultQuery.samplePreparation != undefined? this.defaultQuery.samplePreparation[0]: ""),
 						"num":(this.defaultQuery != undefined && this.defaultQuery.num != undefined? this.defaultQuery.num[0]: ""),
 						"start":(this.defaultQuery != undefined && this.defaultQuery.start != undefined? this.defaultQuery.start[0]: ""),
@@ -328,12 +334,10 @@ Processor.prototype.loadJSON = function(){
 						  // descr = descr.replace(re, "<b><i>"+descr.match(re)+"</i></b>");
 					   }
 					   
-					   
-					   
 				   descr = (descr != "" ? descr : "No annotations found" );
-					  
 				   tableData[i]=[image_with_hyperlink, descr, detail_url];
 				   //galleryData[i] = [image, image_url, descr]
+			
 			   }
 			   
 	           var o = {
@@ -665,10 +669,12 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 	
 	//Constants
 	var METHODS_VALUE_COUNT = 2;
-	var METHODS_VALUE_OFFSET = TAXON_VALUE_OFFSET = STAGE_VALUE_OFFSET = NODE_COUNT_INCREMENT = 1;
+	var METHODS_VALUE_OFFSET = TAXON_VALUE_OFFSET = STAGE_VALUE_OFFSET = NODE_COUNT_INCREMENT = SOURCE_VALUE_OFFSET = HOST_VALUE_OFFSET = 1;
 	var methods = {};
 	var stages = {};
 	var taxons = {};
+	var sources = {};
+	var hosts = {};
 	
 	//single-level facets
 	var stage = {};
@@ -695,6 +701,20 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 	imaging_method_label.tags.push(0);
 	
 	var QUERY_TEXT = "imagingMethod";
+	
+	var source = {};
+	source.text = "Sources";
+	source.selectable = false;
+	source.tags = [];
+	source.tags.push(0);
+	var source_nodes = [];
+	
+	var host = {};
+	host.text = "Hosts";
+	host.selectable = false;
+	host.tags = [];
+	host.tags.push(0);
+	var host_nodes = [];
 	
 	if (facet_fields){
 		
@@ -887,11 +907,157 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 			taxon.nodes = taxon_nodes ;
 		}
 		
+		
+		if (facet_fields.image_generated_by && facet_fields.image_generated_by != ""){
+			
+			//Obtain the number of imaging methods and counts: data structure is "methodName, count"
+			var sourceCount = facet_fields.image_generated_by.length, totalCount = 0 ;
+			
+			for (var i = 0 ; i < sourceCount ; i++){
+				
+				if(typeof facet_fields.image_generated_by[i] == 'string'){
+					sources[ facet_fields.image_generated_by[i] ] = facet_fields.image_generated_by[i + HOST_VALUE_OFFSET] ;
+				}else{
+					totalCount = totalCount + facet_fields.image_generated_by[i];
+				}
+				
+			}
+			
+			var node_count = NODE_COUNT_INCREMENT, key;
+			source.tags.pop();
+			source.tags.push(totalCount);
+			
+			//Build tree data structure for sources
+			for (key in sources){
+				
+				var node = {};
+				node.tags = [];
+				
+				if (key == "Molecular and Cellular Biology, Harvard") {
+					node.text = "MCB, Havard";
+				} else if (key == "HHMI/Children's Hospital Boston") {
+					node.text = "HHMI/CH Boston";
+				}else if (key == "The Hospital for Sick Children Research Institute") {
+					node.text = "HSCR Institute";
+				}else if (key == "Medical Research Council") {
+					node.text = "MRC";
+				}else if (key == "MRC Mammalian Genetics Unit") {
+					node.text = "MRC MGU";
+				}else if (key == "Department of Biochemistry and Molecular Biology, Program in Genes and Development") {
+					node.text = "DBMB";
+				}else if (key == "Children's Medical Research Institute") {
+					node.text = "CMRI";
+				}else if (key == "Department of Developmental Biology") {
+					node.text = "DDB";
+				}else if (key == "Institute for Molecular Bioscience") {
+					node.text = "IMB";
+				} else if (key == "Duke University Medical Center") {
+					node.text = "DU Medical Center";
+				} else if (key == "California Institute of Technology") {
+					node.text = "Caltech";
+				} else {
+					node.text = key;
+				}
+				
+				node.queryText = key;
+				node.fulltext = key;
+				node.tags.push(sources[key]);
+				node.selectable = false;
+				node.parent = source.text;
+				node.query = query;
+				
+				source_nodes.push(node);
+				
+				if (query.source.value == node.queryText) {
+					node.checked = true;
+					source._nodes = source_nodes;
+				}else{
+					node.checked = false;
+					
+					if($("#filters").tagExist(node.fulltext))
+						$("#filters").removeTag(node);
+					
+					if (query.source.expanded == true)
+						source._nodes = source_nodes;
+					else
+						source.nodes = source_nodes;
+				}
+				
+				//increment node count;
+				node_count = node_count + NODE_COUNT_INCREMENT;
+			}
+		}else{
+			//attach empty node
+			query.source.expanded = false;
+			source.nodes = source_nodes;
+		}
+		
+		
+		if (facet_fields.host_name && facet_fields.host_name != ""){
+			
+			//Obtain the number of imaging methods and counts: data structure is "methodName, count"
+			var hostCount = facet_fields.host_name.length, totalCount = 0 ;
+			
+			for (var i = 0 ; i < hostCount ; i++){
+				
+				if(typeof facet_fields.image_generated_by[i] == 'string'){
+					hosts[ facet_fields.host_name[i] ] = facet_fields.host_name[i + HOST_VALUE_OFFSET] ;
+				}else{
+					totalCount = totalCount + facet_fields.host_name[i];
+				}
+				
+			}
+			
+			var node_count = NODE_COUNT_INCREMENT, key;
+			host.tags.pop();
+			host.tags.push(totalCount);
+			
+			//Build tree data structure for hosts
+			for (key in hosts){
+				
+				var node = {};
+				node.tags = [];
+				node.text = key;
+				node.queryText = key;
+				node.fulltext = key;
+				node.tags.push(hosts[key]);
+				node.selectable = false;
+				node.parent = host.text;
+				node.query = query;
+				
+				host_nodes.push(node);
+				
+				if (query.host.value == node.queryText) {
+					node.checked = true;
+					host._nodes = host_nodes;
+				}else{
+					node.checked = false;
+					
+					if($("#filters").tagExist(node.fulltext))
+						$("#filters").removeTag(node);
+					
+					if (query.host.expanded == true)
+						host._nodes = host_nodes;
+					else
+						host.nodes = host_nodes;
+				}
+				
+				//increment node count;
+				node_count = node_count + NODE_COUNT_INCREMENT;
+			}
+		}else{
+			//attach empty node
+			query.host.expanded = false;
+			host.nodes = host_nodes;
+		}
+		
 	}
 
 	facet_data.push(imaging_method_label);
 	facet_data.push(stage);
 	facet_data.push(taxon);
+	facet_data.push(source);
+	facet_data.push(host);
 	
 	Processor.facetSearch(facet_data, facet_fields, query);
 };

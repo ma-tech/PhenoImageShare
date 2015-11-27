@@ -260,6 +260,14 @@
 						this.query.stage[node.text] = node.queryText;
 						this.query.stage.expanded = EXPANDED;
 						this.query.stage.value = node.queryText;
+					}else if (node.parent == "Sources"){
+						this.query.source[node.text] = node.queryText;
+						this.query.source.expanded = EXPANDED;
+						this.query.source.value = node.queryText;
+					}else if (node.parent == "Hosts"){
+						this.query.host[node.text] = node.queryText;
+						this.query.host.expanded = EXPANDED;
+						this.query.host.value = node.queryText;
 					}
 				}else{
 					if (node.sampleType != undefined) {
@@ -277,7 +285,16 @@
 						this.query.stage[node.text] = "";
 						this.query.stage.value = "";
 						//this.query.stage.expanded = COLLAPSED;
+					}else if (node.parent = "Sources"){
+						this.query.source[node.text] = "";
+						this.query.source.value = "";
+						//this.query.stage.expanded = COLLAPSED;
+					}else if (node.parent = "Hosts"){
+						this.query.host[node.text] = "";
+						this.query.host.value = "";
+						//this.query.stage.expanded = COLLAPSED;
 					}
+				
 				}
 				
 				//console.log(node);

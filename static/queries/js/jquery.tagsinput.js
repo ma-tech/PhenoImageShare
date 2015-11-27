@@ -129,6 +129,15 @@
 								object.query.stage.value = "";
 								//this.query.stage.expanded = COLLAPSED;
 							}
+							else if (object.parent = "Sources"){
+								object.query.source[object.text] = "";
+								object.query.source.value = "";
+								//this.query.stage.expanded = COLLAPSED;
+							}else if (object.parent = "Hosts"){
+								object.query.host[object.text] = "";
+								object.query.host.value = "";
+								//this.query.stage.expanded = COLLAPSED;
+							}
 							
 							Processor.prepareParams(object, object.waiter_url);
 							
