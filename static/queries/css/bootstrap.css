@@ -5304,12 +5304,11 @@ a.list-group-item.active > .badge,
   display: inline-block;
   min-width: 15px;
   padding: 1px 0px;
-  font-size: 10px;
+  font-size: 14px;
   font-weight: bold;
   line-height: 1;
   color: #000000;
-  text-align: center;
-  white-space: nowrap;
+  text-align: left;
   vertical-align: baseline;
   background-color: #ffffff;
   border-radius: 10px;

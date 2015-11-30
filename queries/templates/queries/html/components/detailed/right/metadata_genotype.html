@@ -95,36 +95,36 @@
  			  <li href="#" class="list-group-item">
  				  Anatomy:
 				  {% if image.anatomy_term  %}
- 	         		 <span class="phis-badge"> {{image.anatomy_term}}</span>
+ 	         		 <span class="phis-badge-genotype"> {{image.anatomy_term}}</span>
 				  {% endif %}
  				  {% for value in image.depicted_anatomy_term_bag %}
-  			 		<span class="phis-badge">{{value}}</span>
+				  <br/>
+  			 		<span id="{{value}}" onclick="toggleText();" class="phis-badge-genotype" style="margin-left:15px">
+						{{forloop.counter}}. &nbsp{{value | capfirst }}
+						<br/></span>
  				  {% endfor %}
- 				  {% for term in image.expressed_in_anatomy_term %}
-  			 		<span class="phis-badge">{{term}}</span>
+ 				  {% for term in image.expressed_in_anatomy_term %} 
+  			 		<span class="phis-badge-genotype">{{term}}</span>
  				  {% endfor %}
- 			 </li>
- 			 {% endif %}
-			 
- 			 {% if image.url %}
- 			  <li href="#" class="list-group-item">
- 				  Image:
- 	         	 <span class="phis-badge"> <a href="{{image.url}}">{{image.id}}</a></span>
  			 </li>
  			 {% endif %}
 			 
  			 {% if image.visualisation %}
- 			  <li href="#" class="list-group-item">
- 				  Visualisation:
- 	         	 <span class="phis-badge"> {{image.visualisation.0}}</span>
- 			 </li>
- 			 {% endif %}
+	 			  <li href="#" class="list-group-item">
+	 				  Visualisation:
+	 	         	 <span class="phis-badge-genotype"> {{image.visualisation.0}}</span>
+	 			  </li>
+			 {% endif %}
 			 
  			 {% if image.expression_in_label_bag %}
  			  <li href="#" class="list-group-item">
  				  Expression:
  	         	  {% for term in image.expression_in_label_bag %}
- 			 		<span class="phis-badge-genotype">{{term}},</span>
+				  <br/>
+  			 		<span id="{{value}}" onclick="toggleText();" class="phis-badge-genotype" style="margin-left:15px">
+						{{forloop.counter}}. &nbsp{{term | capfirst }}
+						<br/></span>
+						
 				  {% endfor %}
  			 </li>
  			 {% endif %}
@@ -146,6 +146,13 @@
  			 </li>
  			{% endif %}
 			
+			 {% if image.url %}
+			  <li href="#" class="list-group-item">
+				  Image context:
+	         	 <span class="phis-badge"> <a href="{{image.url_context}}">Context URL</a></span>
+			 </li>
+			 {% endif %}
+			 
 		 	{% if image.image_processed_by %}
   			  <li href="#" class="list-group-item">
   				  Processed By:
@@ -155,7 +162,7 @@
 			 
 			 {% if image.host_name %}
   			  <li href="#" class="list-group-item">
-  				  Repository:
+  				  Resource:
   	         	 <span class="phis-badge"><a href="{{image.host_url}}">{{image.host_name}}</a></span>
   			 </li>
   			 {% endif %}
