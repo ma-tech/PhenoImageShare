@@ -133,9 +133,9 @@
 								object.query.source[object.text] = "";
 								object.query.source.value = "";
 								//this.query.stage.expanded = COLLAPSED;
-							}else if (object.parent = "Hosts"){
-								object.query.host[object.text] = "";
-								object.query.host.value = "";
+							}else if (object.parent = "Resource"){
+								object.query.hostName[object.text] = "";
+								object.query.hostName.value = "";
 								//this.query.stage.expanded = COLLAPSED;
 							}
 							

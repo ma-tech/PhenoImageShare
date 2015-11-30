@@ -82,8 +82,8 @@ Processor.prototype.buildIQSQuery = function(query) {
 		iQSQuery.phenotype = query.Phenotype.value
 	if (query.source.value)
 		iQSQuery.source = query.source.value
-	if (query.host.value)
-		iQSQuery.host = query.host.value
+	if (query.hostName.value)
+		iQSQuery.hostName = query.hostName.value
 	
 	return iQSQuery;
 };
@@ -132,7 +132,7 @@ Processor.prototype.loadJSON = function(){
 						"sex":(this.defaultQuery != undefined && this.defaultQuery.sex != undefined? this.defaultQuery.sex[0]: ""), 
 						"taxon":{"expanded": false, "value":(this.defaultQuery != undefined && this.defaultQuery.taxon != undefined? this.defaultQuery.taxon[0]: "")},
 						"source":{"expanded": false, "value":(this.defaultQuery != undefined && this.defaultQuery.source != undefined? this.defaultQuery.source[0]: "")},
-						"host":{"expanded": false, "value":(this.defaultQuery != undefined && this.defaultQuery.host != undefined? this.defaultQuery.host[0]: "")},
+						"hostName":{"expanded": false, "value":(this.defaultQuery != undefined && this.defaultQuery.host != undefined? this.defaultQuery.host[0]: "")},
 						"samplePreparation":(this.defaultQuery != undefined && this.defaultQuery.samplePreparation != undefined? this.defaultQuery.samplePreparation[0]: ""),
 						"num":(this.defaultQuery != undefined && this.defaultQuery.num != undefined? this.defaultQuery.num[0]: ""),
 						"start":(this.defaultQuery != undefined && this.defaultQuery.start != undefined? this.defaultQuery.start[0]: ""),
@@ -710,7 +710,7 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 	var source_nodes = [];
 	
 	var host = {};
-	host.text = "Hosts";
+	host.text = "Resource";
 	host.selectable = false;
 	host.tags = [];
 	host.tags.push(0);
@@ -1027,7 +1027,7 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 				
 				host_nodes.push(node);
 				
-				if (query.host.value == node.queryText) {
+				if (query.hostName.value == node.queryText) {
 					node.checked = true;
 					host._nodes = host_nodes;
 				}else{
@@ -1036,7 +1036,7 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 					if($("#filters").tagExist(node.fulltext))
 						$("#filters").removeTag(node);
 					
-					if (query.host.expanded == true)
+					if (query.hostName.expanded == true)
 						host._nodes = host_nodes;
 					else
 						host.nodes = host_nodes;
@@ -1047,7 +1047,7 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 			}
 		}else{
 			//attach empty node
-			query.host.expanded = false;
+			query.hostName.expanded = false;
 			host.nodes = host_nodes;
 		}
 		
@@ -1056,7 +1056,7 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 	facet_data.push(imaging_method_label);
 	facet_data.push(stage);
 	facet_data.push(taxon);
-	facet_data.push(source);
+	//facet_data.push(source);
 	facet_data.push(host);
 	
 	Processor.facetSearch(facet_data, facet_fields, query);

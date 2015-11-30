@@ -238,6 +238,9 @@ def extract_image_data(doc):
     if "image_url" in doc:
         image_data_dict['url'] = doc['image_url']
     
+    if "image_context_url" in doc:
+        image_data_dict['url_context'] = doc['image_context_url']
+    
     if "sample_type" in doc:
         image_data_dict['sample_type'] = doc['sample_type']
     
