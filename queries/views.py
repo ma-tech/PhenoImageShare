@@ -322,9 +322,9 @@ def extract_image_data(doc):
             image_data_dict['id'] = doc['id']
             image_data_dict['imageURL'] = doc['image_url']
             
-            roi_data = getROIs(doc['id'])['response']['docs']
+    roi_data = getROIs(doc['id'])['response']['docs']
             
-    logger.debug("extract_image_data: "+ str(roi_data))
+    logger.debug("extract_roi_data: "+ str(roi_data))
             
     return (image_data_dict, simplejson.dumps(roi_data))        
     
