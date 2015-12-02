@@ -402,7 +402,8 @@ def processQuery(request):
 
     try:
         response = urllib2.urlopen(req)
-    
+        logger.debug("Response from IQS = ")
+        logger.debug(response)
     except urllib2.URLError:
         message = {}
         message['body'] = MIDDLEWARE_CONNECTIVITY_ALERT
