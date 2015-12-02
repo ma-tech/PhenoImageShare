@@ -59,7 +59,7 @@ getDataRelease_endpoints = access_points['getDataReleases']['options']
 
 
 #iqs_version = '007'
-iqs_version = '100'
+iqs_version = '101'
 
 def index(request):
     
@@ -387,6 +387,8 @@ def processQuery(request):
         query[image_endpoints['anatomy']] = request.GET['anatomy'] 
     if 'gene' in request.GET:
         query[image_endpoints['mutantGene']] = request.GET['gene']
+    if 'hostName' in request.GET:
+        query[image_endpoints['hostName']] = request.GET['hostName']
     if 'search[value]' in request.GET and request.GET['search[value]'] != "":
         logger.debug("Filter search value = " + request.GET['search[value]'])
         queryString = request.GET['search[value]']

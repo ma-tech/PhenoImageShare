@@ -36,7 +36,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-iqs_version = '007'
+iss_version = '101'
 
 def save_annotations(request):
     if request.is_ajax():
@@ -150,7 +150,7 @@ def getDZI(request):
     
 def addAnnotation(request):
     query = {}
-    query['version'] = iqs_version
+    query['version'] = iss_version
         
     if request.is_ajax():
         try:

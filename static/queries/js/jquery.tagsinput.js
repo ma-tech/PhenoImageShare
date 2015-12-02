@@ -111,7 +111,7 @@
                             title : 'Remove tag',
                             text  : ''
                         }).click(function () {
-							console.log("Waiter URL = "+object.waiter_url);
+							//console.log("Waiter URL = "+object.waiter_url);
 							
 							if (object.sampleType != undefined) {
 								object.query.imageType = "";
@@ -123,17 +123,18 @@
 							} else if (object.parent == "Imaging Method"){
 								object.query.imagingMethod[object.text] = "";
 								object.query.imagingMethod.value = "";
+								
 								//this.query.imagingMethod.expanded = COLLAPSED;
-							}else if (object.parent = "Stage"){
+							}else if (object.parent == "Stage"){
 								object.query.stage[object.text] = "";
 								object.query.stage.value = "";
 								//this.query.stage.expanded = COLLAPSED;
 							}
-							else if (object.parent = "Sources"){
+							else if (object.parent == "Sources"){
 								object.query.source[object.text] = "";
 								object.query.source.value = "";
 								//this.query.stage.expanded = COLLAPSED;
-							}else if (object.parent = "Resource"){
+							}else if (object.parent == "Resource"){
 								object.query.hostName[object.text] = "";
 								object.query.hostName.value = "";
 								//this.query.stage.expanded = COLLAPSED;

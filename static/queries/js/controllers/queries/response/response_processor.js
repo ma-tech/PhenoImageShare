@@ -132,7 +132,7 @@ Processor.prototype.loadJSON = function(){
 						"sex":(this.defaultQuery != undefined && this.defaultQuery.sex != undefined? this.defaultQuery.sex[0]: ""), 
 						"taxon":{"expanded": false, "value":(this.defaultQuery != undefined && this.defaultQuery.taxon != undefined? this.defaultQuery.taxon[0]: "")},
 						"source":{"expanded": false, "value":(this.defaultQuery != undefined && this.defaultQuery.source != undefined? this.defaultQuery.source[0]: "")},
-						"hostName":{"expanded": false, "value":(this.defaultQuery != undefined && this.defaultQuery.host != undefined? this.defaultQuery.host[0]: "")},
+						"hostName":{"expanded": false, "value":(this.defaultQuery != undefined && this.defaultQuery.hostName != undefined? this.defaultQuery.hostName[0]: "")},
 						"samplePreparation":(this.defaultQuery != undefined && this.defaultQuery.samplePreparation != undefined? this.defaultQuery.samplePreparation[0]: ""),
 						"num":(this.defaultQuery != undefined && this.defaultQuery.num != undefined? this.defaultQuery.num[0]: ""),
 						"start":(this.defaultQuery != undefined && this.defaultQuery.start != undefined? this.defaultQuery.start[0]: ""),
@@ -1023,6 +1023,7 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 				node.tags.push(hosts[key]);
 				node.selectable = false;
 				node.parent = host.text;
+				console.log("My parent = " + node.parent);
 				node.query = query;
 				
 				host_nodes.push(node);
