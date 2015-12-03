@@ -211,11 +211,11 @@ Processor.prototype.loadJSON = function(){
 	        "oTableTools": {
 				"sSwfPath": swfURL,
 	            "aButtons": [
-	               "copy",
+	               //"copy",
 	               "print",
 					"csv",
 					"pdf",
-					"xls",
+					//"xls",
 	              /*  {
 	                    "sExtends":    "collection",
 	                    "sButtonText": "Download",
