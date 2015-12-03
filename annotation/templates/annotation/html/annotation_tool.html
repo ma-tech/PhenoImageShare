@@ -529,9 +529,14 @@ var dziName = "{{image.dziName | safe}}";
 var imageURL= "{{image.url | safe}}"; //"{% static 'utils/images/sources/M00042804_00006962_download_tn_large.jpg' %}";
 var imageDimensions = JSON.parse("{{image.dimension | safe}}");
 var roiData = JSON.parse('{{roiData | safe}}');
-var imageId = roiData[0].associated_image;
-var swfURL = "{% static 'queries/swf/copy_csv_xls_pdf.swf' %}";
 
+console.log(roiData);
+
+if(roiData[0] != undefined){
+	var imageId = roiData[0].associated_image;
+}
+
+var swfURL = "{% static 'queries/swf/copy_csv_xls_pdf.swf' %}";
 var tileSource = {
     Image: {
         xmlns: "http://schemas.microsoft.com/deepzoom/2008",
