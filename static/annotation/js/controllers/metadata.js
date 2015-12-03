@@ -155,7 +155,7 @@
 		                {
 		                    "sExtends":    "collection",
 		                    "sButtonText": "Download",
-		                    "aButtons":    [ "csv", "xls", "pdf", "copy","print" ]
+		                    "aButtons":    [ "csv","pdf", "print" ]
 		                }
 		            ]
 		        },
