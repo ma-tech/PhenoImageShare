@@ -244,16 +244,19 @@ def annotation_tool(request):
     
     if 'imageId' in request.GET:
         imageId = request.GET['imageId']
-        dziName =  imageId + '.dzi'
+    else:
+        imageId = "wtsi_komp2_112968"
         
-        roiData = getRoiData(imageId)
-        url = getImageURL(imageId)
-        dimension = getImageDimension(imageId)
-        
-        imageData = {"Id":imageId,"dziName": dziName, "url": url, "dimension": dimension}
-        context = {"roiData":roiData, "image":imageData}
-        
-        logger.debug(str(context))
+    dziName =  imageId + '.dzi'
+    
+    roiData = getRoiData(imageId)
+    url = getImageURL(imageId)
+    dimension = getImageDimension(imageId)
+    
+    imageData = {"Id":imageId,"dziName": dziName, "url": url, "dimension": dimension}
+    context = {"roiData":roiData, "image":imageData}
+    
+    logger.debug(str(context))
     
     return render(request, 'annotation/html/annotation_tool.html', context)
     

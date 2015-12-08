@@ -1,21 +1,46 @@
 {% load staticfiles %}
 
 <!-- FlatUI CSS -->
-<link rel="stylesheet" href="{% static 'annotation/css/ui.dynatree.css' %}">
+<link rel="stylesheet" href="{% static 'annotation/css/flat-ui.annotation_view.css' %}">
+
+<!-- Bootstrap-Switch CSS -->
+<link rel="stylesheet" href="{% static 'annotation/css/bootstrap-switch.css' %}">
+
+<!-- Select2 CSS -->
+<link rel="stylesheet" href="{% static 'annotation/css/select2-4.0.0.css' %}">
 
 <!-- JSTree CSS -->
 <link rel="stylesheet" href="{% static 'annotation/css/jstree/themes/default/style.css' %}">
 
-<!-- NCBO Ontology viewer CSS -->
-<link rel="stylesheet" href="http://bioportal.bioontology.org/widgets/minified/jquery.ncbo.tree.min.css">
+<!-- jQuery qTip styles -->
+<link rel="stylesheet" href="{% static 'queries/css/jquery.qtip.css' %}">
 
-<!-- Select2 CSS -->
-<link rel="stylesheet" href="{% static 'annotation/css/select2.css' %}">
+<!-- Owl stylesheet -->
+<link rel="stylesheet" href="{% static 'annotation/css/owl.carousel.css' %}">
+ 
+<!-- Owl theme stylesheet -->
+<link rel="stylesheet" href="{% static 'annotation/css/owl.theme.css' %}">
+ 
+ <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.5.8/slick.css"/>
 
+ <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/jquery.slick/1.5.8/slick-theme.css"/>
+ 
+ <!-- Datatables CSS -->
+ <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/1.10.5/css/jquery.dataTables.css">
+ 
+ <!-- Tabletools datatables CSS -->
+ <link rel="stylesheet" type="text/css" href="{% static 'queries/css/dataTables.tableTools.css' %}">
+
+ <!-- Responsive datatables CSS -->
+ <link rel="stylesheet" type="text/css" href="//cdn.datatables.net/responsive/1.0.4/css/dataTables.responsive.css">
+ 
+ <!-- Hopscotch -->
+ <link rel="stylesheet" href="{% static 'queries/css/hopscotch.css' %}" media="screen">
+ 
+ <!-- Typeahead JQuery Plugin CSS -->
+ <link rel="stylesheet" href="{% static 'queries/css/jquery.typeahead.css' %}">
+ 
 <style>
-#drawing-div {
-	border: solid blue 0px;
-}
 
 span.annotation {
     float: left;
@@ -34,26 +59,29 @@ span.annotation {
     background: url({% static 'queries/img/four9.png' %}) no-repeat left center;
   }
 .btn span.tool-rectangle {
-    background: url({% static 'queries/img/screen77.png' %}) no-repeat left center;
+    background: url({% static 'queries/img/23.png' %}) no-repeat center;
   }
 .btn span.tool-point {
     background: url({% static 'queries/img/Location_pin_24.png' %}) no-repeat center;
-  }
-.btn span.tool-rectangle {
-	    background: url({% static 'queries/img/screen77.png' %}) no-repeat left center;
   }
 .btn span.tool-polyline{
 	    background: url({% static 'queries/img/polygonal75.png' %}) no-repeat left center;
   }
 .btn span.tool-undo {
-	    background: url({% static 'queries/img/undo12.png' %}) no-repeat left center;
+	    background: url({% static 'queries/img/undo8.png' %}) no-repeat center;
   }
 .btn span.tool-redo {
-   background: url({% static 'queries/img/redo11.png' %}) no-repeat left center;
+   background: url({% static 'queries/img/redo10.png' %}) no-repeat left center;
  }	  
 .btn span.tool-save {
-		    background: url({% static 'queries/img/floppy1.png' %}) no-repeat left center;
+		    background: url({% static 'queries/img/save31.png' %}) no-repeat center;
   }
+  .btn span.tool-edit {
+  	   background: url({% static 'queries/img/edit26.png' %}) no-repeat center;
+  }
+.btn span.tool-delete {
+	   background: url({% static 'queries/img/delete96.png' %}) no-repeat center;
+}
 .btn span.tool-copy {
 	   background: url({% static 'queries/img/copy9.png' %}) no-repeat left center;
 }
@@ -64,5 +92,32 @@ span.annotation {
    background: url({% static 'queries/img/paste2.png' %}) no-repeat left center;
  }	
  
-</style>
+ body{
+     padding: 5px;
+ }
 
+#qtip-growl-container{
+     position: fixed;
+     top: 10px; right: 10px;
+}
+#qtip-growl-container .qtip{
+         position: static;
+         min-height: 0;
+         overflow: hidden;
+         margin: 0 0 5px 0;
+}
+ 
+#similar_images .item{
+  margin: 2px;
+}
+#similar_images .item img{
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.slick-prev:before, .slick-next:before { 
+    color:red !important;
+}
+
+</style>

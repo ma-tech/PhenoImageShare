@@ -1,79 +1,161 @@
-<div id="annotationmetadata" class="row">
-		
-		<!--	 
-	   	<h3 id="" class="panel-title" style="margin-top: 10px;padding: 0px;">
-			<a data-toggle="collapse" data-parent="#accordion" href="#anatomyterms" >Annotations</a>
+<div id="ontology-panel" class="panel panel-primary" style="z-index:1000;">
+  
+  <div class="panel-heading" style="padding: 1px 1px">
+		<h3 id="ontology-header" class="panel-title" style="font-size:10px">
+			<a data-toggle="collapse" data-parent="#toolbox">Ontologies & Metadata</a>
 		</h3>
-		
-		<div class="panel panel-primary">
-		</div>
-		-->
-			
-		<div class="row">
-			
-			<div class="col-lg-12">
-		   		<div role="tabpanel">
+  </div>
+	   		<div id="tab-panel" role="tabpanel">
+
+	   		  <!-- Nav tabs -->
+	   		  <ul class="nav nav-tabs" role="tablist">
+	   		    <li role="presentation" class="active"><a href="#ontologies" aria-controls="home" role="tab" data-toggle="tab">Ontologies</a></li>
+	   		    <li role="presentation"><a href="#metadata" aria-controls="rois" role="tab" data-toggle="tab">Metadata</a></li>
+				
+	   		  </ul>
+		  </div>
+		  
+	   		  <!-- Tab panes -->
+	   		  <div class="tab-content">
+	   		    <div role="tabpanel" class="tab-pane active" id="ontologies">
+				
+		   		<div id="tab-panel" role="tabpanel">
 
 		   		  <!-- Nav tabs -->
-		   		  <ul class="nav nav-tabs" role="tablist">
-		   		    <li role="presentation" class="active"><a href="#ontologies" aria-controls="home" role="tab" data-toggle="tab">Ontologies</a></li>
-		   		    <li role="presentation"><a href="#rois" aria-controls="rois" role="tab" data-toggle="tab">ROIs</a></li>
-		   		    <li role="presentation"><a href="#text-annotations" aria-controls="text-annotations" role="tab" data-toggle="tab">Texts</a></li>
-		   		    <li role="presentation"><a href="#metadata" aria-controls="metadata" role="tab" data-toggle="tab">Metadata</a></li>
-		   		  </ul>
+		   		 	 <ul class="nav nav-tabs" role="tablist">
+		   		   	 	 <li role="presentation" class="active"><a href="#bioportal" aria-controls="home" role="tab" data-toggle="tab" style="font-size:10px">Bioportal</a></li>
+		   		  	 	 <!--<li role="presentation"><a href="#your_ontologies" aria-controls="rois" role="tab" data-toggle="tab" style="font-size:10px">Yours</a></li>-->
+				 	 </ul>
+			 	 </div>
+			  
+	   		  <div class="tab-content">
+	   		    <div role="tabpanel" class="tab-pane active" id="bioportal">
+			  
+					<h3 id="" class="panel-title" style="margin-top: 10px;padding: 0px;">
+						<a data-toggle="collapse" data-parent="#accordion" href="#bioportal" >Bioportal Ontologies</a>
+					</h3>
 
-		   		  <!-- Tab panes -->
-		   		  <div class="tab-content">
-		   		    <div role="tabpanel" class="tab-pane active" id="ontologies">
+					<div class="panel panel-primary" style="margin-bottom: 0px;padding: 0px;">
+					</div>
+				
+					<select id="ontology-input" name="ontologies" value="Select All" class="select-block ontology-input" multiple="multiple" style="width: 75%; height=10"> 
 						
-						<h3 id="" class="panel-title" style="margin-top: 10px;padding: 0px;">
-							<a data-toggle="collapse" data-parent="#accordion" href="#anatomyterms" >Ontologies</a>
-						</h3>
-		
-						<div class="panel panel-primary" style="margin-bottom: 0px;padding: 0px;">
-						</div>
-						
-						<select name="ontologies" value="Select All" class="select-block ontology-selector" multiple="multiple" style="width: 75%; height=10"> 
-						<!--
-						  <option value="1">Anatomy (EMAP)</option>
-						  <option value="2">Phenotype (MP) </option>
-						  <option value="3">Gene (GO)</option>
-						-->
-							
-						</select>
-						
-						<button type="button" id="load_selected_ontologies" class="btn btn-primary">Load</button>
-						
-						<!--		
-						<select name="ontologies" value="Select All" class="select-block ontology-selector" multiple="multiple" style="width: 80%; height=10"> </select> <button type="button" id="" class="btn btn-primary">Load</button>
-						-->
-						
-						<div id="tree_wrapper" style="overflow:auto;height: 500px; border-style: solid; border-color:#1ABC9C #1ABC9C;">
-							<div id="tree_holder">
-								<div id="ontologies_div">
-								</div>
+					</select>
+				
+					<button type="button" id="clear-ontology-button" class="btn btn-primary">Clear</button>
+				
+					<div id="tree-wrapper" style="overflow:auto;height: 500px; border-style: solid; border-color:#1ABC9C #1ABC9C;">
+						<div id="tree-holder">
+							<div id="ontologies-div">
 							</div>
 						</div>
-						
-						
-						
-						<button type="button" id="add_ontology_term" class="btn btn-primary">Add terms</button>
-						
-		   		    </div>
-		   		    <div role="tabpanel" class="tab-pane" id="rois">ROIs
-						
 					</div>
-		   		    <div role="tabpanel" class="tab-pane" id="text-annotations">
-		   		    	Textual Annotations
-		   		    </div>
-		   		    <div role="tabpanel" class="tab-pane" id="metadata">
-						Metadata
-		   		    </div>
-		   		  </div>
+					
+					</div>
+					
+		   		    <div role="tabpanel" class="tab-pane" id="your_ontologies">
+					
+						<h3 id="" class="panel-title" style="margin-top: 10px;padding: 0px;">
+							<a data-toggle="collapse" data-parent="#accordion" href="#your_ontologies" >Your Ontologies</a>
+						</h3>
+						<div class="panel panel-primary" style="margin-bottom: 0px;padding: 0px;">
+						</div>
+					
+					</div>
+					
+				</div>
+				
+				</div>
 
-		   		</div>
-			</div>
-			
-		</div>
-		
-</div>
+
+	   		    <div role="tabpanel" class="tab-pane " id="metadata">
+				
+		   		<div id="tab-panel" role="tabpanel">
+
+		   		  <!-- Nav tabs -->
+		   		 	 <ul class="nav nav-tabs" role="tablist">
+		   		   	 	 <li role="presentation" class="active"><a href="#roi" aria-controls="home" role="tab" data-toggle="tab" style="font-size:10px">Annotations</a></li>
+		   		  	 	 <!--<li role="presentation"><a href="#annotations" aria-controls="rois" role="tab" data-toggle="tab" style="font-size:10px">Annotations</a></li>-->
+						 <li role="presentation"><a href="#image_info" aria-controls="rois" role="tab" data-toggle="tab" style="font-size:10px">Image Info</a></li>
+				 	 </ul>
+			 	 </div>
+			  
+	   		  <div class="tab-content">
+	   		    <div role="tabpanel" class="tab-pane active" id="roi">
+		  		   	<h3 id="" class="panel-title">
+		  				<a data-toggle="collapse" data-parent="#accordion" href="#anatomyterms">Regions of Interest</a>
+		  			</h3>
+
+		  			<div class="panel panel-primary" style="margin-bottom: 0px;padding: 0px;">
+		  			</div>
+	
+		  			<div id="roitablediv" width="100%" style="overflow:scroll">
+			  			 <table id="roitable" class="display compact responsive nowrap" cellspacing="0" width="100%" style="font-size:10px">
+			  	          <thead>
+			  	            <tr>
+			  				  <th></th>
+			  				  <th></th>
+			  				  <th class="none">Channels</th>
+			  	              <th class="none">Curator</th>
+			  				  <th class="none">Created</th>
+			  				  <th class="none">Updated</th>	
+			  				  <th class="none">Modify</th>		
+			  	            </tr>
+			  	          </thead>
+  
+			  			  <tbody>
+			  	          </tbody>
+			  			  <tr>
+			  			  </tr>
+						</table>
+		  			</div>
+					
+				</div>
+					
+		   		<div role="tabpanel" class="tab-pane" id="annotations">
+	  	  		 	   <h3 id="" class="panel-title">
+		  					<a data-toggle="collapse" data-parent="#accordion" href="#texts">Textual Annotations</a>
+		  				</h3>
+
+		  				<div class="panel panel-primary" style="margin-bottom: 0px;padding: 0px;">
+		  				</div>
+						
+			  			<div id="roitablediv" width="100%">
+				  			 <table id="texts_table" class="display compact responsive nowrap" cellspacing="0" width="100%" style="font-size:10px">
+				  	          <thead>
+				  	            <tr>
+				  				  <th></th>
+				  				  <th>Annotations</th>
+				  				  <th>Channels</th>
+				  	              <th>Curator</th>
+				  				  <th>Created</th>
+				  				  <th class="none">Updated</th>	
+				  				  <th>Modify</th>		
+				  	            </tr>
+				  	          </thead>
+  
+				  			  <tbody>
+				  	          </tbody>
+				  			  <tr>
+				  			  </tr>
+							</table>
+			  			</div>
+			 	</div>
+				
+		   		<div role="tabpanel" class="tab-pane" id="image_info">
+	  	  		   	<h3 id="" class="panel-title">
+		  				<a data-toggle="collapse" data-parent="#accordion" href="#image_info">Image metainfo</a>
+		  			</h3>
+	    
+		  			<div class="panel panel-primary" style="margin-bottom: 0px;padding: 0px;">
+		  			</div>
+			 	</div>
+				
+				</div>
+				
+				</div>
+				
+	   		  </div>
+
+	   		</div>
+  </div>

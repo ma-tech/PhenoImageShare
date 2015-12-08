@@ -1,67 +1,17 @@
 
-<div class="row">
-	<!--<input type="checkbox" id="tool-mode" data-toggle="switch" on-label="Edit" off-label="View"/>-->
-
-<div class="col-lg-10">
-   	<h3 id="" class="panel-title" style="margin-top: 10px;padding: 0px;">
-		<a data-toggle="collapse" data-parent="#accordion" href="#anatomyterms" >Toolbox</a>
-	</h3>
+<div  id="drawingarea" style="border:1px solid red; height:{{image.dimension.1}}px;width:{{image.dimension.0}}px;">
 	
-		<div class="panel panel-primary" style="margin-bottom: 0px;padding: 0px;">
-		</div>
-	
-	<div class="list-group">
-	
-	<ul class="list-group">
-
-		<li class="list-group-item-annotation">
-			<b>Shapes:</b>
-			<button id="tool-point" type="button" class="btn btn-xss btn-primary"> 
-				<span class="annotation tool-point"></span>
-			</button>
-			<button id="tool-rectangle" type="button" class="btn btn-xss btn-default"> 
-				<span class="annotation tool-rectangle"></span>
-			</button>
-			<button id="tool-polyline" type="button" class="btn btn-xss btn-default"> 
-				<span class="annotation tool-polyline"></span>
-			</button>
-		</li>
-	
-		<li class="list-group-item-annotation">
-			<b>Modes:</b>
-			<button id="tool-drag" type="button" class="btn btn-xss btn-default"> 
-				<span class="annotation tool-drag">D</span>
-			</button>
-			<button id="tool-selection" type="button" class="btn btn-xss btn-default"> 
-				<span class="annotation tool-selection">S</span>
-			</button>
-		</li>
-	
-	</ul>
-	
+	<div id="drawingpanel" class="fabric" style="position:absolute;border:1px solid green;top:0px;height:{{image.dimension.1}}px;width:{{image.dimension.0}}px;">
+		<canvas id="drawingcanvas" height={{image.dimension.1}} width={{image.dimension.0}}  style=";"></canvas>
 	</div>
-
-</div>
-
-</div>
+   
+   	
+	<div id="zoomviewer" class="" style="position:absolute;border:1px solid blue;top:0px;height:{{image.dimension.1}}px;width:{{image.dimension.0}}px;">
+	</div>
 	
-<div class="row">
-  <div id="drawing-div" style="height:{{image.dimension.1}}px;width:{{image.dimension.0}}px">
-  	<div id="viewport-div">
-	 <img src="{{image.url}}" alt="{{image.Id}}"/>
-  	</div>
-  </div>
-  <!--
-	<div id="viewer" style="width: 500px; height: 300px;"></div>
-	<div id="phis-sample-overlay" class="highlight" >Sample annotation</div>
-     	  <button type="button" id="zoomabletoggler" class="btn btn-primary">Annotation</button>
-  	<button type="button" id="activation" class="btn btn-primary">Save</button>
-	 -->
-	  <div style="background: #b1bcc1;font-size: 10px;width:{{image.dimension.0}}px">[{{image.dimension.0}}x{{image.dimension.1}}] <span id="info_panel">-</span></div>
-	  
-   	  <button type="button" id="add_freetext" class="btn btn-primary">Add Freetext</button>
-	<button type="button" id="save_annotation" class="btn btn-primary">Save</button>
-	  
-	  <div id="ontology-term-added-div"></div>
-	  
+	<div id="imagepanel" class="" style="position:absolute;border:1px solid green;top:0px;height:{{image.dimension.1}}px;width:{{image.dimension.0}}px;">
+		 <img src={{image.url}} alt="img" class="img-responsive"/>
+	</div>
+	
 </div>
+<a href="{% url 'queries:detail_view' %}?imageId={{image.Id}}"><button type="button" id="detail_view_link" class="btn btn-primary">Navigate to detail view</button></a>

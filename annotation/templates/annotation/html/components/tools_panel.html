@@ -1,10 +1,58 @@
-<!--
-<input type="checkbox" id="tool-mode" data-toggle="switch" on-label="Edit" off-label="View"/>
+<p></p>
+<div class="panel panel-primary">
+	<div class="panel-heading" style="padding: 1px 1px">
+	<h3 id="toolbox-header" class="panel-title" style="font-size:10px">
+		<a data-toggle="collapse" data-parent="#toolbox"></a>
+	</h3>
 
-<div class="row"></div>
-<div id="tree" ></div>
--->
+	</div>
+	<div class="list-group">
+			<ul class="list-group">
+			<li class="list-group-item-annotation">
+				<b>Toolbox:</b>
+				<button id="rectangle-button" type="button" class="btn btn-xss btn-default" data-toggle="tooltip" data-placement="bottom" data-original-title="Select to draw rectangle"> 
+					<span class="annotation tool-rectangle" data-title="Draw Rectangle"></span>
+				</button>
+				<!--
+				<button id="point-button" type="button" class="btn btn-xss btn-default" data-toggle="tooltip" data-placement="bottom" data-original-title="Select to draw point"> 
+					<span class="annotation tool-point"></span>
+				</button>
 
-<style>
+				<button id="polyline-button" type="button" class="btn btn-xss btn-default" data-toggle="tooltip" data-placement="bottom" data-original-title="Select to draw polyline"> 
+					<span class="annotation tool-polyline"></span>
+				</button>
+			
+				<button id="free-button" type="button" class="btn btn-xss btn-default" data-toggle="tooltip" data-placement="bottom" data-original-title="Select for free drawing"> 
+					<span class="annotation tool-free"></span>
+				</button>
+				-->
+			</li>
 
-</style>
+			<li class="list-group-item-annotation">
+				<b>Actions:</b>
+				<button id="save-button" type="button" class="btn btn-xss btn-default" data-toggle="tooltip" data-placement="bottom" data-original-title="Save annotation(s)"> 
+					<span class="annotation tool-save"></span>
+				</button>
+				<!--
+				<button id="undo-button" type="button" class="btn btn-xss btn-default" data-toggle="tooltip" data-placement="bottom" data-original-title="Undo last action"> 
+					<span class="annotation tool-undo"></span>
+				</button>
+				<button id="redo-button" type="button" class="btn btn-xss btn-default" data-toggle="tooltip" data-placement="bottom" data-original-title="Redo last action"> 
+					<span class="annotation tool-redo"></span>
+				</button>
+				<button id="edit-button" type="button" class="btn btn-xss btn-default" data-toggle="tooltip" data-placement="bottom" data-original-title="Edit annotation(s)"> 
+					<span class="annotation tool-edit"></span>
+				</button>
+					-->
+				
+				<button id="delete-button" type="button" class="btn btn-xss btn-default" data-toggle="tooltip" data-placement="bottom" data-original-title="Delete annotation(s)"> 
+					<span class="annotation tool-delete"></span>
+				</button>
+		
+			</li>
+
+		</ul>
+	</div>
+
+</div>
+

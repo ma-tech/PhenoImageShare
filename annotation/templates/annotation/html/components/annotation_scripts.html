@@ -1,173 +1,313 @@
 {% load staticfiles %}
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/jquery/v1.10.2/jquery.min.js' %}"></script>
 
-<!-- Openseadragon 
-<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/seadragon/v1.2.1/openseadragon/openseadragon.min.js' %}"></script>
--->
+<!-- Bootstrap -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/bootstrap.min.js' %}"></script>
 
-<!-- Dynatree -->
-<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/dynatree/jquery.dynatree.js' %}"></script>
+<!-- Bootstrap-Switch JS Library-->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/bootstrap-switch/bootstrap-switch.js' %}"></script>
+
+<!-- Openseadragon JS -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/openseadragon/v2.0.0/openseadragon.min.js' %}"></script>
+
+<!-- Annotation Tool (as Seadragon Plugin) JS -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/controllers/annotation_controller.js' %}"></script>
+
+<!-- Toolbox for Annotation Tool -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/controllers/toolbox.js' %}"></script>
+
+<!-- Ontologies for Annotation Tool -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/controllers/ontologies.js' %}"></script>
+
+<!-- Metadata Panel for Annotation Tool -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/controllers/metadata.js' %}"></script>
+
+<!-- Fabric JS -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/fabric/v1.5.0/fabric.js' %}"></script>
 
 <!-- jQuery Cookie manager -->
 <script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.cookie.js' %}"></script>
 
-	<!-- Kinetic Drawing Tool -->
-	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/kinetic/v.5.0.2/kinetic.min.js' %}"></script>
-	
-	<!-- PhIS Viewer Canvas -->
-	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/views/canvas.js' %}"></script>
-	
-	<!-- PhIS Drawing Tool -->
-	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/controllers/drawing_tool.js' %}"></script>
-	
-	<!-- PhIS Annotation Tool -->
-	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/controllers/annotation_tool.js' %}"></script>
-	
-	<!-- PhiS Event Handlers -->
-	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/events/events.js' %}"></script>
-	
-	<!-- PhiS Error Handlers-->
-	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/errors/errors.js' %}"></script>
-	
-	<!-- PhiS Models-->
-	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/models/models.js' %}"></script>
-	
-	<!-- PhIS Utilities-->
-	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/utils/db.js' %}"></script>
-	
-	<!-- Bootstrap Switch -->
-	<script type="text/javascript" charset="utf8" src="{% static 'queries/js/bootstrap-switch.js' %}"></script>
-	
-	<!-- Bootstrap Placeholder -->
-	<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.placeholder.js' %}"></script>
-	
-	<!-- Bootstrap Tags Input -->
-	<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.tagsinput.js' %}"></script>
-	
-	<!-- Bootstrap Application for Switch & Selection -->
-	<script type="text/javascript" charset="utf8" src="{% static 'queries/js/application.js' %}"></script>
-	
-	<!-- JSTree  -->
-	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/jstree/jstree.js' %}"></script>
-	
-	<!-- JSTree  Context Menu -->
-	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/jstree/jstree.contextmenu.js' %}"></script>
-	
-	<!-- NCBO Ontology tree viewer -->
-	<script type="text/javascript" charset="utf8" src="http://bioportal.bioontology.org/widgets/jquery.ncbo.tree-2.0.0.js"></script>
-	
-	<!-- Select2 JS -->
-	<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/select2/select2.full.js' %}"></script>
-	
+<!-- JSTree  -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/jstree/jstree.js' %}"></script>
+
+<!-- JSTree  Context Menu -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/jstree/jstree.contextmenu.js' %}"></script>
+
+<!-- Select2 JS -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/select2/select2.full.js?v4.0.0' %}"></script>
+
+<!-- qTip help jquery script -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/qTip/jquery.qtip.min.js' %}"></script>
+
+<!-- Caseroul  -->
+<script type="text/javascript" charset="utf8" src="{% static 'annotation/js/lib/carousel/owl.carousel.js' %}"></script>
+
+<script type="text/javascript" src="//cdn.jsdelivr.net/jquery.slick/1.5.8/slick.min.js"></script>
+
+<!-- Datatables JQuery JS -->
+<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/1.10.5/js/jquery.dataTables.min.js"></script>
+
+<!-- Tabletools datatables extension JS -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/datatables/extensions/tabletools/dataTables.tableTools.js' %}"></script>
+
+<!-- Responsive datatables JS -->
+<script type="text/javascript" charset="utf8" src="//cdn.datatables.net/responsive/1.0.4/js/dataTables.responsive.min.js"></script>
+
+<!-- Hopscotch JS -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/assets/hopscotch/hopscotch.min.js' %}"></script>
+
+<!-- PhenoImageShare Site Tour -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/utils/phis_tour.js' %}"></script>
+
+<!-- Autosuggest Plugin for PhIS -->
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.typeahead-bundle.js' %}"></script>
+
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/jquery.bloodhound.js' %}"></script>
+
+<script type="text/javascript" charset="utf8" src="{% static 'queries/js/controllers/queries/search/search_script.js' %}"></script>
+
+
 <script>
 
+var base_query_url = "{% url 'queries:query_view' %}";
+var echarts_base_url = "{% static 'queries/assets/echarts' %}";
+var loading_waiter_url = "{% static 'queries/img/data_loader_waiter2.gif' %}";
+
+var detail_url = "{% url 'queries:detail_view' %}";
+var query_url = "{% url 'queries:query_view' %}";
+var autosuggest_acp = "getAutosuggest?term=";
+
+
+function loadSearchPage(){
+	var searchString = $("#searchInput").val();
+	url = base_query_url + "?q="+searchString;
+	window.location.href = url;
+}
+
+var detail_url = "{% url 'queries:detail_view' %}";
+var query_url = "{% url 'queries:query_view' %}";
+var autosuggest_acp = "getAutosuggest?term=";
+
+var navigationImages = "{% static 'annotation/images/openseadragon/' %}";
 var dziName = "{{image.dziName | safe}}";
 var imageURL= "{{image.url | safe}}"; //"{% static 'utils/images/sources/M00042804_00006962_download_tn_large.jpg' %}";
-var imageDimension = JSON.parse("{{image.dimension | safe}}");
+var imageDimensions = JSON.parse("{{image.dimension | safe}}");
 var roiData = JSON.parse('{{roiData | safe}}');
-var imageId = roiData[0].associated_image;
 
-console.log("[Annotation View] ROI data = " + roiData);
-console.log("[Annotation View] Image source = " + imageURL);
-console.log("[Annotation View] Image DZI name = " + dziName);
-console.log("[Annotation View] Image dimensions = " + imageDimension);
+console.log(roiData);
 
-         $(document).ready(
-			
-		//function to load image canvas
-		function(){
-			
-			initialiseControllers();
-			
-			/*
-		    var viewer = OpenSeadragon({
-		        id: "viewer",
-	      	  	tileSources: "{% static 'utils/images/dzifiles/' %}" + dziName,
-		        overlays: [{
-		            id: 'phis-sample-overlay',
-		            px: 300, 
-		            py: 300, 
-		            width: 50, 
-		            height: 50,
-		            className: 'highlight'
-		        }],
-				showNavigator:  true,
-		    });
-			
-			
-			var overlay = false;
-			
-			$("#zoomabletoggler").click(function() {
-				if (overlay) {
-			        viewer.removeOverlay("runtime-overlay");
-					alert("Overlay removed");
-			    } else {
-			        var elt = document.createElement("div");
-			        elt.id = "runtime-overlay";
-			        elt.className = "highlight";
-			        viewer.addOverlay({
-			            element: elt,
-			            location: new OpenSeadragon.Rect(300, 300, 50, 50)
-			        });
-					alert("Overlay readded");
-			    }
-			    overlay = !overlay;
-			});
-			*/
-			
-			// start JSTree load
-			
-		
-			//end JSTree
-	   
-		}
-
-
-);
-
-function initialiseControllers(){
-	console.log("[Annotation View] Initialising Controllers, Models and Event Handlers");
-  //Load and initialize PhIS Viewer Canvas.
-  
-  var drawingContainer = document.getElementById("drawing-div");
-  
-  //initialising DB Conncector
-  var dataHelper = new DBUtil(imageDimension, roiData);
-  
-  var drawingController = new DrawingTool();
-  var annotationController = new AnnotationTool(drawingController, dataHelper);
-
-  var annotationURL = new Object();
-  annotationURL.add = "{% url 'annotation:addAnnotation' %}";
-  annotationURL.update = "{% url 'annotation:updateAnnotation' %}";
-  
-  annotationController.setAnnotationAJAXURL(annotationURL);
-  
-  var eventHandler = new EventHandler();
-  var errorHandlers = new ErrorHandlers();
-  var controllers = new Array();
-  
-  //setting controllers
-  controllers.push(drawingController);
-  controllers.push(annotationController);
-
-  //var modelsData = dataHelper.createModelObjects(roiData);
-  
-  var imageData = new Object();
-  imageData.url = imageURL;
-  imageData.id = imageId;
-  
-  //initialising drawing canvas
-  phISCanvas = new PhiSCanvas(drawingContainer, imageData, controllers, dataHelper, eventHandler, errorHandlers);
+if(roiData[0] != undefined){
+	var imageId = roiData[0].associated_image;
 }
 
-function getStringOfSelectedTreeNodes() {
-    var returnString ="";
-    var nodes = $("#tree").dynatree("getSelectedNodes");
-    for (i in nodes) {
-      returnString = nodes[i].data.title + "|" + returnString;
+var swfURL = "{% static 'queries/swf/copy_csv_xls_pdf.swf' %}";
+
+/*var tileSource = {
+    Image: {
+        xmlns: "http://schemas.microsoft.com/deepzoom/2008",
+        Url: "http://openseadragon.github.io/example-images/highsmith/highsmith_files/",
+        Format: "jpg",
+        Overlap: "2",
+        TileSize: "256",
+        Size: {
+            Height: "9221",
+            Width:  "7026"
+        }
     }
-    return nodes;
-}
-	 
- </script>
+};
+*/
+
+$(document).ready(
+	
+	function() {
+		
+		search = new Search();
+		search.init();
+		
+		var viewer =  OpenSeadragon({
+		    id:            "zoomviewer",
+		    prefixUrl:     navigationImages,
+		    tileSources: [{
+		        tileSource: "{% static 'utils/images/dzifiles/' %}" + dziName,
+		        width: 2,
+		        y: 0.5,
+		        x: 0.5
+		    }],
+		});
+		
+	var annotationTool = viewer.annotationTool({
+		"navigator": "navigator",
+		"toolbox":"toolbox",
+		"viewer": viewer,
+		"toggler":"tool-mode",
+		//"annotation_url" : "http://aberlour.hgu.mrc.ac.uk:9090/ISS",
+		"annotation_url" : "http://lxbisel.macs.hw.ac.uk:8080/ISS/Annotation?",
+		"image_url" : imageURL,
+		"imageId": imageId,
+		"rois" : roiData,
+		"dimensions": imageDimensions
+	});
+	
+
+	//initialise toolbox from annotation tool.
+	var toolbox = annotationTool.toolbox({
+		rect:"rectangle-button",
+		circle:"circle-button",
+		line:"polyline-button",
+		free:"free-button",
+		save:"save-button",
+		edit:"edit-button",
+		"delete": "delete-button"
+	});
+	
+	var ontologies = annotationTool.ontologies({
+		main: "ontologies-panel",
+		tabs: "tabs-panel",
+		ontology_input: "ontology-input",
+		load_ontology_button:"load-ontology-button",
+		clear_ontology_button:"clear-ontology-button",
+		tree_wrapper:"tree-wrapper",
+		tree_holder:"tree-holder",
+		ontologies_div:"ontologies-div",
+		//add_ontology_term:"add-ontology-term",
+		local_data: false
+	});
+
+	var metadata = annotationTool.metadata({
+		roi_table_id: "roitable",
+		panel_id: "metadata",
+		add_button_id: "",
+		roi_data: roiData,
+	});
+	
+	//console.log(metadata);
+	
+   //annotationTool.triggerEvent('toggleButton','switchChange.bootstrapSwitch');
+   annotationTool.triggerEvent('rectangle-button','click');
+   annotationTool.createGraphicalObjects(roiData);
+   
+   //set default mode to viewing mode
+   //annotationTool.tearDownCanvasEventtHandlers();
+   //console.log(annotationTool.toolbox().disableDrawingMode(false));
+   
+	var data = {"version":"100", "num":10};
+   	var url  = "{% url 'queries:getImages' %}";
+
+	var iqs_request = jQuery.ajax({
+		  						method: "GET",
+	  							url: url,
+		  						data: data,
+								//crossdomain: true,
+								dataType:'json',
+								//traditional:true
+							});
+
+	var iqs_response =  iqs_request.done(function( response ) {
+		var docs = response.response.docs;
+		
+		for (doc in docs){
+			//console.log(docs[doc].image_url);
+			if(docs[doc].image_url != undefined)
+				$("#similar_images").append($('<div/>').attr('class','item').append($('<img/>').attr('src',docs[doc].image_url).attr('style','width:100%;')));
+			$("#similar_images2").append($('<div/>').attr('class','item').append($('<img/>').attr('src',docs[doc].image_url).attr('style','width:100%;')));
+			
+			$('<img/>').attr('src',docs[doc].image_url).attr('class', 'item');
+		}
+		
+		//"<a href="+encodeURI(detail_url)+" data-toggle=\"tooltip\" title="+ id +">";
+		
+		//start similar images plugin
+		/*
+		$("#similar_images").owlCarousel({
+  		  autoPlay: 3000, //Set AutoPlay to 3 seconds
+      	  items : 6,
+		  lazyLoad : true,
+      	  itemsDesktop : [1199,6],
+      	  itemsDesktopSmall : [979,4],
+		  navigation : true
+		}
+		);
+		*/
+		
+		console.log($("#similar_images"));
+		$('.carousel').slick({
+			infinite: true,
+			slidesToShow: 3,
+			slidesToScroll: 3
+		});
+	});
+
+	iqs_request.fail(function( jqXHR, textStatus ) {
+	  console.log(textStatus );
+	  return false;
+  });
+	
+  
+  
+});
+
+//defintion of response alerts to user
+var styles_map = {"success":"qtip-green","fail":"qtip-red", "none":""};
+var titles_map = {"success":"Success","fail":"Failure", "none": "Success"};
+
+window.createAlert = function(response) {
+ var target = jQuery('.qtip.jgrowl:visible:last');
  
+ /*
+   jQuery('<div/>').qtip({
+       content: {
+           text:  "<b>Message:</b>" + response.message + "<br/><b>Annotation:</b> " + response.annotationId,
+           title: {
+               text: titles_map[response.status] + '!' + "&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&"+
+			   "nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&"+
+			   "nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp" +response.time + "",
+               button: true
+           }
+       },
+       position: {
+           target: [0,0],
+           container: jQuery('#qtip-growl-container')
+       },
+       show: {
+           event: false,
+           ready: true,
+           effect: function() {
+               jQuery(this).stop(0, 1).animate({ height: 'toggle' }, 400, 'swing');
+           },
+           delay: 0,
+           persistent: undefined
+       },
+       hide: {
+           event: false,
+           effect: function(api) {
+               jQuery(this).stop(0, 1).animate({ height: 'toggle' }, 400, 'swing');
+           }
+       },
+       style: {
+           width: 250,
+           classes: 'jgrowl ' + styles_map[response.status],
+           tip: false
+       },
+       events: {
+           render: function(event, api) {
+               if(!api.options.show.persistent) {
+                   jQuery(self).bind('mouseover mouseout', function(e) {
+                       var lifespan = 5000;
+
+                       clearTimeout(api.timer);
+                       if (e.type !== 'mouseover') {
+                           api.timer = setTimeout(function() { api.hide(e) }, lifespan);
+                       }
+                   })
+                   .triggerHandler('mouseout');
+               }
+           }
+       }
+   });
+ */
+ console.log(titles_map[response.status] + '!' + response.time);
+   
+}
+
+</script>
