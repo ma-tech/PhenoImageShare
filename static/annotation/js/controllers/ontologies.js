@@ -371,7 +371,7 @@
 				alrt.status = "success";
 				alrt.time = new Date(Date.now()).toLocaleString();
 				
-				createAlert(alrt);
+				//createAlert(alrt);
 	
 			}else{
 				//create failure alert
@@ -383,6 +383,7 @@
 		map = new Map();
 		
 		for (item in selection){
+				if (selection[item].text.indexOf(',') > -1) { selection[item].text = selection[item].text.replace(',',' '); }
 				var standardId = this.convertToStandardId(selection[item].id);
 				map.set(standardId,selection[item].text);
 		}

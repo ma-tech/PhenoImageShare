@@ -973,7 +973,8 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 					}
 				}
 				
-				createAlert(response);
+				if (message == "success")
+					createAlert(response);
 				
 				return true;
 			});
