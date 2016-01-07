@@ -253,8 +253,7 @@ var titles_map = {"success":"Success","fail":"Failure", "none": "Success"};
 
 window.createAlert = function(response) {
  var target = jQuery('.qtip.jgrowl:visible:last');
- 
- /*
+
    jQuery('<div/>').qtip({
        content: {
            text:  "<b>Message:</b>" + response.message + "<br/><b>Annotation:</b> " + response.annotationId,
@@ -305,7 +304,7 @@ window.createAlert = function(response) {
            }
        }
    });
- */
+
  console.log(titles_map[response.status] + '!' + response.time);
    
 }
