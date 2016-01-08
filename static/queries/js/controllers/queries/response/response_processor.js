@@ -232,6 +232,7 @@ Processor.prototype.loadJSON = function(){
 					 "sInfo": "Showing _START_ to _END_ of _TOTAL_ images",
 					 "sLengthMenu": "_MENU_ images per page"
 	       },
+		   "searching": false,
        	 	"processing": true,
        	 	"serverSide": true,
 			"lengthChange" : true,
