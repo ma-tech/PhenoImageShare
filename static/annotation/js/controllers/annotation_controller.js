@@ -467,10 +467,15 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 				
 				this.initialiseTextualAnnotations();
 				
+				AnnotationTool.setCurrentAnnotationModel(undefined, undefined, undefined, undefined, undefined);
+				
 				this.canvas.renderAll();
+				
 				
 	   	   	}
 		}
+		
+		console.log("model id: "+AnnotationTool.getCurrentAnnotationModel()[4]);
 		
 		this.loading_existing_models = false;
 		
@@ -706,7 +711,7 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
 	   
 	   saveAnnotations: function(){
 		   var self = this;
-		   var version = "100";
+		   var version = "101";
 		   //var phisid = "roi_ua_testX19776";
 		   var creatorid = "solomon";
 		   var imageid = this.imageId; //"emage_EMAGE_1218.1";
@@ -1136,8 +1141,10 @@ window.AnnotationTool = window.AnnotationTool || function( options ){
   	             rect.set('width', width );
   	             rect.set('height', heigth); 
 				 
-				 if (currentModel[4] != undefined && (currentModel[4].startsWith('wtsi') || currentModel[4].startsWith('tracr')))
-					 rect.set('strokeDashArray',[5, 15]);
+				 if (currentModel[4] != undefined && (currentModel[4].startsWith('wtsi') || currentModel[4].startsWith('tracr'))){
+				 	 rect.set('strokeDashArray',[5, 15]);
+					 console.log(currentModel[4]);
+				 }
 				 
   				 rect.saveState();
   				 rect.setCoords();
