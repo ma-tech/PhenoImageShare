@@ -530,6 +530,7 @@
 				        "text json": function (jsonString)
 				        {
 				            var data = JSON.parse(jsonString);
+							console.log(data);
 							var treedata = [];
 					
 							if (data && data.hasOwnProperty('collection')){
