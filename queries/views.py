@@ -286,8 +286,8 @@ def extract_image_data(doc):
     if "imaging_method_label" in doc:
         image_data_dict['imaging_method_label'] = doc['imaging_method_label']
         
-    if "stage" in doc:
-        image_data_dict['stage'] = doc['stage']
+    if "stage_facet" in doc:
+        image_data_dict['stage_facet'] = doc['stage_facet']
 
     if "chromosome" in doc:
         image_data_dict['chromosome'] = doc['chromosome']
@@ -371,8 +371,8 @@ def processQuery(request):
         query[image_endpoints['sex']] = request.GET['sex'] 
     if 'taxon' in request.GET:
         query[image_endpoints['taxon']] = request.GET['taxon'] 
-    if 'stage' in request.GET:
-        query[image_endpoints['stage']] = request.GET['stage'] 
+    if 'stage_facet' in request.GET:
+        query[image_endpoints['stage_facet']] = request.GET['stage_facet'] 
     if 'samplePreparation' in request.GET:
         query[image_endpoints['samplePreparation']] = request.GET['samplePreparation'] 
     if 'imagingMethod' in request.GET:

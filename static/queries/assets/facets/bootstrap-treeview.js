@@ -257,9 +257,9 @@
 						this.query.imagingMethod.expanded = EXPANDED;
 						this.query.imagingMethod.value = node.queryText;
 					}else if (node.parent == "Stage"){
-						this.query.stage[node.text] = node.queryText;
-						this.query.stage.expanded = EXPANDED;
-						this.query.stage.value = node.queryText;
+						this.query.stage_facet[node.text] = node.queryText;
+						this.query.stage_facet.expanded = EXPANDED;
+						this.query.stage_facet.value = node.queryText;
 					}else if (node.parent == "Sources"){
 						this.query.source[node.text] = node.queryText;
 						this.query.source.expanded = EXPANDED;
@@ -282,8 +282,8 @@
 						this.query.imagingMethod.value = "";
 						//this.query.imagingMethod.expanded = COLLAPSED;
 					}else if (node.parent = "Stage"){
-						this.query.stage[node.text] = "";
-						this.query.stage.value = "";
+						this.query.stage_facet[node.text] = "";
+						this.query.stage_facet.value = "";
 						//this.query.stage.expanded = COLLAPSED;
 					}else if (node.parent = "Sources"){
 						this.query.source[node.text] = "";

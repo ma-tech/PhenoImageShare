@@ -70,8 +70,8 @@ Processor.prototype.buildIQSQuery = function(query) {
 		iQSQuery.imageType = query.imageType
 	if (query.imagingMethod.value)
 		iQSQuery.imagingMethod = query.imagingMethod.value
-	if (query.stage.value)
-		iQSQuery.stage = query.stage.value
+	if (query.stage_facet.value)
+		iQSQuery.stage_facet = query.stage_facet.value
 	if(query.Anatomy.value)
 		iQSQuery.anatomy = query.Anatomy.value
 	if(query.Gene.value)
@@ -123,7 +123,7 @@ Processor.prototype.loadJSON = function(){
 		this.query = {"term":(this.defaultQuery != undefined && this.defaultQuery.term != undefined ? this.defaultQuery.term [0]	: this.searchString), 
 						"sampleType":(this.defaultQuery != undefined && this.defaultQuery.sampleType != undefined? this.defaultQuery.sampleType [0]	: ""), 
 						"imageType":(this.defaultQuery != undefined && this.defaultQuery.imageType != undefined? this.defaultQuery.imageType [0]	: ""), 
-						"stage":{"expanded": false, "value":(this.defaultQuery != undefined && this.defaultQuery.stage != undefined ? this.defaultQuery.stage[0]: "")}, 
+						"stage_facet":{"expanded": false, "value":(this.defaultQuery != undefined && this.defaultQuery.stage_facet != undefined ? this.defaultQuery.stage_facet[0]: "")}, 
 						"imagingMethod":{"expanded": false, "value":(this.defaultQuery != undefined && this.defaultQuery.imagingMethod != undefined? this.defaultQuery.imagingMethod[0]: "")},
 			 			"Phenotype":{"expanded": false, "value":(this.defaultQuery != undefined && this.defaultQuery.phenotype != undefined? this.defaultQuery.phenotype[0]: "")},
 						"Anatomy":{"expanded": false, "value":(this.defaultQuery != undefined && this.defaultQuery.anatomy != undefined? this.defaultQuery.anatomy[0]: "")},
@@ -783,17 +783,17 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 			
 		}
 		
-		if (facet_fields.stage && facet_fields.stage != ""){
+		if (facet_fields.stage_facet && facet_fields.stage_facet != ""){
 			
 			//Obtain the number of imaging methods and counts: data structure is "methodName, count"
-			var stageCount = facet_fields.stage.length, totalCount = 0 ;
+			var stageCount = facet_fields.stage_facet.length, totalCount = 0 ;
 			
 			for (var i = 0 ; i < stageCount ; i++){
 				
-				if(typeof facet_fields.stage[i] == 'string'){
-					stages[ facet_fields.stage[i] ] = facet_fields.stage[i + STAGE_VALUE_OFFSET] ;
+				if(typeof facet_fields.stage_facet[i] == 'string'){
+					stages[ facet_fields.stage_facet[i] ] = facet_fields.stage_facet[i + STAGE_VALUE_OFFSET] ;
 				}else{
-					totalCount = totalCount + facet_fields.stage[i];
+					totalCount = totalCount + facet_fields.stage_facet[i];
 				}
 				
 			}
@@ -817,7 +817,7 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 				
 				stage_nodes.push(node);
 				
-				if (query.stage.value == node.queryText) {
+				if (query.stage_facet.value == node.queryText) {
 					node.checked = true;
 					stage._nodes = stage_nodes;
 				}else{
@@ -827,7 +827,7 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 						$("#filters").removeTag(node);
 					}
 					
-					if (query.stage.expanded == true)
+					if (query.stage_facet.expanded == true)
 						stage._nodes = stage_nodes;
 					else
 						stage.nodes = stage_nodes;
@@ -838,7 +838,7 @@ Processor.prototype.singleLevels = function(facet_data, facet_fields, query) {
 			}
 		}else{
 			//attach empty node
-			query.stage.expanded = false;
+			query.stage_facet.expanded = false;
 			stage.nodes = stage_nodes;
 		}
 		
