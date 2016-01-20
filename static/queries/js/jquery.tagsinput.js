@@ -126,8 +126,8 @@
 								
 								//this.query.imagingMethod.expanded = COLLAPSED;
 							}else if (object.parent == "Stage"){
-								object.query.stage_facet[object.text] = "";
-								object.query.stage_facet.value = "";
+								object.query.stage[object.text] = "";
+								object.query.stage.value = "";
 								//this.query.stage.expanded = COLLAPSED;
 							}
 							else if (object.parent == "Sources"){
